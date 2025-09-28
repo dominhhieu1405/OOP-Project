@@ -1,4 +1,4 @@
-package src.entities;
+package entities;
 public class Tnt extends Entity implements Breakable {
 
 }

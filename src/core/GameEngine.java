@@ -1,5 +1,7 @@
-package src.core;
+package core;
 
-oublic class GameEngine {
+// quản lý trò chơi
+
+public class GameEngine {
     
 }

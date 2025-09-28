@@ -1,4 +1,4 @@
-package src.enntities;
+package enntities;
 public interface Breakable {
     
 }

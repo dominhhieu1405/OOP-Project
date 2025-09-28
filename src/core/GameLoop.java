@@ -1,4 +1,4 @@
-package src.core;
+package core;
 
 // vòng lặp trò chơi
 // update và render

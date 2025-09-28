@@ -1,4 +1,4 @@
-package src.core;
+package core;
 // xử lý đầu vào từ người chơi (bàn phím, chuột)
 
 public class InputHandler {

@@ -1,4 +1,4 @@
-package src.scenes;
+package scenes;
 // menu chính của trò chơi
 
 public class MenuScene extends Scene {

@@ -1,4 +1,4 @@
-package src.scenes;
+package scenes;
 
 // màn hình chơi chính của trò chơi
 

@@ -1,5 +1,5 @@
 // abstract class đại diện cho một cảnh trong trò chơi (menu, chơi, tạm dừng, v.v.)
-package src.scenes;
+package scenes;
 
 public abstract class Scene {
     

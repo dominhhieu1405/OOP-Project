@@ -1,4 +1,4 @@
-package src.core;
+package scenes;
 
 // màn hình kết thúc trò chơi
 

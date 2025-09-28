@@ -1,4 +1,4 @@
-package src.entities;
+package entities;
 public abstract class Entity {
     
 }
