@@ -1,4 +1,4 @@
-package enntities;
+package entities;
 public interface Breakable {
     
 }
