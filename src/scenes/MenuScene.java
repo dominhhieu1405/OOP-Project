@@ -1,14 +1,28 @@
 package scenes;
 import java.awt.*;
 import utils.Constants;
+import utils.Logger;
+import core.GameEngine;
+import core.InputHandler;
 
 // menu chính của trò chơi
 
 public class MenuScene extends Scene {
     
     @Override
-    public void update() {
+    public void update(InputHandler inputHandler) {
         // Logic update cho menu (xử lý input, animation, etc.)
+        if (inputHandler.isSpacePressed()) {
+            // Chuyển sang GameScene khi nhấn SPACE
+            GameEngine.getGamePanel().setCurrentScene(new GameScene());
+            Logger.log("Switching to GameScene");
+
+        } else if (inputHandler.isEscapePressed()) {
+            // Thoát trò chơi khi nhấn ESCAPE
+            GameEngine.getGamePanel().stopGame();
+            Logger.log("Game stopped from MenuScene");
+            System.exit(0);
+        }
     }
     
     @Override

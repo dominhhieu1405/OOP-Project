@@ -1,9 +1,9 @@
 package scenes;
-
+import core.InputHandler;
 // màn hình kết thúc trò chơi
 
 public class GameOverScene extends Scene {
-    public void update() {
+    public void update(InputHandler inputHandler) {
         // cập nhật logic kết thúc trò chơi (nếu cần)
     }
     public void render(java.awt.Graphics2D g2d) {

@@ -8,7 +8,7 @@ import scenes.*;
 
 public class GameEngine {
     private JFrame window;
-    private GamePanel gamePanel;
+    private static final GamePanel gamePanel = new GamePanel();
     private ResourceManager resourceManager;
 
     public GameEngine() {
@@ -30,7 +30,6 @@ public class GameEngine {
     }
     
     private void initializeGamePanel() {
-        gamePanel = new GamePanel();
         window.add(gamePanel);
         window.setVisible(true);
         
@@ -43,7 +42,7 @@ public class GameEngine {
         return window;
     }
     
-    public GamePanel getGamePanel() {
+    public static GamePanel getGamePanel() {
         return gamePanel;
     }
 
@@ -101,5 +100,4 @@ public class GameEngine {
         resourceManager.loadSounds();
         resourceManager.loadFonts();
     }
-
 }

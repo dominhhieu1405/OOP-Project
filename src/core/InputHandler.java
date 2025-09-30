@@ -6,6 +6,7 @@ public class InputHandler implements KeyListener {
     private boolean leftPressed = false;
     private boolean rightPressed = false;
     private boolean spacePressed = false;
+    private boolean escapePressed = false;
 
     public boolean isLeftPressed() {
         return leftPressed;
@@ -17,6 +18,9 @@ public class InputHandler implements KeyListener {
 
     public boolean isSpacePressed() {
         return spacePressed;
+    }
+    public boolean isEscapePressed() {
+        return escapePressed;
     }
 
     @Override
@@ -30,6 +34,10 @@ public class InputHandler implements KeyListener {
                 break;
             case KeyEvent.VK_SPACE:
                 spacePressed = true;
+                break;
+            case KeyEvent.VK_ESCAPE:
+                escapePressed = true;
+                // Handle ESCAPE key if needed
                 break;
         }
     }
@@ -45,6 +53,9 @@ public class InputHandler implements KeyListener {
                 break;
             case KeyEvent.VK_SPACE:
                 spacePressed = false;
+                break;
+            case KeyEvent.VK_ESCAPE:
+                escapePressed = false;
                 break;
         }
     }

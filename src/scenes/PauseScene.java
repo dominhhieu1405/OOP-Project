@@ -1,9 +1,10 @@
 package scenes;
+import core.InputHandler;
 
 // màn hình tạm dừng của trò chơi
 
 public class PauseScene extends Scene {
-    public void update() {
+    public void update(InputHandler inputHandler) {
         // cập nhật logic tạm dừng (nếu cần)
     }
     public void render(java.awt.Graphics2D g2d) {
