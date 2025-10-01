@@ -1,7 +1,8 @@
 package entities;
 interface Movable {
     void move();
-    void setVelocity(int x, int y);
-    int getVelocityX();
-    int getVelocityY();
+    void setAngle(int a);
+    void setSpeed(int s);
+    int getSpeed();
+    int getAngle();
 }
