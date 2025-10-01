@@ -7,7 +7,6 @@ public class Constants {
     public static final int WINDOW_HEIGHT = 800;
     public static final int FPS = 60;
     public static final String GAME_TITLE = "Arkanoid";
-
     // Entity dimensions
     // Ball
     public static final int BRICK_WIDTH = 100;
@@ -23,6 +22,4 @@ public class Constants {
     public static final Sprite LUCKYBLOCK_SPRITE = new Sprite("powerup.png");
     public static final Sprite IRON_SPRITE = new Sprite("iron.png");
     public static final Sprite TNT_SPRITE = new Sprite("tnt.png");
-
-    
 }
