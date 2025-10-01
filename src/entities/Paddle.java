@@ -2,30 +2,29 @@ package entities;
 public class Paddle extends Entity implements Movable {
     private int velocityX;
     private int velocityY;
-    private int x;
-    private int y;
+    private int width;
+    private int height;
     public void move() {
-        this.x += velocityX;
-        this.y += velocityY;
+        if (x>=0 && x <= WINDOW_WIDTH - width) {
+            this.x += velocityX;
+        }
     }
 
     public void setVelocity(int velocityX, int velocityY) {
         this.velocityX = velocityX;
         this.velocityY = velocityY;
     }
-
     public int getVelocityX() {
-        return velocityX;
+        return this.velocityX;
     }
-
     public int getVelocityY() {
-        return velocityY;
+        return this.velocityY;
     }
-    public int getX() {
-        return x;
+    public int getWidth() {
+        return this.width;
     }
-    public int getY() {
-        return y;
+    public int getHeight() {
+        return this.height;
     }
 
 }
