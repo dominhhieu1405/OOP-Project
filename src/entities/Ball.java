@@ -17,15 +17,24 @@ public class Ball extends Entity implements Movable {
     public int getVelocityY() {
         return this.velocityY;
     }
+    public int getR() {
+        return this.r;
+    }
 
     public boolean Die() {
         return this.y + 2 * r > WINDOW_HEIGHT;
     }
 
-    public boolean collisionWithWall() {
+    public void collisionWithWall() {
         if (x <= WINDOW_WIDTH || x >= WINDOW_WIDTH - 2 * r) {
             this.velocityX = - this.velocityX;
         } else if (y <= 0) {
+            this.velocityY = - this.velocityY;
+        }
+    }
+
+    public void collisionWithPaddle(Paddle p) {
+        if (y + 2 * r == p.getY()) && (x >= p.getX() && x <= p.getX() - 2 * r) {
             this.velocityY = - this.velocityY;
         }
     }
