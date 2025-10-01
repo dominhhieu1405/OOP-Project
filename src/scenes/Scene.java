@@ -12,13 +12,4 @@ public abstract class Scene {
     // Vẽ scene lên màn hình
     public abstract void render(Graphics2D g2d);
     
-    // Được gọi khi scene được kích hoạt
-    public void onEnter() {
-        // Override nếu cần
-    }
-    
-    // Được gọi khi scene bị thoát
-    public void onExit() {
-        // Override nếu cần
-    }
 }
