@@ -1,4 +1,5 @@
 package entities;
+
 import static utils.Constants.*;
 public class Ball extends Entity implements Movable {
     private int speed; // Tốc độ di chuyển

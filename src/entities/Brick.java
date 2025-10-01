@@ -2,8 +2,9 @@ package entities;
 
 import javax.swing.*;
 import java.awt.*;
+import assets.Sprite;
 
-public class Brick extends Entity implements Breakable {
+public class Brick extends Block implements Breakable {
     private static final int width = 75;
     private static final int height = 30;
     private int hitPoint;
@@ -11,6 +12,14 @@ public class Brick extends Entity implements Breakable {
     private double powerUpDropChance;
     private int scoreValue;
     private Image brickImage;
+
+    public Brick(int x, int y, Sprite sprite) {
+        super(x, y, sprite);
+        this.HP = 2; // Brick cần 2 hit để phá hủy
+    }
+    public void destroy() {
+        
+    }
 
     public Brick(int x, int y) {
         this.x = x;
@@ -66,5 +75,4 @@ public class Brick extends Entity implements Breakable {
         // Tăng điểm
         // Kiểm tra rơi vật phẩm
     }
-
 }
