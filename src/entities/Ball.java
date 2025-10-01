@@ -2,8 +2,7 @@ package entities;
 public class Ball extends Entity implements Movable {
     private int velocityX;
     private int velocityY;
-    private int x;
-    private int y;
+    private int r; // radius
     public void move() {
         this.x += velocityX;
         this.y += velocityY;
@@ -18,11 +17,17 @@ public class Ball extends Entity implements Movable {
     public int getVelocityY() {
         return this.velocityY;
     }
-    public int getX() {
-        return this.x;
+
+    public boolean Die() {
+        return this.y + 2 * r > WINDOW_HEIGHT;
     }
-    public int getY() {
-        return this.y;
+
+    public boolean collisionWithWall() {
+        if (x <= WINDOW_WIDTH || x >= WINDOW_WIDTH - 2 * r) {
+            this.velocityX = - this.velocityX;
+        } else if (y <= 0) {
+            this.velocityY = - this.velocityY;
+        }
     }
 
 }
