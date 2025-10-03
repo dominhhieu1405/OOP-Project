@@ -1,3 +1,0 @@
-package entities;
-interface Movable {
-}
