@@ -4,10 +4,29 @@ import java.awt.*;
 import javax.swing.ImageIcon;
 public class Paddle extends Entity {
     private static Paddle instance;
-    public int speed = 10;
+    public double speed = 200; // pixels per second
+    private boolean movingLeft = false;
+    private boolean movingRight = false;
+    long lastTime;
+    private double posX;
+
+
+    public void setMovingLeft(boolean state) {
+        if (!movingLeft) {
+            lastTime = System.currentTimeMillis();
+        }
+        movingLeft = state;
+    }
+    public void setMovingRight(boolean state) {
+        if (!movingRight) {
+            lastTime = System.currentTimeMillis();
+        }
+        movingRight = state;
+    }
 
     private Paddle(int x, int y, int width, int height) {
         super(x, y, width, height);
+        this.posX = x;
         this.img = new ImageIcon("assets/images/paddle.png").getImage();
     }
     // Singleton pattern
@@ -18,9 +37,25 @@ public class Paddle extends Entity {
         }
         return instance;
     }
+    public void update() {
+        double dt = (System.currentTimeMillis() - lastTime) / 1000.0;
+        lastTime = System.currentTimeMillis();
+
+        if (movingLeft && posX - speed * dt >= 0) {
+            posX -= speed * dt;
+        }
+        if (movingRight && posX + width + speed * dt < Constant.FRAME_WIDTH) {
+            posX += speed * dt;
+        }
+        if (!Ball.getInstance().getIsRunning()) {
+            Ball.getInstance().setX(Paddle.getInstance().getX() + Paddle.getInstance().getWidth() / 2);
+        }
+        this.x = (int) Math.round(posX); // Cho cái này lên trên nếu muốn không mượt hơn
+    }
 
     public void render(Graphics g) {
-        g.setColor(java.awt.Color.RED);
+//        g.setColor(java.awt.Color.RED);
+//        g.drawImage(img, x, y, width, height, null);
         g.drawImage(img, x, y, width, height, null);
     }
 

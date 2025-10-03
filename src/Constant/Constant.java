@@ -10,6 +10,7 @@ public class Constant {
     public static final int PADDLE_Y_OFFSET = 50;
 
     public static final int BALL_RADIUS = 10;
+    public static final int TOTAL_BALL_HEART = 10;
 
     public static final int BLOCK_ROWS = 5;
     public static final int BLOCK_COLUMNS = 10;
@@ -17,5 +18,8 @@ public class Constant {
     public static final int BLOCK_WIDTH = 60;
     public static final int BLOCK_HEIGHT = 20;
 
-    public static final Image BACKGROUND_IMG = new ImageIcon("assets/images/background.png").getImage();
+    public static final Image BACKGROUND_IMG = new ImageIcon("assets/images/background.jpg").getImage();
+    public static final Image FAVICON = new ImageIcon("assets/images/favicon.png").getImage();
+    public static final Image HEART_IMG = new ImageIcon("assets/images/heart.png").getImage();
+    public static final Image HEART0_IMG = new ImageIcon("assets/images/heart0.png").getImage();
 }

@@ -7,7 +7,7 @@ import javax.swing.ImageIcon;
  * TNT, LUCKY_BLOCK, METAL_BLOCK will extend and redefine attributes of this class
  * Blocks will be read from level file which has an array of blocks
  */
-public class Block extends Entity{
+public class Block extends Entity {
     //x, y represent the top-left corner of the block (with padding)
     //example: (0, 0) => img is drawn from (1, 1) to (99, 49)
     //so there are 2 pixels between blocks and 1 pixel between block and frame border

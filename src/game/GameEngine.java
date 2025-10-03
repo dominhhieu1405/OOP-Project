@@ -4,11 +4,14 @@ import javax.swing.JFrame;
 import javax.swing.JPanel;
 import java.awt.*;
 import entity.*;
+import Constant.SoundManager;
 public class GameEngine {
     private JFrame frame;
     private GamePanel gamePanel;
     public GameEngine() {
+        SoundManager.init();
         frame = new JFrame("Arkanoid");
+        frame.setIconImage(Constant.FAVICON);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT);
         frame.setLocationRelativeTo(null);
