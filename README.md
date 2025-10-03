@@ -1,2 +1,3 @@
 # OOP-Project
-Bai tap lon OOP
+Làm game Arkanoid bằng Java +  Swing
+

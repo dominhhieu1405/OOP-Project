@@ -26,6 +26,9 @@ public class GamePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Paddle.getInstance().moveLeft();
+                if (!Ball.getInstance().getIsRunning()) {
+                    Ball.getInstance().setX(Paddle.getInstance().getX() + Paddle.getInstance().getWidth() / 2);
+                }
                 repaint();
             }
         });
@@ -37,6 +40,20 @@ public class GamePanel extends JPanel {
             @Override
             public void actionPerformed(ActionEvent e) {
                 Paddle.getInstance().moveRight();
+                if (!Ball.getInstance().getIsRunning()) {
+                    Ball.getInstance().setX(Paddle.getInstance().getX() + Paddle.getInstance().getWidth() / 2);
+                }
+                repaint();
+            }
+        });
+
+        // Bind phím SPACE hoặc ENTER để bắt đầu hoặc tạm dừng game
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_SPACE, 0), "toggleStartPause");
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ENTER, 0), "toggleStartPause");
+        actionMap.put("toggleStartPause", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Ball.getInstance().runBall();
                 repaint();
             }
         });

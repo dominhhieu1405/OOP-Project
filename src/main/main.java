@@ -1,3 +1,5 @@
+package main;
+
 import game.GameEngine;
 public class main {
     public static void main(String[] args) {
