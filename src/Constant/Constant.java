@@ -1,4 +1,6 @@
 package Constant;
+import javax.swing.ImageIcon;
+import java.awt.Image;
 public class Constant {
     public static final int FRAME_WIDTH = 800;
     public static final int FRAME_HEIGHT = 600;
@@ -15,4 +17,5 @@ public class Constant {
     public static final int BLOCK_WIDTH = 60;
     public static final int BLOCK_HEIGHT = 20;
 
+    public static final Image BACKGROUND_IMG = new ImageIcon("assets/images/background.png").getImage();
 }

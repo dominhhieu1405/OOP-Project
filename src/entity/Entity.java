@@ -1,8 +1,10 @@
 package entity;
-
+import java.awt.*;
 public class Entity {
-    public int x, y;
-    public int width, height;
+    protected int x, y;
+    protected int width, height;
+    protected Image img;
+
     public Entity(int x, int y, int width, int height) {
         this.x = x;
         this.y = y;
