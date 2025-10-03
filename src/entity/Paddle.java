@@ -1,12 +1,14 @@
 package entity;
 import Constant.Constant;
-import java.awt.Graphics;
+import java.awt.*;
+import javax.swing.ImageIcon;
 public class Paddle extends Entity {
     private static Paddle instance;
     public int speed = 10;
 
     private Paddle(int x, int y, int width, int height) {
         super(x, y, width, height);
+        this.img = new ImageIcon("assets/images/paddle.png").getImage();
     }
     // Singleton pattern
     public static Paddle getInstance() {
@@ -19,7 +21,7 @@ public class Paddle extends Entity {
 
     public void render(Graphics g) {
         g.setColor(java.awt.Color.RED);
-        g.fillRect(x, y, width, height);
+        g.drawImage(img, x, y, width, height, null);
     }
 
     public void moveLeft() {

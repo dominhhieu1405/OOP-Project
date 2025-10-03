@@ -3,6 +3,8 @@ import Constant.Constant;
 
 import java.awt.Color;
 import java.awt.Graphics;
+import javax.swing.ImageIcon;
+
 public class Ball extends Entity  {
 
     //x and y represent the center of the ball
@@ -18,6 +20,7 @@ public class Ball extends Entity  {
         super(x, y, width, height);
         this.velocityX = 0;
         this.velocityY = 0;
+        this.img = new ImageIcon("assets/images/ball.png").getImage();
     }
 
     // Singleton pattern
@@ -79,8 +82,10 @@ public class Ball extends Entity  {
     public void reset() {
         this.x = Constant.FRAME_WIDTH / 2;
         this.y = Constant.FRAME_HEIGHT - Constant.PADDLE_HEIGHT - RADIUS - 50;
-        this.velocityX = 2;
-        this.velocityY = -2;
+        this.velocityX = 0;
+        this.velocityY = 0;
+        this.isRunning = false;
+        this.isAlive = true;
     }
 
 
