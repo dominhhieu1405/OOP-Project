@@ -12,12 +12,14 @@ public class Ball extends Entity  {
     private static final int RADIUS = Constant.BALL_RADIUS;
 
     private static Ball instance;
+    
     private Ball(int x, int y, int width, int height) {
         super(x, y, width, height);
         this.velocityX = 2;
         this.velocityY = -2;
     }
 
+    // Singleton pattern
     public static Ball getInstance() {
         if (instance == null) {
             // Khởi tạo ball ở center của frame, phía trên paddle
