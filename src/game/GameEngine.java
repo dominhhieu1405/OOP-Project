@@ -11,6 +11,7 @@ public class GameEngine {
         frame = new JFrame("Arkanoid");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT);
+        frame.setLocationRelativeTo(null);
         frame.setResizable(false);
         gamePanel = new GamePanel();
         frame.add(gamePanel);
