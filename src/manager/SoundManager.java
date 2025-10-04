@@ -1,4 +1,4 @@
-package Constant;
+package manager;
 
 import javax.sound.sampled.*;
 import java.io.File;
@@ -11,6 +11,8 @@ public class SoundManager {
     public static void init(){
         loadSound("click", "assets/sounds/wooden.wav");
         loadSound("dead", "assets/sounds/dead.wav");
+        loadSound("break", "assets/sounds/break.wav");
+        loadSound("explode", "assets/sounds/explode.wav");
         //loadSound("bgm", "assets/sounds/bgm.wav");
     }
 
@@ -37,6 +39,7 @@ public class SoundManager {
     public static void play(String key) {
         Clip clip = sounds.get(key);
         if (clip != null) {
+            System.out.println("Play sound: " + key);
             if (clip.isRunning()) clip.stop();
             clip.setFramePosition(0);
             clip.start();

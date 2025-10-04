@@ -1,7 +1,9 @@
 package entity;
+import Constant.Constant;
+import manager.SoundManager;
+
 import java.awt.*;
 
-import javax.swing.ImageIcon;
 /**
  * This class is NORMAL BLOCK (BRICK) in the game
  * TNT, LUCKY_BLOCK, METAL_BLOCK will extend and redefine attributes of this class
@@ -15,26 +17,26 @@ public class Block extends Entity {
     private boolean isAlive;
     public static final int DEFAULT_WIDTH = 100;
     public static final int DEFAULT_HEIGHT = 50;
-    public static final int PADDING = 1;
+    public static final int PADDING = 2;
     // Real width and height of block is (width - 2*PADDING) and (height - 2*PADDING)
 
     public Block(int x, int y, int width, int height, int HP) {
         super(x, y, width, height);
         this.HP = HP;
         this.isAlive = true;
-        this.img = new ImageIcon("assets/images/block.png").getImage();
+        this.img = Constant.BLOCK_IMG;
     }
     public Block(int x, int y, int HP) {
         super(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.HP = HP;
         this.isAlive = true;
-        this.img = new ImageIcon("assets/images/block.png").getImage();
+        this.img = Constant.BLOCK_IMG;
     }
     public Block(int x, int y) {
         super(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.HP = 2;
         this.isAlive = true;
-        this.img = new ImageIcon("assets/images/block.png").getImage();
+        this.img = Constant.BLOCK_IMG;
     }
 
     public void setHP(int HP) {
@@ -53,5 +55,25 @@ public class Block extends Entity {
         }
         // g.fillRect(x + PADDING, y + PADDING, width - 2 * PADDING, height - 2 * PADDING);
         g.drawImage(img, x + PADDING, y + PADDING, width - 2 * PADDING, height - 2 * PADDING, null);
+    }
+
+    public boolean isAlive() {
+        return isAlive;
+    }
+    public int getHP() {
+        return HP;
+    }
+    public void decreaseHP(int decrease) {
+        if (HP > 0) {
+            HP -= decrease;
+        }
+        if (HP <= 0) {
+            die();
+        }
+    }
+    public void die() {
+        isAlive = false;
+        HP = 0;
+        SoundManager.play("break");
     }
 }

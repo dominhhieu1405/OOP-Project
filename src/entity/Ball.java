@@ -1,8 +1,8 @@
 package entity;
 import Constant.Constant;
-import Constant.SoundManager;
+import manager.SoundManager;
+import manager.BlockManager;
 
-import java.awt.Color;
 import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
@@ -14,9 +14,11 @@ public class Ball extends Entity  {
     private boolean isAlive;
     private boolean isRunning;
     long lastTime;
+    long lastEvent;
     private static final int RADIUS = Constant.BALL_RADIUS;
     private static final int TOTAL_HEALTH = Constant.TOTAL_BALL_HEART;
     private int health;
+    private int damage;
 
     private static Ball instance;
     
@@ -25,7 +27,9 @@ public class Ball extends Entity  {
         this.velocityX = 150;
         this.velocityY = 0;
         this.health = 10;
+        this.damage = 1;
         this.img = new ImageIcon("assets/images/snowball.png").getImage();
+        this.lastEvent = System.currentTimeMillis();
     }
 
     // Singleton pattern
@@ -85,7 +89,7 @@ public class Ball extends Entity  {
         if (!this.isRunning) {
             // Nếu bóng ở phần bên nào thì tốc độ x hướng về bên đó.
             if (this.velocityY == 0) {
-                this.velocityY = 150;
+                this.velocityY = -150;
             }
             if (this.x <= Constant.FRAME_WIDTH / 2 - RADIUS) {
                 this.velocityX = -150;
@@ -94,6 +98,7 @@ public class Ball extends Entity  {
             }
             this.isRunning = true;
             lastTime = System.currentTimeMillis();
+            lastEvent = System.currentTimeMillis();
         }
     }
 
@@ -129,7 +134,28 @@ public class Ball extends Entity  {
             x += (int) (velocityX * dt);
             y += (int) (velocityY * dt);
 
+            if (System.currentTimeMillis() - lastEvent > 100) {
 
+//            if (collisionWithPaddle()) { velocityY = -velocityY; }
+                if (!this.collisionWithPaddle().equals("NONE")) {
+                    System.out.println("Dapvaovan");
+                    String side = collisionWithPaddle();
+                    if (side.equals("TOP") && velocityY > 0) {
+                        velocityY = -velocityY;
+//                        y = Paddle.getInstance().getY() - RADIUS; // đặt lại trên paddle
+                        // Thêm tí random cho velocityX
+                        int randomFactor = (int)(Math.random() * 100) - 50;
+                        velocityX += randomFactor;
+                        // Giới hạn velocityX trong khoảng [-180, 180]
+                        if (velocityX > 180) velocityX = 180;
+                        if (velocityX < -180) velocityX = -180;
+                    } else if (side.equals("LEFT") || side.equals("RIGHT")) {
+                        velocityX = -velocityX;
+                    }
+                    SoundManager.play("click");
+                    lastEvent = System.currentTimeMillis();
+                }
+            }
             if (collisionWithUpperWall()) {
                 velocityY = -velocityY;
                 SoundManager.play("click");
@@ -147,17 +173,6 @@ public class Ball extends Entity  {
                 }
                 SoundManager.play("click");
             }
-//            if (collisionWithPaddle()) { velocityY = -velocityY; }
-            if (!this.collisionWithPaddle().equals("NONE")) {
-                String side = collisionWithPaddle();
-                if (side.equals("TOP") && velocityY > 0) {
-                    velocityY = -velocityY;
-                    y = Paddle.getInstance().getY() - RADIUS; // đặt lại trên paddle
-                } else if (side.equals("LEFT") || side.equals("RIGHT")) {
-                    velocityX = -velocityX;
-                }
-                SoundManager.play("click");
-            }
 
             // Check đã chết chưa
             if (y - RADIUS > Constant.FRAME_HEIGHT) {
@@ -167,6 +182,33 @@ public class Ball extends Entity  {
                 System.out.println("Chet me roi con gi nua");
                 this.respawn();
             }
+
+            // Check va chạm với block sẽ được xử lý trong GamePanel
+            checkBlockCollision();
+        }
+    }
+    private void checkBlockCollision() {
+        BlockManager bm = BlockManager.getInstance();
+        for (Block b : bm.getBlocks()) {
+            if (b.isAlive()) {
+                String side = this.getCollisionSide(b);
+                if (!side.equals("NONE")) {
+                    // Xử lý va chạm
+                    if (side.equals("TOP") && velocityY > 0) {
+                        velocityY = -velocityY;
+                    } else if (side.equals("BOTTOM") && velocityY < 0) {
+                        velocityY = -velocityY;
+                    } else if (side.equals("LEFT") && velocityX > 0) {
+                        velocityX = -velocityX;
+                    } else if (side.equals("RIGHT") && velocityX < 0) {
+                        velocityX = -velocityX;
+                    }
+                    b.decreaseHP(this.damage);
+                    SoundManager.play("click");
+                    lastEvent = System.currentTimeMillis();
+                    break; // Chỉ xử lý va chạm với một block tại một thời điểm
+                }
+            }
         }
     }
 
@@ -174,7 +216,7 @@ public class Ball extends Entity  {
         return y - RADIUS <= 0;
     }
     private boolean collisionWithSideWall() {
-        boolean rightWall = x + RADIUS * 2 >= Constant.FRAME_WIDTH;
+        boolean rightWall = x + RADIUS >= Constant.FRAME_WIDTH;
         boolean leftWall = x - RADIUS <= 0;
 
         // Debug: in ra khi va chạm tường
@@ -190,6 +232,12 @@ public class Ball extends Entity  {
     private String collisionWithPaddle() {
         Paddle paddle = Paddle.getInstance();
         return this.getCollisionSide(paddle);
+    }
+
+    @Override
+    public String getCollisionSide(Entity other) {
+        Entity e = new Entity(this.x - RADIUS, this.y - RADIUS, 2 * RADIUS, 2 * RADIUS);
+        return e.getCollisionSide(other);
     }
 
 }

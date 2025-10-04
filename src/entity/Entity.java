@@ -61,6 +61,10 @@ public class Entity {
             }
         }
     }
+    public String getCollisionSide(int x, int y, int width, int height) {
+        Entity other = new Entity(x, y, width, height);
+        return getCollisionSide(other);
+    }
 
 
 }

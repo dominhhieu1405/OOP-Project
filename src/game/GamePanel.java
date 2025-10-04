@@ -7,11 +7,15 @@ import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import entity.*;
+import manager.BlockManager;
 
 public class GamePanel extends JPanel {
     
     public GamePanel() {
         setupKeyBindings();
+        setFocusable(true);
+        requestFocusInWindow();
+        BlockManager.getInstance().test();
     }
     
     private void setupKeyBindings() {
@@ -79,6 +83,7 @@ public class GamePanel extends JPanel {
     protected void paintComponent(Graphics g) {
         super.paintComponent(g);
         g.drawImage(Constant.Constant.BACKGROUND_IMG, 0, 0, Constant.Constant.FRAME_WIDTH, Constant.Constant.FRAME_HEIGHT, null);
+        BlockManager.getInstance().render(g);
         Ball ball = Ball.getInstance();
         ball.update();
         ball.render(g);

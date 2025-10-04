@@ -1,10 +1,9 @@
 package game;
 import Constant.Constant;
 import javax.swing.JFrame;
-import javax.swing.JPanel;
 import java.awt.*;
 import entity.*;
-import Constant.SoundManager;
+import manager.SoundManager;
 public class GameEngine {
     private JFrame frame;
     private GamePanel gamePanel;
@@ -13,11 +12,13 @@ public class GameEngine {
         frame = new JFrame("Arkanoid");
         frame.setIconImage(Constant.FAVICON);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT);
+//        frame.setSize(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT);
+        gamePanel = new GamePanel();
+        gamePanel.setPreferredSize(new Dimension(800, 600));
+        frame.add(gamePanel);
+        frame.pack();
         frame.setLocationRelativeTo(null);
         frame.setResizable(false);
-        gamePanel = new GamePanel();
-        frame.add(gamePanel);
         frame.setVisible(true);
     }
     public void start() {

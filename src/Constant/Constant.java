@@ -22,4 +22,8 @@ public class Constant {
     public static final Image FAVICON = new ImageIcon("assets/images/favicon.png").getImage();
     public static final Image HEART_IMG = new ImageIcon("assets/images/heart.png").getImage();
     public static final Image HEART0_IMG = new ImageIcon("assets/images/heart0.png").getImage();
+    public static final Image BLOCK_IMG = new ImageIcon("assets/images/block.png").getImage();
+    public static final Image BLOCK_BOMB_IMG = new ImageIcon("assets/images/tnt.png").getImage();
+    public static final Image BLOCK_BEDROCK_IMG = new ImageIcon("assets/images/bedrock.png").getImage();
+    public static final Image BLOCK_LUCKY_IMG = new ImageIcon("assets/images/luckyblock.png").getImage();
 }
