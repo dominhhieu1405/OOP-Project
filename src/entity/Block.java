@@ -14,6 +14,7 @@ public class Block extends Entity {
     //example: (0, 0) => img is drawn from (1, 1) to (99, 49)
     //so there are 2 pixels between blocks and 1 pixel between block and frame border
     private int HP; // default = 2
+    private int MAX_HP;
     private boolean isAlive;
     public static final int DEFAULT_WIDTH = 100;
     public static final int DEFAULT_HEIGHT = 50;
@@ -23,18 +24,21 @@ public class Block extends Entity {
     public Block(int x, int y, int width, int height, int HP) {
         super(x, y, width, height);
         this.HP = HP;
+        this.MAX_HP = HP;
         this.isAlive = true;
         this.img = Constant.BLOCK_IMG;
     }
     public Block(int x, int y, int HP) {
         super(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.HP = HP;
+        this.MAX_HP = HP;
         this.isAlive = true;
         this.img = Constant.BLOCK_IMG;
     }
     public Block(int x, int y) {
         super(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
         this.HP = 2;
+        this.MAX_HP = 2;
         this.isAlive = true;
         this.img = Constant.BLOCK_IMG;
     }
@@ -55,6 +59,10 @@ public class Block extends Entity {
         }
         // g.fillRect(x + PADDING, y + PADDING, width - 2 * PADDING, height - 2 * PADDING);
         g.drawImage(img, x + PADDING, y + PADDING, width - 2 * PADDING, height - 2 * PADDING, null);
+        if (this.HP < this.MAX_HP) {
+            int per10 = (int) ((1.0 * (MAX_HP - HP) / MAX_HP) * 10);
+            g.drawImage(Constant.EFFECT_BREAKING_IMG[per10], x + PADDING, y + PADDING, width - 2 * PADDING, height - 2 * PADDING, null);
+        }
     }
 
     public boolean isAlive() {

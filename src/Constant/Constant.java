@@ -26,4 +26,13 @@ public class Constant {
     public static final Image BLOCK_BOMB_IMG = new ImageIcon("assets/images/tnt.png").getImage();
     public static final Image BLOCK_BEDROCK_IMG = new ImageIcon("assets/images/bedrock.png").getImage();
     public static final Image BLOCK_LUCKY_IMG = new ImageIcon("assets/images/luckyblock.png").getImage();
+
+    public static final Image[] EFFECT_BREAKING_IMG = new Image[10];
+
+    static {
+        for (int i = 0; i < 10; i++) {
+            EFFECT_BREAKING_IMG[i] = new ImageIcon("assets/images/breaking" + i + ".png").getImage();
+        }
+    }
+
 }

@@ -149,6 +149,15 @@ public class Ball extends Entity  {
                         // Giới hạn velocityX trong khoảng [-180, 180]
                         if (velocityX > 180) velocityX = 180;
                         if (velocityX < -180) velocityX = -180;
+                        // Đổi vy để bóng không bị quá chậm
+                        if (Math.abs(velocityX) < 100) {
+                            if (velocityX < 0) {
+                                velocityX = -100;
+                            } else {
+                                velocityX = 100;
+                            }
+                        }
+
                     } else if (side.equals("LEFT") || side.equals("RIGHT")) {
                         velocityX = -velocityX;
                     }
