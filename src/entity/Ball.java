@@ -10,18 +10,25 @@ public class Ball extends Entity  {
 
     //x and y represent the center of the ball
 
-    private int velocityX, velocityY;
-    private boolean isAlive;
-    private boolean isRunning;
-    long lastTime;
-    long lastEvent;
-    private static final int RADIUS = Constant.BALL_RADIUS;
-    private static final int TOTAL_HEALTH = Constant.TOTAL_BALL_HEART;
-    private int health;
-    private int damage;
+    private int velocityX, velocityY; // Vận tốc theo trục x và y
+    private boolean isAlive; // trạng thái sống/chết của bóng
+    private boolean isRunning; // trạng thái chạy/dừng của bóng
+    long lastTime; // thời gian lần cuối cập nhật vị trí
+    long lastEvent; // thời gian lần cuối xảy ra va chạm
+    private static final int RADIUS = Constant.BALL_RADIUS; // bán kính của bóng
+    private static final int TOTAL_HEALTH = Constant.TOTAL_BALL_HEART; // tổng số mạng của bóng
+    private int health; // mạng hiện tại của bóng
+    private int damage; // sát thương của bóng
 
     private static Ball instance;
-    
+
+    /**
+     * Constructor của Ball;
+     * @param x tọa độ x của tâm bóng
+     * @param y tọa độ y của tâm bóng
+     * @param width chiều rộng của bóng
+     * @param height chiều cao của bóng
+     */
     private Ball(int x, int y, int width, int height) {
         super(x, y, width, height);
         this.velocityX = 150;
@@ -32,7 +39,11 @@ public class Ball extends Entity  {
         this.lastEvent = System.currentTimeMillis();
     }
 
-    // Singleton pattern
+
+    /**
+     * Lấy instance của Ball.
+     * @return instance của Ball
+     */
     public static Ball getInstance() {
         if (instance == null) {
             // Khởi tạo ball ở center của frame, phía trên paddle
@@ -48,7 +59,11 @@ public class Ball extends Entity  {
         }
         return instance;
     }
-    
+
+    /**
+     * Vẽ bóng và thanh máu.
+     * @param g Graphics để vẽ
+     */
     public void render(Graphics g) {
 //        g.setColor(Color.BLUE);
 //        g.fillOval(x - RADIUS, y - RADIUS, 2 * RADIUS, 2 * RADIUS);
@@ -64,27 +79,67 @@ public class Ball extends Entity  {
         g.drawImage(img, x - RADIUS, y - RADIUS, 2 * RADIUS, 2 * RADIUS, null);
     }
 
+    /**
+     * Lấy bán kính của bóng.
+     * @return bán kính của bóng
+     */
     public int getRADIUS() {
         return RADIUS;
     }
+
+    /**
+     * Kiểm tra trạng thái của bóng.
+     * @return true nếu bóng còn sống, false nếu chết
+     */
     public boolean getIsAlive() {
         return isAlive;
     }
+
+    /**
+     * Kiểm tra bóng đã chạy chưa.
+     * @return true nếu bóng đang chạy, false nếu chưa chạy
+     */
     public boolean getIsRunning() {
         return isRunning;
     }
+
+    /**
+     * Lấy vận tốc theo trục x của bóng.
+     * @param velocityX vận tốc theo trục x
+     */
     public void setVelocityX(int velocityX) {
         this.velocityX = velocityX;
     }
+
+    /**
+     * Lấy vận tốc theo trục y của bóng.
+     * @param velocityY vận tốc theo trục y
+     */
     public void setVelocityY(int velocityY) {
         this.velocityY = velocityY;
     }
+
+    /**
+     * Đặt trạng thái sống/chết của bóng.
+     * @param isAlive true nếu bóng sống, false nếu chết
+     */
     public void setIsAlive(boolean isAlive) {
         this.isAlive = isAlive;
     }
+
+    /**
+     * Đặt trạng thái chạy/dừng của bóng.
+     * @param isRunning true nếu bóng đang chạy, false nếu dừng
+     */
     public void setIsRunning(boolean isRunning) {
         this.isRunning = isRunning;
     }
+
+    /**
+     * Bắt đầu cho bóng chạy.
+     * Đặt vận tốc đầu theo Vx, Vy.
+     * Khởi tạo thời gian vào các biển lastTime, lastEvent.
+     */
     public void runBall() {
         if (!this.isRunning) {
             // Nếu bóng ở phần bên nào thì tốc độ x hướng về bên đó.
@@ -102,7 +157,9 @@ public class Ball extends Entity  {
         }
     }
 
-    
+    /**
+     * Đặt bóng về trạng thái mặc định.
+     */
     public void reset() {
         this.x = Paddle.getInstance().getX() + Paddle.getInstance().getWidth() / 2;
         this.y = Constant.FRAME_HEIGHT - Constant.PADDLE_HEIGHT - RADIUS - 50;
@@ -112,6 +169,9 @@ public class Ball extends Entity  {
         this.isAlive = true;
     }
 
+    /**
+     * Hồi sinh bóng nếu còn mạng.
+     */
     public void respawn() {
         if (this.health > 0) {
             this.health--;
@@ -124,7 +184,13 @@ public class Ball extends Entity  {
         }
     }
 
-
+    /**
+     * Di chuyển bóng.
+     * Xử lý va chạm với paddle, tường và block.
+     * Nếu bóng chạm đáy thì gọi spawn().
+     * Biến lastTime để tính khoảng cách di chuyển theo thời gian thực.
+     * Biến lastEvent để tránh va chạm nhiều lần.
+     */
     public void update() {
         if (this.isAlive && this.isRunning) {
 //            x += velocityX;
@@ -196,6 +262,11 @@ public class Ball extends Entity  {
             checkBlockCollision();
         }
     }
+
+    /**
+     * Kiểm tra va chạm với các block.
+     * Nếu có va chạm, đổi hướng bóng và giảm HP của block.
+     */
     private void checkBlockCollision() {
         BlockManager bm = BlockManager.getInstance();
         for (Block b : bm.getBlocks()) {
@@ -221,28 +292,40 @@ public class Ball extends Entity  {
         }
     }
 
+    /**
+     * Kiểm tra va chạm với tường trên.
+     * @return true nếu va chạm, false nếu không
+     */
     private boolean collisionWithUpperWall() {
         return y - RADIUS <= 0;
     }
+
+    /**
+     * Kiểm tra va chạm với tường bên.
+     * @return true nếu va chạm, false nếu không
+     */
     private boolean collisionWithSideWall() {
         boolean rightWall = x + RADIUS >= Constant.FRAME_WIDTH;
         boolean leftWall = x - RADIUS <= 0;
-
-        // Debug: in ra khi va chạm tường
-        // if (rightWall) {
-        //     System.out.println("Right wall collision: x=" + x + ", x+RADIUS=" + (x + RADIUS) + ", FRAME_WIDTH=" + Constant.FRAME_WIDTH);
-        // }
-        // if (leftWall) {
-        //     System.out.println("Left wall collision: x=" + x + ", x-RADIUS=" + (x - RADIUS));
-        // }
-
         return (rightWall || leftWall);
     }
+
+    /**
+     * Kiểm tra va chạm với paddle.
+     * @return phía va chạm hoặc "NONE" nếu không va chạm.
+     */
     private String collisionWithPaddle() {
         Paddle paddle = Paddle.getInstance();
         return this.getCollisionSide(paddle);
     }
 
+    /**
+     * Lấy phía va chạm với thực thể khác.
+     * Tạo một thực thể tạm thời có kích thước bằng hình vuông bao quanh bóng.
+     * Gọi phương thức getCollisionSide của thực thể tạm thời.
+     * @param other thực thể khác
+     * @return phía va chạm hoặc "NONE" nếu không va chạm
+     */
     @Override
     public String getCollisionSide(Entity other) {
         Entity e = new Entity(this.x - RADIUS, this.y - RADIUS, 2 * RADIUS, 2 * RADIUS);

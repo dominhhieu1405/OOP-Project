@@ -8,6 +8,9 @@ import java.util.HashMap;
 public class SoundManager {
     private static HashMap<String, Clip> sounds = new HashMap<>();
 
+    /**
+     * Khởi tạo và load tất cả file âm thanh.
+     */
     public static void init(){
         loadSound("click", "assets/sounds/wooden.wav");
         loadSound("dead", "assets/sounds/dead.wav");
@@ -17,7 +20,7 @@ public class SoundManager {
     }
 
     /**
-     * Cache file âm thanh
+     * Load file âm thanh.
      * @param key  tên
      * @param path đường dẫn tới file .wav
      */
@@ -34,7 +37,7 @@ public class SoundManager {
     }
 
     /**
-     * Phát một hiệu ứng âm thanh (reset từ đầu)
+     * Phát một hiệu ứng âm thanh (reset từ đầu).
      */
     public static void play(String key) {
         Clip clip = sounds.get(key);
@@ -47,7 +50,7 @@ public class SoundManager {
     }
 
     /**
-     * Phát nhạc nền loop liên tục
+     * Phát nhạc nền loop liên tục.
      */
     public static void loop(String key) {
         Clip clip = sounds.get(key);
@@ -57,7 +60,7 @@ public class SoundManager {
     }
 
     /**
-     * Dừng phát âm thanh
+     * Dừng phát âm thanh.
      */
     public static void stop(String key) {
         Clip clip = sounds.get(key);
