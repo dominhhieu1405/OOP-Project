@@ -10,7 +10,7 @@ public class BlockBedrock extends Block {
      */
     public BlockBedrock(int x, int y, int width, int height) {
         super(x, y, width, height, Integer.MAX_VALUE);
-        System.out.println("Bedrock block at (" + x + ", " + y + ") with size (" + width + ", " + height + ")");
+        // System.out.println("Bedrock block at (" + x + ", " + y + ") with size (" + width + ", " + height + ")");
         this.img = Constant.Constant.BLOCK_BEDROCK_IMG;
     }
 
