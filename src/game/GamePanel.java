@@ -8,6 +8,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import entity.*;
 import manager.BlockManager;
+import manager.PowerUpManager;
 
 public class GamePanel extends JPanel {
     
@@ -84,6 +85,8 @@ public class GamePanel extends JPanel {
         super.paintComponent(g);
         g.drawImage(Constant.Constant.BACKGROUND_IMG, 0, 0, Constant.Constant.FRAME_WIDTH, Constant.Constant.FRAME_HEIGHT, null);
         BlockManager.getInstance().render(g);
+        PowerUpManager.getInstance().update();
+        PowerUpManager.getInstance().render(g);
         Ball ball = Ball.getInstance();
         ball.update();
         ball.render(g);

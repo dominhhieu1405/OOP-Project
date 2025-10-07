@@ -10,15 +10,17 @@ public class Ball extends Entity  {
 
     //x and y represent the center of the ball
 
+    private double speed;
     private int velocityX, velocityY; // Vận tốc theo trục x và y
     private boolean isAlive; // trạng thái sống/chết của bóng
     private boolean isRunning; // trạng thái chạy/dừng của bóng
     long lastTime; // thời gian lần cuối cập nhật vị trí
     long lastEvent; // thời gian lần cuối xảy ra va chạm
-    private static final int RADIUS = Constant.BALL_RADIUS; // bán kính của bóng
+    private int RADIUS = Constant.BALL_RADIUS; // bán kính của bóng
     private static final int TOTAL_HEALTH = Constant.TOTAL_BALL_HEART; // tổng số mạng của bóng
-    private int health; // mạng hiện tại của bóng
+    public int health; // mạng hiện tại của bóng
     private int damage; // sát thương của bóng
+    private boolean isFire = false; // trạng thái bóng lửa
 
     private static Ball instance;
 
@@ -31,11 +33,12 @@ public class Ball extends Entity  {
      */
     private Ball(int x, int y, int width, int height) {
         super(x, y, width, height);
-        this.velocityX = 200;
+        this.speed = 1;
+        this.velocityX = 150;
         this.velocityY = 0;
         this.health = 10;
         this.damage = 1;
-        this.img = new ImageIcon("assets/images/snowball.png").getImage();
+        this.img = Constant.BALL_IMG;
         this.lastEvent = System.currentTimeMillis();
     }
 
@@ -48,16 +51,53 @@ public class Ball extends Entity  {
         if (instance == null) {
             // Khởi tạo ball ở center của frame, phía trên paddle
             int ballCenterX = Constant.FRAME_WIDTH / 2;
-            int ballCenterY = Constant.FRAME_HEIGHT - Constant.PADDLE_Y_OFFSET - Constant.PADDLE_HEIGHT - RADIUS - 50;
+            int ballCenterY = Constant.FRAME_HEIGHT - Constant.PADDLE_Y_OFFSET - Constant.PADDLE_HEIGHT - Constant.BALL_RADIUS - 50;
             
-            instance = new Ball(ballCenterX, ballCenterY, RADIUS * 2, RADIUS * 2);
+            instance = new Ball(ballCenterX, ballCenterY, Constant.BALL_RADIUS * 2, Constant.BALL_RADIUS * 2);
             // System.out.println("Ball init center: " + instance.x + ", " + instance.y);
-            instance.velocityX = 200;
-            instance.velocityY = -200;
+            instance.velocityX = 150;
+            instance.velocityY = -150;
             instance.isAlive = true;
             instance.isRunning = false;
         }
         return instance;
+    }
+
+    /**
+     * Lấy tốc độ của bóng.
+     * @return tốc độ của bóng
+     */
+    public double getSpeed() {
+        return speed;
+    }
+
+    /**
+     * Đặt tốc độ của bóng.
+     * @param speed tốc độ mới
+     */
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    /**
+     * Kiểm tra trạng thái bóng lửa.
+     * @return true nếu là bóng lửa, false nếu không phải
+     */
+    public boolean isFire() {
+        return isFire;
+    }
+
+    /**
+     * Đặt trạng thái bóng lửa.
+     * @param fire true để đặt thành bóng lửa, false để đặt về bình thường
+     */
+    public void setFire(boolean fire) {
+        isFire = fire;
+        if (fire) {
+            this.img = Constant.FIREBALL_IMG;
+        } else {
+            this.img = Constant.BALL_IMG;
+        }
     }
 
     /**
@@ -85,6 +125,16 @@ public class Ball extends Entity  {
      */
     public int getRADIUS() {
         return RADIUS;
+    }
+
+    /**
+     * Đặt bán kính của bóng.
+     * @param RADIUS bán kính mới
+     */
+    public void setRADIUS(int RADIUS) {
+        this.RADIUS = RADIUS;
+        this.width = 2 * RADIUS;
+        this.height = 2 * RADIUS;
     }
 
     /**
@@ -144,12 +194,12 @@ public class Ball extends Entity  {
         if (!this.isRunning) {
             // Nếu bóng ở phần bên nào thì tốc độ x hướng về bên đó.
             if (this.velocityY == 0) {
-                this.velocityY = -200;
+                this.velocityY = -150;
             }
             if (this.x <= Constant.FRAME_WIDTH / 2 - RADIUS) {
-                this.velocityX = -200;
+                this.velocityX = -150;
             } else {
-                this.velocityX = 200;
+                this.velocityX = 150;
             }
             this.isRunning = true;
             lastTime = System.currentTimeMillis();
@@ -163,7 +213,7 @@ public class Ball extends Entity  {
     public void reset() {
         this.x = Paddle.getInstance().getX() + Paddle.getInstance().getWidth() / 2;
         this.y = Constant.FRAME_HEIGHT - Constant.PADDLE_HEIGHT - RADIUS - 50;
-        this.velocityX = 200;
+        this.velocityX = 150;
         this.velocityY = 0;
         this.isRunning = false;
         this.isAlive = true;
@@ -197,8 +247,8 @@ public class Ball extends Entity  {
 //            y += velocityY;
             double dt = (System.currentTimeMillis() - lastTime) / 1000.0;
             lastTime = System.currentTimeMillis();
-            x += (int) (velocityX * dt);
-            y += (int) (velocityY * dt);
+            x += (int) (velocityX * dt * speed);
+            y += (int) (velocityY * dt * speed);
 
             if (System.currentTimeMillis() - lastEvent > 100) {
 
@@ -273,20 +323,24 @@ public class Ball extends Entity  {
             if (b.isAlive()) {
                 String side = this.getCollisionSide(b);
                 if (!side.equals("NONE")) {
-                    // Xử lý va chạm
-                    if (side.equals("TOP") && velocityY > 0) {
-                        velocityY = -velocityY;
-                    } else if (side.equals("BOTTOM") && velocityY < 0) {
-                        velocityY = -velocityY;
-                    } else if (side.equals("LEFT") && velocityX > 0) {
-                        velocityX = -velocityX;
-                    } else if (side.equals("RIGHT") && velocityX < 0) {
-                        velocityX = -velocityX;
-                    }
-                    b.decreaseHP(this.damage);
-                    SoundManager.play("click");
                     lastEvent = System.currentTimeMillis();
-                    break; // Chỉ xử lý va chạm với một block tại một thời điểm
+                    if (this.isFire) {
+                        b.die();
+                    } else {
+                        // Xử lý va chạm
+                        if (side.equals("TOP") && velocityY > 0) {
+                            velocityY = -velocityY;
+                        } else if (side.equals("BOTTOM") && velocityY < 0) {
+                            velocityY = -velocityY;
+                        } else if (side.equals("LEFT") && velocityX > 0) {
+                            velocityX = -velocityX;
+                        } else if (side.equals("RIGHT") && velocityX < 0) {
+                            velocityX = -velocityX;
+                        }
+                        SoundManager.play("click");
+                        b.decreaseHP(this.damage);
+                        break; // Chỉ xử lý va chạm với một block tại một thời điểm
+                    }
                 }
             }
         }
@@ -331,5 +385,4 @@ public class Ball extends Entity  {
         Entity e = new Entity(this.x - RADIUS, this.y - RADIUS, 2 * RADIUS, 2 * RADIUS);
         return e.getCollisionSide(other);
     }
-
 }
