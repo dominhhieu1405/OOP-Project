@@ -1,9 +1,10 @@
 package entity;
 
-public class PowerUpExpand extends PowerUp {
+public class PowerUpPaddleShrink extends PowerUp {
+
     // Constructor
-    public PowerUpExpand(int x, int y) {
-        super(x, y, 30, 30, "assets/images/PowerUpExpand.png");
+    public PowerUpPaddleShrink(int x, int y) {
+        super(x, y, 36, 36, "assets/images/PowerUp/PaddleShrink.png");
         this.duration = 10000;
     }
 
@@ -13,7 +14,7 @@ public class PowerUpExpand extends PowerUp {
         // Lay paddle hien tai
         Paddle paddle = Paddle.getInstance();
         // Set chieu dai paddle moi
-        paddle.setWidth(paddle.getWidth() + 50);
+        paddle.setWidth(paddle.getWidth() - 36);
         // Danh dau la Power kich hoat
         isActive = true;
         // Thoi gian bat dau
@@ -25,7 +26,7 @@ public class PowerUpExpand extends PowerUp {
         // Lay paddle hien tai
         Paddle paddle = Paddle.getInstance();
         // Tra ve chieu dai ban dau
-        paddle.setWidth(paddle.getWidth() - 50);
+        paddle.setWidth(paddle.getWidth() - 36);
         // Danh dau PowerUp het hieu luc
         isActive = false;
     }

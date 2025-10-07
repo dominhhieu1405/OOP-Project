@@ -2,10 +2,10 @@ package entity;
 
 import Constant.Constant;
 
-public class PowerUpExtraLife extends PowerUp {
-    public PowerUpExtraLife(int x, int y) {
-        super(x, y, 30, 30, "assets/images/PowerUpHealth.png");
-        this.duration = 0; // hiệu lực 10 giây
+public class PowerUpBallExtraLife extends PowerUp {
+    public PowerUpBallExtraLife(int x, int y) {
+        super(x, y, 36, 36, "assets/images/PowerUp/BallExtraLife.png");
+        this.duration = 0; // hiệu lực 0 giây
     }
 
     @Override

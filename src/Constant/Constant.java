@@ -17,6 +17,8 @@ public class Constant {
     public static final int BLOCK_DEFAULT_HP = 2; // Số máu mặc định của block.
     public static final int BLOCK_PADDING = 2; // Khoảng cách giữa các block với nhau và với viền khung hình.
 
+    public static final Image BALL_IMG = new ImageIcon("assets/images/snowball.png").getImage();
+    public static final Image FIREBALL_IMG = new ImageIcon("assets/images/fireball.png").getImage();
     public static final Image BACKGROUND_IMG = new ImageIcon("assets/images/background.jpg").getImage();
     public static final Image FAVICON = new ImageIcon("assets/images/favicon.png").getImage();
     public static final Image HEART_IMG = new ImageIcon("assets/images/heart.png").getImage();
