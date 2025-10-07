@@ -1,0 +1,487 @@
+<!doctype html>
+<html lang="vi">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Trình tạo map</title>
+  <style>
+    :root{
+      --bg:#0f1115; --panel:#151823; --muted:#99a3b3; --text:#e6eaf2; --accent:#6ea8fe;
+      --grid:#23283b; --grid2:#1b2030; --good:#2ecc71; --warn:#f39c12; --danger:#ff6b6b;
+      --cell:50px; /* each cell is 50px in MAP units */
+      /** disable select for all **/
+        -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;
+    }
+    *{box-sizing:border-box;-webkit-user-select:none; -moz-user-select:none; -ms-user-select:none; user-select:none;}
+    body{margin:0; font:14px/1.45 system-ui,Segoe UI,Roboto,Helvetica,Arial; color:var(--text); background:linear-gradient(180deg,#0c0f14,#0f1115 20%);} 
+    .app{display:grid; grid-template-columns: 260px 1fr 300px; gap:12px; padding:14px; height:100vh;}
+    .panel{background:var(--panel); border:1px solid #20263a; border-radius:14px; box-shadow:0 10px 30px rgba(0,0,0,.25); overflow:hidden;}
+    .panel h2{margin:0; padding:12px 14px; font-size:15px; letter-spacing:.3px; border-bottom:1px solid #20263a; background:linear-gradient(180deg,#171b27,#121624);}
+    .panel .section{padding:12px 14px; border-top:1px dashed #222a42}
+    .tool{display:flex; gap:10px; align-items:center; padding:8px; border:1px solid #20263a; border-radius:12px; background:#121723; cursor:pointer}
+    .tool.active{outline:2px solid var(--accent);}
+    .tool img{width:28px;height:28px;object-fit:contain}
+    .tool .meta{display:flex; flex-direction:column}
+    .muted{color:var(--muted)}
+    .grid-wrap{display:flex; align-items:center; justify-content:center; padding:10px}
+    .grid{position:relative; width:calc(var(--cell) * 16); height:calc(var(--cell) * 8); background:repeating-linear-gradient(0deg,var(--grid2),var(--grid2) calc(var(--cell) - 1px), var(--grid) calc(var(--cell) - 1px), var(--grid) var(--cell)), repeating-linear-gradient(90deg,var(--grid2),var(--grid2) calc(var(--cell) - 1px), var(--grid) calc(var(--cell) - 1px), var(--grid) var(--cell)); border:1px solid #2a324f; border-radius:14px; box-shadow:inset 0 0 0 1px #171d2e;
+        image-rendering: pixelated;}
+    .ruler{position:absolute; inset:0; pointer-events:none}
+    .ruler .tick{position:absolute; font-size:10px; color:#8ea2c0; opacity:.7}
+    .controls{display:flex; gap:10px; padding:12px; border-top:1px solid #20263a; background:#0f1421}
+    button{cursor:pointer; border:1px solid #2a3558; background:#182038; color:#eaf1ff; border-radius:10px; padding:8px 12px; font-weight:600}
+    button:hover{filter:brightness(1.15)}
+    .ghost{position:absolute; border:1px dashed #89a1ff; background:rgba(110,168,254,.08); pointer-events:none}
+
+    /* Block visuals */
+    .block{position:absolute; border:1px solid rgba(255,255,255,.07); border-radius:6px; box-shadow:0 4px 10px rgba(0,0,0,.35); overflow:hidden}
+    .block img{position:absolute; inset:0; width:100%; height:100%; object-fit:cover; user-select:none; pointer-events:none}
+    .block .badge{position:absolute; left:6px; top:6px; background:rgba(0,0,0,.55); color:#fff; font-size:11px; padding:2px 6px; border-radius:999px; border:1px solid rgba(255,255,255,.15)}
+    .block.selected{outline:2px solid var(--accent);}
+
+    /* Resize handles for resizable types (normal, bedrock) */
+    .handle{position:absolute; width:12px; height:12px; border-radius:50%; background:#eaf1ff; border:2px solid #1a2140; box-shadow:0 2px 5px rgba(0,0,0,.4);}
+    .handle.br{right:-6px; bottom:-6px; cursor:nwse-resize}
+
+    .form{display:grid; gap:10px}
+    .row{display:grid; grid-template-columns:60px 1fr; gap:10px; align-items:center}
+    input[type="number"], select{width:100%; padding:8px 10px; border:1px solid #2a3558; background:#121827; color:#eaf1ff; border-radius:8px}
+    .kv{display:grid; grid-template-columns:1fr auto; gap:10px; align-items:center}
+    .help{color:#a7b4ce; font-size:12px}
+    .footer{display:flex; gap:10px; align-items:center; justify-content:space-between}
+    .pill{display:inline-flex; gap:6px; align-items:center; padding:4px 8px; border-radius:999px; background:#121827; border:1px solid #2a3558; font-size:12px}
+
+    .legend{display:grid; grid-template-columns:repeat(2,1fr); gap:10px}
+    .legend div{display:flex; align-items:center; gap:8px}
+    .legend b{font-size:12px}
+    .legend .sw{width:20px;height:20px;border-radius:4px;border:1px solid #2a3558}
+
+    .small{font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="app">
+    <!-- Left: Tools -->
+    <aside class="panel" id="tools">
+      <h2>Công cụ & Khởi tạo khối</h2>
+      <div class="section small">Chọn loại khối, sau đó kéo trên lưới để đặt. Với Lucky Block & TNT chỉ tạo hình vuông (kích thước là bội số của 1 ô).</div>
+      <div class="section" id="toolList">
+        <div class="tool active" data-type="normal">
+          <img src="./images/block.png" alt="normal">
+          <div class="meta"><b>Normal</b><span class="muted">Resizable • HP mặc định 2</span></div>
+        </div>
+        <div class="tool" data-type="bedrock">
+          <img src="./images/bedrock.png" alt="bedrock">
+          <div class="meta"><b>Bedrock</b><span class="muted">Resizable • Không phá hủy</span></div>
+        </div>
+        <div class="tool" data-type="bomb">
+          <img src="./images/tnt.png" alt="bomb">
+          <div class="meta"><b>TNT (bomb)</b><span class="muted">Vuông • HP, damage, range</span></div>
+        </div>
+        <div class="tool" data-type="lucky">
+          <img src="./images/luckyblock.png" alt="lucky">
+          <div class="meta"><b>Lucky Block</b><span class="muted">Vuông • type -1..10</span></div>
+        </div>
+      </div>
+
+      <div class="section legend">
+        <div><span class="sw" style="background:#203056"></span><b>Lưới 16×8</b></div>
+        <div><span class="sw" style="background:#182038"></span><b>50 px / ô</b></div>
+      </div>
+
+      <div class="section">
+        <div class="kv"><span class="pill">Khung: <b>800×400</b> px</span><span class="pill">Đơn vị: <b>px</b></span></div>
+      </div>
+
+      <div class="controls">
+        <button id="btnExport" title="Xuất file .txt">Xuất .txt</button>
+        <button id="btnClear" title="Xóa tất cả">Xóa hết</button>
+      </div>
+    </aside>
+
+    <!-- Center: Grid -->
+    <main class="panel" id="stagePanel">
+      <h2>Canvas 16×8 (Snapping 50px)</h2>
+      <div class="grid-wrap">
+        <div class="grid" id="grid">
+          <div class="ruler" id="ruler"></div>
+          <div class="ghost" id="ghost" hidden></div>
+        </div>
+      </div>
+      <div class="controls">
+        <div class="help">Mẹo: Giữ <b>Alt</b> khi kéo để nhân bản nhanh. Nhấn <b>Delete</b> để xóa khối được chọn.</div>
+        <div class="pill">Chọn: <span id="selLabel">(none)</span></div>
+      </div>
+    </main>
+
+    <!-- Right: Inspector -->
+    <aside class="panel" id="inspector">
+      <h2>Thuộc tính khối</h2>
+      <div class="section">
+        <form class="form" id="form">
+          <div class="row"><label>Loại</label><input id="f_type" type="text" disabled></div>
+          <div class="row"><label>X (ô)</label><input id="f_x" type="number" min="0" max="15"></div>
+          <div class="row"><label>Y (ô)</label><input id="f_y" type="number" min="0" max="7"></div>
+          <div class="row v-rect"><label>Rộng (ô)</label><input id="f_w" type="number" min="1" max="16"></div>
+          <div class="row v-rect"><label>Cao (ô)</label><input id="f_h" type="number" min="1" max="8"></div>
+
+          <div class="row v-normal v-bomb v-lucky"><label>HP</label><input id="f_hp" type="number" step="1"></div>
+          <div class="row v-bomb"><label>damage</label><input id="f_damage" type="number" step="1"></div>
+          <div class="row v-bomb"><label>range</label><input id="f_range" type="number" step="1"></div>
+
+          <div class="row v-lucky"><label>type</label>
+            <select id="f_typeLucky">
+              <option value="-1">-1 (Random)</option>
+              <option value="0">0 (Tăng kích thước bóng)</option>
+              <option value="1">1 (Tăng số mạng)</option>
+              <option value="2">2 (Bóng nhanh hơn)</option>
+              <option value="3">3 (Bóng lửa - phá tất cả)</option>
+              <option value="4">4 (Bóng nhỏ lại)</option>
+              <option value="5">5 (Bóng chậm lại)</option>
+              <option value="6">6 (Đưa bóng lên ván)</option>
+              <option value="7">7 (Ván rộng hơn)</option>
+              <option value="8">8 (Ván nhanh hơn)</option>
+              <option value="9">9 (Ván hẹp lại)</option>
+              <option value="10">10 (Ván chậm lại)</option>
+            </select>
+          </div>
+
+          <div class="footer">
+            <div style="display:flex; gap:8px">
+              <button type="button" id="btnDelete" style="background:var(--danger)">Xóa</button>
+              <button type="button" id="btnDuplicate">Nhân bản</button>
+            </div>
+            <span class="muted">ID: <span id="f_id">—</span></span>
+          </div>
+        </form>
+      </div>
+    </aside>
+  </div>
+
+<script>
+(function(){
+  // === State ===
+  const CELL = 50; // px per grid cell (also map unit)
+  const GRID_W = 16, GRID_H = 8;
+  const gridEl = document.getElementById('grid');
+  const ghostEl = document.getElementById('ghost');
+  const selLabel = document.getElementById('selLabel');
+  const toolEls = [...document.querySelectorAll('#toolList .tool')];
+  const rulerEl = document.getElementById('ruler');
+
+  /** @type {Array<{id:string,type:'normal'|'bedrock'|'bomb'|'lucky',x:number,y:number,w:number,h:number, hp?:number, damage?:number, range?:number, luckyType?:number}>} */
+  const blocks = [];
+  let currentTool = 'normal';
+  let selectingId = null;
+  let drag = null; // {mode:'create'|'move'|'resize', startX,startY, origX,origY, origW,origH, altClone:boolean}
+
+  // === Ruler ticks ===
+  for(let i=0;i<GRID_W;i++){
+    const t = document.createElement('div'); t.className='tick'; t.textContent=i; t.style.left = (i*CELL+4)+'px'; t.style.top='-2px'; rulerEl.appendChild(t);
+  }
+  for(let j=0;j<GRID_H;j++){
+    const t = document.createElement('div'); t.className='tick'; t.textContent=j; t.style.top = (j*CELL+2)+'px'; t.style.left='-16px'; rulerEl.appendChild(t);
+  }
+
+  // === Tools ===
+  toolEls.forEach(el=>{
+    el.addEventListener('click', ()=>{
+      toolEls.forEach(t=>t.classList.remove('active'));
+      el.classList.add('active');
+      currentTool = el.dataset.type;
+    });
+  });
+
+  function uid(){ return Math.random().toString(36).slice(2,9); }
+  function clamp(v,a,b){ return Math.max(a, Math.min(b,v)); }
+
+  function snapPxToCell(px){ return Math.round(px / CELL); }
+
+  function blockImage(type){
+    switch(type){
+      case 'normal': return './images/block.png';
+      case 'bedrock': return './images/bedrock.png';
+      case 'bomb': return './images/tnt.png';
+      case 'lucky': return './images/luckyblock.png';
+    }
+  }
+
+  function addBlockPartial(type, xCell, yCell, wCell=1, hCell=1){
+    // Enforce rules for square-only types
+    if(type==='lucky' || type==='bomb'){ hCell = wCell; }
+    const b = { id: uid(), type, x:xCell, y:yCell, w:wCell, h:hCell };
+    if(type==='normal'){ b.hp = 2; }
+    if(type==='bomb'){ b.hp = 1; b.damage = 1; b.range = 100; }
+    if(type==='lucky'){ b.hp = 1; b.luckyType = -1; }
+    blocks.push(b);
+    renderBlock(b);
+    selectBlock(b.id);
+  }
+
+  function renderAll(){
+    // remove all existing DOM children except ruler and ghost
+    [...gridEl.querySelectorAll('.block')].forEach(n=>n.remove());
+    blocks.forEach(renderBlock);
+  }
+
+  function renderBlock(b){
+    let el = document.createElement('div');
+    el.className = 'block';
+    el.style.left = (b.x*CELL)+'px';
+    el.style.top = (b.y*CELL)+'px';
+    el.style.width = (b.w*CELL)+'px';
+    el.style.height = (b.h*CELL)+'px';
+    el.dataset.id = b.id;
+
+    const img = document.createElement('img'); img.src = blockImage(b.type); el.appendChild(img);
+    const badge = document.createElement('div'); badge.className='badge'; badge.textContent = b.type; el.appendChild(badge);
+
+    // Resizable handle for normal & bedrock
+    if(b.type==='normal' || b.type==='bedrock'){
+      const handle = document.createElement('div'); handle.className='handle br'; el.appendChild(handle);
+      handle.addEventListener('mousedown', (e)=>{
+        e.stopPropagation();
+        const rect = gridEl.getBoundingClientRect();
+        drag = { mode:'resize', startX:e.clientX-rect.left, startY:e.clientY-rect.top, id:b.id, origW:b.w, origH:b.h };
+      });
+    }
+
+    // Dragging (move)
+    el.addEventListener('mousedown', (e)=>{
+      const rect = gridEl.getBoundingClientRect();
+      const gx = e.clientX-rect.left, gy=e.clientY-rect.top;
+      const bb = getBlockById(b.id);
+      drag = { mode:'move', startX:gx, startY:gy, id:b.id, origX:bb.x, origY:bb.y, altClone: e.altKey };
+      selectBlock(b.id);
+    });
+
+    gridEl.appendChild(el);
+    updateSelectionStyles();
+  }
+
+  function getBlockById(id){ return blocks.find(x=>x.id===id); }
+  function selectBlock(id){ selectingId = id; updateSelectionStyles(); syncForm(); }
+  function updateSelectionStyles(){
+    [...gridEl.querySelectorAll('.block')].forEach(el=>{
+      el.classList.toggle('selected', el.dataset.id===selectingId);
+    });
+    const sel = getBlockById(selectingId||'');
+    selLabel.textContent = sel ? `${sel.type}#${sel.id.slice(0,4)}` : '(none)';
+  }
+
+  // === Placement by dragging on empty grid ===
+  gridEl.addEventListener('mousedown', (e)=>{
+    if(e.target.closest('.block')) return; // block handles its own mousedown
+    const rect = gridEl.getBoundingClientRect();
+    const sx = e.clientX-rect.left, sy=e.clientY-rect.top;
+    drag = { mode:'create', startX:sx, startY:sy };
+    ghostEl.hidden=false; ghostEl.style.left=sx+'px'; ghostEl.style.top=sy+'px'; ghostEl.style.width='0px'; ghostEl.style.height='0px';
+  });
+
+  window.addEventListener('mousemove', (e)=>{
+    if(!drag) return;
+    const rect = gridEl.getBoundingClientRect();
+    const mx = clamp(e.clientX-rect.left, 0, rect.width);
+    const my = clamp(e.clientY-rect.top, 0, rect.height);
+
+    if(drag.mode==='create'){
+      // Draw ghost, snap in cells; square constraint for certain types
+      const gx0 = drag.startX, gy0 = drag.startY;
+      let w = mx-gx0, h = my-gy0;
+      if(currentTool==='bomb' || currentTool==='lucky'){
+        const s = Math.max(Math.abs(w), Math.abs(h));
+        w = Math.sign(w||1)*s; h = Math.sign(h||1)*s;
+      }
+      const x = w<0 ? mx : gx0; const y = h<0 ? my : gy0;
+      const cw = Math.max(1, Math.min(GRID_W, snapPxToCell(Math.abs(w))));
+      const ch = Math.max(1, Math.min(GRID_H, snapPxToCell(Math.abs(h))));
+      const cx = clamp(snapPxToCell(x), 0, GRID_W-1);
+      const cy = clamp(snapPxToCell(y), 0, GRID_H-1);
+      // Prevent overflow
+      const wCells = Math.min(cw, GRID_W-cx);
+      const hCells = Math.min(currentTool==='bomb'||currentTool==='lucky' ? wCells : ch, GRID_H-cy);
+
+      ghostEl.style.left = (cx*CELL)+'px';
+      ghostEl.style.top = (cy*CELL)+'px';
+      ghostEl.style.width = (wCells*CELL)+'px';
+      ghostEl.style.height = (hCells*CELL)+'px';
+
+    } else if(drag.mode==='move'){
+      const b = getBlockById(drag.id); if(!b) return;
+      // If Alt was held at drag start, clone on first move
+      if(drag.altClone && !drag.cloned){
+        const nb = JSON.parse(JSON.stringify(b)); nb.id=uid(); blocks.push(nb); selectingId = nb.id; drag.id=nb.id; drag.cloned=true; renderBlock(nb);
+      }
+      const dx = mx-drag.startX, dy=my-drag.startY;
+      let nx = clamp(drag.origX + snapPxToCell(dx), 0, GRID_W - b.w);
+      let ny = clamp(drag.origY + snapPxToCell(dy), 0, GRID_H - b.h);
+      b.x = nx; b.y = ny; updateBlockEl(b);
+      syncFormFieldsXYWH();
+    } else if(drag.mode==='resize'){
+      const b = getBlockById(drag.id); if(!b) return;
+      const dw = mx - (b.x*CELL); const dh = my - (b.y*CELL);
+      let w = clamp(snapPxToCell(dw), 1, GRID_W - b.x);
+      let h = clamp(snapPxToCell(dh), 1, GRID_H - b.y);
+      // square-only types shouldn't have handle anyway, but safeguard
+      if(b.type==='bomb' || b.type==='lucky'){ h = w; }
+      b.w = w; b.h = h; updateBlockEl(b); syncFormFieldsXYWH();
+    }
+  });
+
+  window.addEventListener('mouseup', ()=>{
+    if(!drag) return;
+    if(drag.mode==='create'){
+      ghostEl.hidden=true;
+      const rect = gridEl.getBoundingClientRect();
+      // Convert ghost box to cells
+      const x = snapPxToCell(parseInt(ghostEl.style.left));
+      const y = snapPxToCell(parseInt(ghostEl.style.top));
+      const w = Math.max(1, snapPxToCell(parseInt(ghostEl.style.width)));
+      const h = Math.max(1, snapPxToCell(parseInt(ghostEl.style.height)));
+      if(w>0 && h>0){ addBlockPartial(currentTool, x,y,w,h); }
+    }
+    drag=null;
+  });
+
+  function updateBlockEl(b){
+    const el = gridEl.querySelector(`.block[data-id="${b.id}"]`);
+    if(!el) return;
+    el.style.left = (b.x*CELL)+'px';
+    el.style.top = (b.y*CELL)+'px';
+    el.style.width = (b.w*CELL)+'px';
+    el.style.height = (b.h*CELL)+'px';
+  }
+
+  // === Selection via click ===
+  gridEl.addEventListener('click', (e)=>{
+    const blk = e.target.closest('.block');
+    if(blk){ selectBlock(blk.dataset.id); }
+  });
+
+  // === Keyboard delete ===
+  window.addEventListener('keydown', (e)=>{
+    if(e.key==='Delete' || e.key==='Backspace') deleteSelected();
+  });
+
+  // === Inspector form ===
+  const form = document.getElementById('form');
+  const f = (id)=>document.getElementById(id);
+  function syncForm(){
+    const b = getBlockById(selectingId||'');
+    f('f_id').textContent = b? b.id : '—';
+    f('f_type').value = b? b.type : '';
+
+    // show/hide fields by type
+    document.querySelectorAll('.v-rect').forEach(x=>x.style.display = b? 'grid':'none');
+    document.querySelectorAll('.v-normal,.v-bomb,.v-lucky').forEach(x=>x.style.display='none');
+    if(!b){
+      ['f_x','f_y','f_w','f_h','f_hp','f_damage','f_range'].forEach(id=>f(id).value='');
+      f('f_typeLucky').value='-1';
+      return;
+    }
+
+    syncFormFieldsXYWH();
+
+    if(b.type==='normal'){
+      show('.v-normal'); f('f_hp').value = b.hp ?? 2;
+    } else if(b.type==='bedrock'){
+      // no extra fields
+    } else if(b.type==='bomb'){
+      show('.v-bomb'); f('f_hp').value=b.hp ?? 1; f('f_damage').value=b.damage ?? 1; f('f_range').value=b.range ?? 100;
+    } else if(b.type==='lucky'){
+      show('.v-lucky'); f('f_hp').value=b.hp ?? 1; f('f_typeLucky').value = (b.luckyType ?? -1).toString();
+    }
+
+    function show(sel){ document.querySelectorAll(sel).forEach(x=>x.style.display='grid'); }
+  }
+
+  function syncFormFieldsXYWH(){
+    const b = getBlockById(selectingId||'');
+    if(!b) return;
+    f('f_x').value=b.x; f('f_y').value=b.y; f('f_w').value=b.w; f('f_h').value=b.h;
+  }
+
+  form.addEventListener('input', (e)=>{
+    const b = getBlockById(selectingId||''); if(!b) return;
+    const id = e.target.id;
+    if(id==='f_x' || id==='f_y' || id==='f_w' || id==='f_h'){
+      let x = +f('f_x').value, y=+f('f_y').value, w=+f('f_w').value, h=+f('f_h').value;
+      x = clamp(x,0, GRID_W-1); y = clamp(y,0, GRID_H-1);
+      w = clamp(w,1, GRID_W-x); h = clamp(h,1, GRID_H-y);
+      if(b.type==='bomb' || b.type==='lucky'){ // enforce square
+        const s = Math.min(w,h, GRID_W-x, GRID_H-y);
+        w = h = s;
+      }
+      b.x=x; b.y=y; b.w=w; b.h=h; updateBlockEl(b); updateSelectionStyles();
+    } else if(id==='f_hp'){
+      b.hp = +f('f_hp').value || 0;
+    } else if(id==='f_damage'){
+      b.damage = +f('f_damage').value || 0;
+    } else if(id==='f_range'){
+      b.range = +f('f_range').value || 0;
+    } else if(id==='f_typeLucky'){
+      b.luckyType = parseInt(f('f_typeLucky').value,10);
+    }
+  });
+
+  // Buttons
+  document.getElementById('btnDelete').addEventListener('click', deleteSelected);
+  document.getElementById('btnDuplicate').addEventListener('click', ()=>{
+    const b = getBlockById(selectingId||''); if(!b) return;
+    const nb = JSON.parse(JSON.stringify(b)); nb.id = uid();
+    // attempt to offset
+    nb.x = clamp(nb.x+1, 0, GRID_W - nb.w);
+    nb.y = clamp(nb.y+0, 0, GRID_H - nb.h);
+    blocks.push(nb); renderBlock(nb); selectBlock(nb.id);
+  });
+
+  function deleteSelected(){
+    if(!selectingId) return;
+    const idx = blocks.findIndex(x=>x.id===selectingId);
+    if(idx>=0){
+      blocks.splice(idx,1);
+      renderAll(); selectingId=null; updateSelectionStyles(); syncForm();
+    }
+  }
+
+  document.getElementById('btnClear').addEventListener('click', ()=>{
+    blocks.length=0; renderAll(); selectingId=null; syncForm();
+  });
+
+  document.getElementById('btnExport').addEventListener('click', ()=>{
+    const lines = [];
+    for(const b of blocks){
+      const x = b.x*CELL, y=b.y*CELL, w=b.w*CELL, h=b.h*CELL;
+      if(b.type==='normal'){
+        const hp = b.hp ?? 2;
+        lines.push(`normal ${x} ${y} ${w} ${h} ${hp}`);
+      } else if(b.type==='bedrock'){
+        lines.push(`bedrock ${x} ${y} ${w} ${h}`);
+      } else if(b.type==='bomb'){
+        const hp=b.hp??1, dmg=b.damage??1, rng=b.range??100;
+        lines.push(`bomb ${x} ${y} ${w} ${h} ${hp} ${dmg} ${rng}`);
+      } else if(b.type==='lucky'){
+        const hp=b.hp??1, t=(b.luckyType??-1);
+        lines.push(`lucky ${x} ${y} ${w} ${h} ${hp} ${t}`);
+      }
+    }
+    const content = lines.join('\n');
+    const blob = new Blob([content], {type:'text/plain'});
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `map_${Date.now()}.txt`;
+    a.click();
+    URL.revokeObjectURL(a.href);
+  });
+
+  // Init with a small demo layout
+  addBlockPartial('normal', 0,0, 2,1);
+  addBlockPartial('bedrock', 3,0, 3,1);
+  addBlockPartial('bomb', 7,0, 1,1);
+  addBlockPartial('lucky', 9,0, 1,1);
+  selectBlock(null);
+  syncForm();
+})();
+</script>
+</body>
+</html>
