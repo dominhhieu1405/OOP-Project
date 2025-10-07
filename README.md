@@ -19,10 +19,10 @@ Hiện tại chưa có phiên bản nào chơi được.
 - [x] Di chuyển paddle bằng bàn phím.
 - [ ] Thêm nhiều màn chơi (level).
 - [ ] Hệ thống điểm số và hiển thị score.
-- [ ] Item rơi xuống (power-up).
+- [X] Item rơi xuống (power-up).
 - [ ] Menu chính, pause/resume game.
 - [ ] Chọn skin cho paddle/ball.
-- [ ] Hiệu ứng particle khi vỡ block.
+- [X] Hiệu ứng particle khi vỡ block.
 - [ ] Bảng xếp hạng (online).
 
 ---

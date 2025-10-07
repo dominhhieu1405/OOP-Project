@@ -7,8 +7,25 @@ public class Paddle extends Entity {
     public double speed = 200; // pixels per second
     private boolean movingLeft = false; // Có đang di chuyển trái hay không
     private boolean movingRight = false; // Có đang di chuyển phải hay không
-    long lastTime; // Thời gian lần cuối cập nhật vị trí
+    private long lastTime; // Thời gian lần cuối cập nhật vị trí
     private double posX; // Vị trí X thực tế (có thể là số thập phân)
+
+    /**
+     * Đặt speed.
+     * @param speed speed
+     */
+    public void setSpeed(double speed) {
+        this.speed = speed;
+    }
+
+    /**
+     * Lấy speed.
+     * @return speed
+     */
+    public double getSpeed() {
+        return speed;
+    }
+
 
     /**
      * Set trạng thái di chuyển trái.

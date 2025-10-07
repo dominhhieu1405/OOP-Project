@@ -1,7 +1,7 @@
 package main;
 import javax.swing.SwingUtilities;
 import game.GameEngine;
-public class Main {
+public class main {
     public static void main(String[] args) {
         /**
          * Khởi chạy giao diện người dùng trong luồng sự kiện Swing

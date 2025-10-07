@@ -13,6 +13,7 @@ import java.awt.event.MouseMotionListener;
 import entity.*;
 import game.scenes.MenuScene;
 import manager.BlockManager;
+import manager.PowerUpManager;
 
 public class GamePanel extends JPanel {
     private Scene currentScene;

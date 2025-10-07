@@ -13,6 +13,27 @@ import entity.Paddle;
 
 public class GameScene extends game.Scene {
 
+    @Override
+    public void paintComponent(java.awt.Graphics g) {
+        super.paintComponent(g);
+        // Draw background
+        g.drawImage(Constant.Constant.BACKGROUND_IMG, 0, 0, Constant.Constant.FRAME_WIDTH, Constant.Constant.FRAME_HEIGHT, null);
+        // Draw paddle
+        Paddle.getInstance().render(g);
+        // render ball
+        Ball.getInstance().render(g);
+        // render blocks
+        manager.BlockManager.getInstance().render(g);
+        // render power-ups
+        manager.PowerUpManager.getInstance().render(g);
+        // Update game state
+        manager.PowerUpManager.getInstance().update();
+        Paddle.getInstance().update();
+        Ball.getInstance().update();
+        manager.PowerUpManager.getInstance().update();
+        
+    }
+
     public boolean useMouse() {
         return false;
     }

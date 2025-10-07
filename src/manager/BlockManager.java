@@ -133,8 +133,9 @@ public class BlockManager {
                             break;
                         case "lucky":
                             int HPL = (args.length > 5) ? Integer.parseInt(args[5]) : 1;
-                            // System.out.println("Lucky block at (" + x + ", " + y + ") with size (" + w + ", " + h + "), HP: " + HPL);
-                            block = new BlockLucky(x, y, w, h, HPL);
+                            int luckyType = (args.length > 6) ? Integer.parseInt(args[6]) : -1;
+                            System.out.println("Lucky block at (" + x + ", " + y + ") with size (" + w + ", " + h + "), HP: " + HPL);
+                            block = new BlockLucky(x, y, w, h, HPL, luckyType);
                             break;
                         default:
                             int HP = (args.length > 5) ? Integer.parseInt(args[5]) : Constant.BLOCK_DEFAULT_HP;
