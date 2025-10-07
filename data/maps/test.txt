@@ -1,61 +1,57 @@
-# Hàng 1: Normal (HP cao, full hàng)
-normal 0 0 100 50 3
-normal 100 0 100 50 3
-normal 200 0 100 50 3
-normal 300 0 100 50 3
-normal 400 0 100 50 3
-normal 500 0 100 50 3
-normal 600 0 100 50 3
-normal 700 0 100 50 3
-
-# Hàng 2: Mix normal + 2 bomb (bomb 100x100, dmg=1, range=50)
-normal 0 50 100 50 2
-normal 100 50 100 50 2
-bomb 200 50 100 100 1 1 100
-normal 300 50 100 50 2
-normal 400 50 100 50 2
-bomb 500 50 100 100 1 1 100
-normal 600 50 100 50 2
-normal 700 50 100 50 2
-
-# Hàng 3: Normal + 2 lucky (lucky 50x50)
-normal 0 150 100 50 2
-lucky 100 150 50 50 1
-normal 150 150 100 50 2
-normal 250 150 100 50 2
-lucky 350 150 50 50 1
-normal 400 150 100 50 2
-normal 500 150 100 50 2
-normal 600 150 100 50 2
-normal 700 150 100 50 2
-
-# Hàng 4: Normal (HP thấp hơn, full hàng)
-normal 0 200 100 50 1
-normal 100 200 100 50 1
-normal 200 200 100 50 1
-normal 300 200 100 50 1
-normal 400 200 100 50 1
-normal 500 200 100 50 1
-normal 600 200 100 50 1
-normal 700 200 100 50 1
-
-# Hàng 5: Rải rác bedrock 100x100 + normal xung quanh
-normal 0 250 100 50 1
-bedrock 100 250 100 100
-normal 200 250 100 50 1
-normal 300 250 100 50 1
-bedrock 400 250 100 100
-normal 500 250 100 50 1
-normal 600 250 100 50 1
-bedrock 700 250 100 100
-
-# Hàng 6: Normal + 1 lucky + 1 bomb (bomb 50x50, dmg=1, range=50)
-normal 0 400 100 50 1
-normal 100 400 100 50 1
-lucky 200 400 50 50 1
-normal 250 400 100 50 1
-normal 350 400 100 50 1
-bomb 450 400 50 50 1 1 50
-normal 500 400 100 50 1
-normal 600 400 100 50 1
-normal 700 400 100 50 1
+normal 0 0 100 50 2
+bedrock 150 0 150 50
+bomb 350 0 50 50 1 1 100
+lucky 450 0 50 50 1 -1
+normal 200 100 50 50 2
+normal 300 150 50 50 2
+normal 250 100 50 50 2
+normal 400 150 50 50 2
+normal 400 150 50 50 2
+normal 350 150 50 50 2
+normal 450 100 50 50 2
+normal 500 100 50 50 2
+normal 150 150 50 50 2
+normal 250 250 50 50 2
+normal 200 200 50 50 2
+normal 350 300 50 50 2
+normal 350 300 50 50 2
+normal 300 300 50 50 2
+normal 400 300 50 50 2
+normal 450 250 50 50 2
+normal 500 200 50 50 2
+normal 550 150 50 50 2
+bedrock 350 250 50 50
+bedrock 300 200 50 50
+bedrock 300 250 50 50
+bedrock 250 200 50 50
+bedrock 200 150 50 50
+bedrock 400 250 50 50
+bedrock 400 200 50 50
+bedrock 450 200 50 50
+bedrock 500 150 50 50
+lucky 250 150 50 50 1 -1
+lucky 450 150 50 50 1 -1
+bomb 350 200 50 50 1 1 100
+bomb 150 100 50 50 1 1 100
+bomb 550 100 50 50 1 1 100
+normal 150 50 50 50 2
+normal 200 50 50 50 2
+normal 100 100 50 50 2
+normal 250 50 50 50 2
+normal 300 100 50 50 2
+normal 400 100 50 50 2
+normal 450 50 50 50 2
+normal 500 50 50 50 2
+normal 550 50 50 50 2
+normal 600 100 50 50 2
+normal 350 350 50 50 2
+normal 50 200 50 50 2
+normal 0 250 50 50 2
+normal 50 300 50 50 2
+normal 100 250 50 50 2
+normal 750 250 50 50 2
+normal 700 200 50 50 2
+normal 650 250 50 50 2
+normal 700 300 50 50 2
+bedrock 50 250 50 50
+bedrock 700 250 50 50
