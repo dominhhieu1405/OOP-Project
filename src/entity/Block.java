@@ -78,14 +78,14 @@ public class Block extends Entity {
      */
     public void render(Graphics g) {
         if (!isAlive) return;
-        if (HP == 2) {
-            g.setColor(Color.GREEN);
-        } else if (HP == 1) {
-            g.setColor(Color.YELLOW);
-        } else {
-            isAlive = false;
-            return;
-        }
+        // if (HP == 2) {
+        //     g.setColor(Color.GREEN);
+        // } else if (HP == 1) {
+        //     g.setColor(Color.YELLOW);
+        // } else {
+        //     isAlive = false;
+        //     return;
+        // }
         // g.fillRect(x + PADDING, y + PADDING, width - 2 * PADDING, height - 2 * PADDING);
         g.drawImage(img, x + PADDING, y + PADDING, width - 2 * PADDING, height - 2 * PADDING, null);
         if (this.HP < this.MAX_HP) {

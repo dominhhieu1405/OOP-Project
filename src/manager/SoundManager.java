@@ -12,8 +12,8 @@ public class SoundManager {
      * Khởi tạo và load tất cả file âm thanh.
      */
     public static void init(){
-        loadSound("click", "assets/sounds/wooden.wav");
-        loadSound("dead", "assets/sounds/dead.wav");
+        // loadSound("click", "assets/sounds/wooden.wav");
+        // loadSound("dead", "assets/sounds/dead.wav");
         loadSound("break", "assets/sounds/break.wav");
         loadSound("explode", "assets/sounds/explode.wav");
         //loadSound("bgm", "assets/sounds/bgm.wav");

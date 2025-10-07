@@ -1,0 +1,4 @@
+BlockLucky|0|0|50|50
+BlockLucky|50|0|50|50
+BlockLucky|0|50|50|50
+BlockLucky|50|50|50|50
