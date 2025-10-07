@@ -1,11 +1,10 @@
 package manager;
 
 import Constant.Constant;
-import entity.Block;
-import entity.BlockLucky;
-import entity.Paddle;
+import entity.*;
 
 import java.awt.*;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -77,15 +76,79 @@ public class BlockManager {
      * @param filename Tên file
      */
     public void load(String filename) {
-        // TODO: Load map từ file
+        try {
+            FileInputStream inputStream = new FileInputStream(filename);
+            load(inputStream);
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     /**
      * Load map từ input stream.
-     * @param input InputStream
+     * @param inputStream InputStream
      */
-    public void load(InputStream input) {
+    public void load(InputStream inputStream) {
         // TODO: Load map từ input stream
+        try {
+            int bufSize = inputStream.available();
+            byte[] buffer = new byte[bufSize];
+            int n;
+            byte[] data = new byte[0];
+            int dataLen = 0;
+            while ((n = inputStream.read(buffer)) != -1) {
+                byte[] newData = new byte[dataLen + n];
+                System.arraycopy(data, 0, newData, 0, dataLen);
+                System.arraycopy(buffer, 0, newData, dataLen, n);
+                data = newData;
+                dataLen += n;
+            }
+
+            String content = new String(data);
+            String[] lines = content.split("\n");
+
+            for (String line : lines) {
+                line = line.trim();
+                if (line.isEmpty() || line.startsWith("#")) {
+                    continue;
+                }
+                String[] args = line.split(" ");
+                if (args.length > 2) {
+                    String type = args[0];
+                    int x = Integer.parseInt(args[1]);
+                    int y = Integer.parseInt(args[2]);
+                    int w = (args.length > 3) ? Integer.parseInt(args[3]) : Constant.BLOCK_DEFAULT_WIDTH;
+                    int h = (args.length > 4) ? Integer.parseInt(args[4]) : Constant.BLOCK_DEFAULT_HEIGHT;
+                    Block block;
+                    switch (type) {
+                        case "bedrock":
+                            block = new BlockBedrock(x, y, w, h);
+                            break;
+                        case "bomb":
+                            int HPB = (args.length > 5) ? Integer.parseInt(args[5]) : 1;
+                            int damage = (args.length > 6) ? Integer.parseInt(args[6]) : 1;
+                            int range = (args.length > 7) ? Integer.parseInt(args[7]) : 100;
+                            System.out.println("Bomb block at (" + x + ", " + y + ") with size (" + w + ", " + h + "), HP: " + HPB + ", damage: " + damage + ", range: " + range);
+                            block = new BlockBomb(x, y, w, h, HPB, damage, range);
+                            break;
+                        case "lucky":
+                            int HPL = (args.length > 5) ? Integer.parseInt(args[5]) : 1;
+                            System.out.println("Lucky block at (" + x + ", " + y + ") with size (" + w + ", " + h + "), HP: " + HPL);
+                            block = new BlockLucky(x, y, w, h, HPL);
+                            break;
+                        default:
+                            int HP = (args.length > 5) ? Integer.parseInt(args[5]) : Constant.BLOCK_DEFAULT_HP;
+                            System.out.println("Normal block at (" + x + ", " + y + ") with size (" + w + ", " + h + "), HP: " + HP);
+                            block = new Block(x, y, w, h, HP);
+                            break;
+                    }
+                    this.addBlock(block);
+
+                }
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -94,15 +157,15 @@ public class BlockManager {
     public void test() {
         // tạo test
         BlockManager blockManager = BlockManager.getInstance();
-
-        blockManager.reset();
-        // Thêm các block test vào BlockManager
-        for (int i = 0; i < 6; i++) {
-            for (int j = 0; j < 8; j++) {
-                Block b = new BlockLucky(100 * j + 1,  + 50 * i + 36);
-                blockManager.addBlock(b);
-            }
-        }
+        blockManager.load("data/maps/test.txt");
+//        blockManager.reset();
+//        // Thêm các block test vào BlockManager
+//        for (int i = 0; i < 6; i++) {
+//            for (int j = 0; j < 8; j++) {
+//                Block b = new Block(100 * j + 1,  + 50 * i + 36);
+//                blockManager.addBlock(b);
+//            }
+//        }
     }
 
 

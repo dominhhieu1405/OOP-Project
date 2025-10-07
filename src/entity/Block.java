@@ -14,11 +14,10 @@ public class Block extends Entity {
     //example: (0, 0) => img is drawn from (1, 1) to (99, 49)
     //so there are 2 pixels between blocks and 1 pixel between block and frame border
     private int HP; // Số máu hiện tại.
-    private int MAX_HP; // Số máu tối đa.
+    private final int MAX_HP; // Số máu tối đa.
     private boolean isAlive; // Trạng thái block còn hay vỡ rồi.
-    public static final int DEFAULT_WIDTH = 100; // Chiều rộng (Đã bao gồm padding).
-    public static final int DEFAULT_HEIGHT = 50; // Chiều cao (Đã bao gồm padding).
-    public static final int PADDING = 2; // Khoảng cách giữa các block với nhau và với viền khung hình.
+    public int padding;
+
     // Real width and height of block is (width - 2*PADDING) and (height - 2*PADDING)
 
     /**
@@ -35,6 +34,7 @@ public class Block extends Entity {
         this.MAX_HP = HP;
         this.isAlive = true;
         this.img = Constant.BLOCK_IMG;
+        this.padding = Constant.BLOCK_PADDING;
     }
 
     /**
@@ -44,7 +44,7 @@ public class Block extends Entity {
      * @param HP số máu của block.
      */
     public Block(int x, int y, int HP) {
-        super(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        super(x, y, Constant.BLOCK_DEFAULT_WIDTH, Constant.BLOCK_DEFAULT_HEIGHT);
         this.HP = HP;
         this.MAX_HP = HP;
         this.isAlive = true;
@@ -57,7 +57,7 @@ public class Block extends Entity {
      * @param y góc trên bên trái của block (bao gồm padding).
      */
     public Block(int x, int y) {
-        super(x, y, DEFAULT_WIDTH, DEFAULT_HEIGHT);
+        super(x, y, Constant.BLOCK_DEFAULT_WIDTH, Constant.BLOCK_DEFAULT_HEIGHT);
         this.HP = 2;
         this.MAX_HP = 2;
         this.isAlive = true;
@@ -78,19 +78,11 @@ public class Block extends Entity {
      */
     public void render(Graphics g) {
         if (!isAlive) return;
-        if (HP == 2) {
-            g.setColor(Color.GREEN);
-        } else if (HP == 1) {
-            g.setColor(Color.YELLOW);
-        } else {
-            isAlive = false;
-            return;
-        }
         // g.fillRect(x + PADDING, y + PADDING, width - 2 * PADDING, height - 2 * PADDING);
-        g.drawImage(img, x + PADDING, y + PADDING, width - 2 * PADDING, height - 2 * PADDING, null);
+        g.drawImage(img, x +  padding, y +  padding, width - 2 *  padding, height - 2 *  padding, null);
         if (this.HP < this.MAX_HP) {
             int per10 = (int) ((1.0 * (MAX_HP - HP) / MAX_HP) * 10);
-            g.drawImage(Constant.EFFECT_BREAKING_IMG[per10], x + PADDING, y + PADDING, width - 2 * PADDING, height - 2 * PADDING, null);
+            g.drawImage(Constant.EFFECT_BREAKING_IMG[per10], x +  padding, y +  padding, width - 2 *  padding, height - 2 *  padding, null);
         }
     }
 
