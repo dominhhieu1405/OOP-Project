@@ -155,6 +155,7 @@ public class BlockManager {
      * Test.
      */
     public void test() {
+        System.out.println("BlockManager test");
         // tạo test
         BlockManager blockManager = BlockManager.getInstance();
         blockManager.load("data/maps/test.txt");

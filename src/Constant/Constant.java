@@ -26,6 +26,8 @@ public class Constant {
     public static final Image BLOCK_BEDROCK_IMG = new ImageIcon("assets/images/bedrock.png").getImage();
     public static final Image BLOCK_LUCKY_IMG = new ImageIcon("assets/images/luckyblock.png").getImage();
 
+    public static final String MAPS_PATH = "data/maps/";
+
     public static final Image[] EFFECT_BREAKING_IMG = new Image[10];
 
     static {
