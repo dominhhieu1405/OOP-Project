@@ -31,7 +31,7 @@ public class Ball extends Entity  {
      */
     private Ball(int x, int y, int width, int height) {
         super(x, y, width, height);
-        this.velocityX = 150;
+        this.velocityX = 200;
         this.velocityY = 0;
         this.health = 10;
         this.damage = 1;
@@ -52,8 +52,8 @@ public class Ball extends Entity  {
             
             instance = new Ball(ballCenterX, ballCenterY, RADIUS * 2, RADIUS * 2);
             // System.out.println("Ball init center: " + instance.x + ", " + instance.y);
-            instance.velocityX = 150;
-            instance.velocityY = -150;
+            instance.velocityX = 200;
+            instance.velocityY = -200;
             instance.isAlive = true;
             instance.isRunning = false;
         }
@@ -144,12 +144,12 @@ public class Ball extends Entity  {
         if (!this.isRunning) {
             // Nếu bóng ở phần bên nào thì tốc độ x hướng về bên đó.
             if (this.velocityY == 0) {
-                this.velocityY = -150;
+                this.velocityY = -200;
             }
             if (this.x <= Constant.FRAME_WIDTH / 2 - RADIUS) {
-                this.velocityX = -150;
+                this.velocityX = -200;
             } else {
-                this.velocityX = 150;
+                this.velocityX = 200;
             }
             this.isRunning = true;
             lastTime = System.currentTimeMillis();
@@ -163,7 +163,7 @@ public class Ball extends Entity  {
     public void reset() {
         this.x = Paddle.getInstance().getX() + Paddle.getInstance().getWidth() / 2;
         this.y = Constant.FRAME_HEIGHT - Constant.PADDLE_HEIGHT - RADIUS - 50;
-        this.velocityX = 150;
+        this.velocityX = 200;
         this.velocityY = 0;
         this.isRunning = false;
         this.isAlive = true;

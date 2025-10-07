@@ -1,4 +1,61 @@
-BlockLucky|0|0|50|50
-BlockLucky|50|0|50|50
-BlockLucky|0|50|50|50
-BlockLucky|50|50|50|50
+# Hàng 1: Normal (HP cao, full hàng)
+normal 0 0 100 50 3
+normal 100 0 100 50 3
+normal 200 0 100 50 3
+normal 300 0 100 50 3
+normal 400 0 100 50 3
+normal 500 0 100 50 3
+normal 600 0 100 50 3
+normal 700 0 100 50 3
+
+# Hàng 2: Mix normal + 2 bomb (bomb 100x100, dmg=1, range=50)
+normal 0 50 100 50 2
+normal 100 50 100 50 2
+bomb 200 50 100 100 1 1 100
+normal 300 50 100 50 2
+normal 400 50 100 50 2
+bomb 500 50 100 100 1 1 100
+normal 600 50 100 50 2
+normal 700 50 100 50 2
+
+# Hàng 3: Normal + 2 lucky (lucky 50x50)
+normal 0 150 100 50 2
+lucky 100 150 50 50 1
+normal 150 150 100 50 2
+normal 250 150 100 50 2
+lucky 350 150 50 50 1
+normal 400 150 100 50 2
+normal 500 150 100 50 2
+normal 600 150 100 50 2
+normal 700 150 100 50 2
+
+# Hàng 4: Normal (HP thấp hơn, full hàng)
+normal 0 200 100 50 1
+normal 100 200 100 50 1
+normal 200 200 100 50 1
+normal 300 200 100 50 1
+normal 400 200 100 50 1
+normal 500 200 100 50 1
+normal 600 200 100 50 1
+normal 700 200 100 50 1
+
+# Hàng 5: Rải rác bedrock 100x100 + normal xung quanh
+normal 0 250 100 50 1
+bedrock 100 250 100 100
+normal 200 250 100 50 1
+normal 300 250 100 50 1
+bedrock 400 250 100 100
+normal 500 250 100 50 1
+normal 600 250 100 50 1
+bedrock 700 250 100 100
+
+# Hàng 6: Normal + 1 lucky + 1 bomb (bomb 50x50, dmg=1, range=50)
+normal 0 400 100 50 1
+normal 100 400 100 50 1
+lucky 200 400 50 50 1
+normal 250 400 100 50 1
+normal 350 400 100 50 1
+bomb 450 400 50 50 1 1 50
+normal 500 400 100 50 1
+normal 600 400 100 50 1
+normal 700 400 100 50 1

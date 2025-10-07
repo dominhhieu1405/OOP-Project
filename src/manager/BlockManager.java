@@ -1,15 +1,10 @@
 package manager;
 
 import Constant.Constant;
-import entity.Block;
-import entity.BlockLucky;
-import entity.Paddle;
+import entity.*;
 
 import java.awt.*;
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.FileNotFoundException;
-import java.io.IOException;
+import java.io.FileInputStream;
 import java.io.InputStream;
 import java.util.ArrayList;
 
@@ -81,110 +76,79 @@ public class BlockManager {
      * @param filename Tên file
      */
     public void load(String filename) {
-        this.reset();
-        try (BufferedReader br = new BufferedReader(new FileReader(Constant.MAPS_PATH + filename))) {
-            String line;
-            // type|x|y|width|height
-            while ((line = br.readLine()) != null) {
-                String type, x, y, width, height;
-                int index = 0;
-                char c = line.charAt(0);
-                // đọc type
-                type = "";
-                while (c != '|') {
-                    c = line.charAt(index);
-                    type = type + c;
-                    index++;
-                    c = line.charAt(index);
-                }
-                System.out.println("Type: " + type);
-                index++; // skip '|'
-                c = line.charAt(index);
-
-                // đọc x
-                x = "";
-                while (c != '|') {
-                    c = line.charAt(index);
-                    x = x + c;
-                    index++;
-                    c = line.charAt(index);
-                    
-                }
-                System.out.println("X: " + x);
-                index++; // skip '|'
-                c = line.charAt(index);
-
-                // đọc y
-                y = "";
-                while (c != '|') {
-                    c = line.charAt(index);
-                    y = y + c;
-                    index++;
-                    c = line.charAt(index);
-                }
-                System.out.println("Y: " + y);
-                index++; // skip '|'
-                c = line.charAt(index);
-                
-                // đọc width
-                width = "";
-                while (c != '|') {
-                    c = line.charAt(index);
-                    width = width + c;
-                    index++;
-                    c = line.charAt(index);
-                }
-                System.out.println("Width: " + width);
-                index++; // skip '|'
-                c = line.charAt(index);
-                
-                
-                // đọc height
-                height = "";
-                for (int i = index; i < line.length(); i++) {
-                    c = line.charAt(i);
-                    height = height + c;
-                }
-                System.out.println("Height: " + height);
-
-                // tạo block và thêm vào danh sách
-                switch (type) {
-                    case "Block":
-                        System.out.println("Creating normal block...");
-                        Block b = new Block(Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(width), Integer.parseInt(height), 2);
-                        System.out.println("Init block with 2 HP");
-                        this.addBlock(b);
-                        System.out.println("Added Block at (" + x + ", " + y + ") with size (" + width + ", " + height + ")");
-                        break;
-                    case "BlockLucky":
-                        System.out.println("Creating lucky block...");
-                        BlockLucky bl = new BlockLucky(Integer.parseInt(x), Integer.parseInt(y), Integer.parseInt(width), Integer.parseInt(height));
-                        System.out.println("Init lucky block");
-                        this.addBlock(bl);
-                        System.out.println("Added BlockLucky at (" + x + ", " + y + ") with size (" + width + ", " + height + ")");
-                        break;
-                }
-            }
-        } catch (FileNotFoundException e) {
-            System.out.println("Map file not found!");
-        } catch (IOException e) {
+        try {
+            FileInputStream inputStream = new FileInputStream(filename);
+            load(inputStream);
+        } catch (Throwable e) {
             e.printStackTrace();
         }
-    
     }
 
     /**
      * Load map từ input stream.
-     * @param input InputStream
+     * @param inputStream InputStream
      */
-    public void load(InputStream input) {
+    public void load(InputStream inputStream) {
         // TODO: Load map từ input stream
-        this.reset();
-        if (input == null) {
-            System.out.println("Map file not found!");
-            return;
+        try {
+            int bufSize = inputStream.available();
+            byte[] buffer = new byte[bufSize];
+            int n;
+            byte[] data = new byte[0];
+            int dataLen = 0;
+            while ((n = inputStream.read(buffer)) != -1) {
+                byte[] newData = new byte[dataLen + n];
+                System.arraycopy(data, 0, newData, 0, dataLen);
+                System.arraycopy(buffer, 0, newData, dataLen, n);
+                data = newData;
+                dataLen += n;
+            }
+
+            String content = new String(data);
+            String[] lines = content.split("\n");
+
+            for (String line : lines) {
+                line = line.trim();
+                if (line.isEmpty() || line.startsWith("#")) {
+                    continue;
+                }
+                String[] args = line.split(" ");
+                if (args.length > 2) {
+                    String type = args[0];
+                    int x = Integer.parseInt(args[1]);
+                    int y = Integer.parseInt(args[2]);
+                    int w = (args.length > 3) ? Integer.parseInt(args[3]) : Constant.BLOCK_DEFAULT_WIDTH;
+                    int h = (args.length > 4) ? Integer.parseInt(args[4]) : Constant.BLOCK_DEFAULT_HEIGHT;
+                    Block block;
+                    switch (type) {
+                        case "bedrock":
+                            block = new BlockBedrock(x, y, w, h);
+                            break;
+                        case "bomb":
+                            int HPB = (args.length > 5) ? Integer.parseInt(args[5]) : 1;
+                            int damage = (args.length > 6) ? Integer.parseInt(args[6]) : 1;
+                            int range = (args.length > 7) ? Integer.parseInt(args[7]) : 100;
+                            System.out.println("Bomb block at (" + x + ", " + y + ") with size (" + w + ", " + h + "), HP: " + HPB + ", damage: " + damage + ", range: " + range);
+                            block = new BlockBomb(x, y, w, h, HPB, damage, range);
+                            break;
+                        case "lucky":
+                            int HPL = (args.length > 5) ? Integer.parseInt(args[5]) : 1;
+                            System.out.println("Lucky block at (" + x + ", " + y + ") with size (" + w + ", " + h + "), HP: " + HPL);
+                            block = new BlockLucky(x, y, w, h, HPL);
+                            break;
+                        default:
+                            int HP = (args.length > 5) ? Integer.parseInt(args[5]) : Constant.BLOCK_DEFAULT_HP;
+                            System.out.println("Normal block at (" + x + ", " + y + ") with size (" + w + ", " + h + "), HP: " + HP);
+                            block = new Block(x, y, w, h, HP);
+                            break;
+                    }
+                    this.addBlock(block);
+
+                }
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
         }
-        // implement loading logic here
     }
 
     /**
@@ -194,19 +158,15 @@ public class BlockManager {
         System.out.println("BlockManager test");
         // tạo test
         BlockManager blockManager = BlockManager.getInstance();
-
-        blockManager.reset();
-        System.out.println("After reset, number of blocks: " + blockManager.getBlocks().size());
-        // Thêm các block test vào BlockManager
-        // for (int i = 0; i < 6; i++) {
-        //     for (int j = 0; j < 8; j++) {
-        //         Block b = new BlockLucky(100 * j + 1,  + 50 * i + 36);
-        //         blockManager.addBlock(b);
-        //     }
-        // }
-        load("test.txt");
-        System.out.println("After adding blocks, number of blocks: " + blockManager.getBlocks().size());
-        
+        blockManager.load("data/maps/test.txt");
+//        blockManager.reset();
+//        // Thêm các block test vào BlockManager
+//        for (int i = 0; i < 6; i++) {
+//            for (int j = 0; j < 8; j++) {
+//                Block b = new Block(100 * j + 1,  + 50 * i + 36);
+//                blockManager.addBlock(b);
+//            }
+//        }
     }
 
 

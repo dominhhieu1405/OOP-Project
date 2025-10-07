@@ -8,10 +8,27 @@ import java.awt.*;
 public class BlockBomb extends Block {
 
     private int damage = 1; // Sát thương khi nổ
-    private int radius = 50; // Bán kính nổ, tính từ tâm block
+    private int radius = 100; // Bán kính nổ, tính từ tâm block
     private long explodeTick; // Thời gian nổ sau khi block vỡ.
     private boolean isExploded = false; // Đã nổ chưa
     private boolean animation = false; // Hiệu ứng nổ đang diễn ra
+
+    /**
+     * Constructor.
+     * @param x x
+     * @param y y
+     * @param width chiều rộng
+     * @param height chiều cao
+     * @param HP số máu
+     * @param damage sát thương
+     * @param radius bán kính nổ
+     */
+    public BlockBomb(int x, int y, int width, int height, int HP, int damage, int radius) {
+        super(x, y, width, height, HP);
+        this.img = Constant.BLOCK_BOMB_IMG;
+        this.radius = radius;
+        this.damage = damage;
+    }
 
     /**
      * Constructor.
