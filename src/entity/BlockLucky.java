@@ -8,9 +8,22 @@ public class BlockLucky extends Block {
      * @param y y
      * @param width width
      * @param height height
+     * @param HP HP
+     */
+    public BlockLucky(int x, int y, int width, int height, int HP) {
+        super(x, y, width, height, HP);
+        this.img = Constant.Constant.BLOCK_LUCKY_IMG;
+    }
+
+    /**
+     * Constructor.
+     * @param x x
+     * @param y y
+     * @param width width
+     * @param height height
      */
     public BlockLucky(int x, int y, int width, int height) {
-        super(x, y, width, height, Integer.MAX_VALUE);
+        super(x, y, width, height, 1);
         this.img = Constant.Constant.BLOCK_LUCKY_IMG;
     }
 

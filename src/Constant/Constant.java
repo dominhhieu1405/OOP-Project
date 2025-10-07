@@ -12,11 +12,10 @@ public class Constant {
     public static final int BALL_RADIUS = 10;
     public static final int TOTAL_BALL_HEART = 10;
 
-    public static final int BLOCK_ROWS = 5;
-    public static final int BLOCK_COLUMNS = 10;
-
-    public static final int BLOCK_WIDTH = 60;
-    public static final int BLOCK_HEIGHT = 20;
+    public static final int BLOCK_DEFAULT_WIDTH = 100; // Chiều rộng (Đã bao gồm padding).
+    public static final int BLOCK_DEFAULT_HEIGHT = 50; // Chiều cao (Đã bao gồm padding).
+    public static final int BLOCK_DEFAULT_HP = 2; // Số máu mặc định của block.
+    public static final int BLOCK_PADDING = 2; // Khoảng cách giữa các block với nhau và với viền khung hình.
 
     public static final Image BACKGROUND_IMG = new ImageIcon("assets/images/background.jpg").getImage();
     public static final Image FAVICON = new ImageIcon("assets/images/favicon.png").getImage();
