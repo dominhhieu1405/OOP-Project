@@ -18,12 +18,13 @@ public class GameScene extends game.Scene {
         super.paintComponent(g);
         // Draw background
         g.drawImage(Constant.Constant.BACKGROUND_IMG, 0, 0, Constant.Constant.FRAME_WIDTH, Constant.Constant.FRAME_HEIGHT, null);
+        
+        // render blocks
+        manager.BlockManager.getInstance().render(g);
         // Draw paddle
         Paddle.getInstance().render(g);
         // render ball
         Ball.getInstance().render(g);
-        // render blocks
-        manager.BlockManager.getInstance().render(g);
         // render power-ups
         manager.PowerUpManager.getInstance().render(g);
         // Update game state

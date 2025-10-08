@@ -24,6 +24,23 @@ public class MenuScene extends game.Scene {
         g.drawImage(Constant.Constant.BACKGROUND_IMG, 0, 0, Constant.Constant.FRAME_WIDTH, Constant.Constant.FRAME_HEIGHT, null);
         // System.out.println("Repainting Menu background");
 
+        // draw start button (rect for testing)
+            int w = 200;
+            int h = 80;
+            int x = (Constant.Constant.FRAME_WIDTH - w) / 2;
+            int y = 180;
+            startButtonRect = new Rectangle(x, y, w, h);
+            g.setColor(hover ? Color.LIGHT_GRAY : Color.GRAY);
+            g.fillRect(startButtonRect.x, startButtonRect.y, startButtonRect.width,
+                    startButtonRect.height);
+            g.setColor(Color.BLACK);
+            g.setFont(new Font("Arial", Font.BOLD, 24));
+            FontMetrics fm = g.getFontMetrics();
+            String buttonText = "Start Game";
+            int textX = startButtonRect.x + (startButtonRect.width - fm.stringWidth(buttonText)) / 2;
+            int textY = startButtonRect.y + (startButtonRect.height - fm.getHeight()) / 2 + fm.getAscent();
+            g.drawString(buttonText, textX, textY);
+        //
 
     }
 

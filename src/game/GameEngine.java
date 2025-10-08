@@ -11,15 +11,21 @@ public class GameEngine {
     private JFrame window;
     private GamePanel gamePanel;
     public GameEngine() {
+        SoundManager.init();
         window = new JFrame("Arkanoid");
         gamePanel = GamePanel.getInstance();
-        window.setSize(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT);
-        window.setResizable(false);
-        window.setLocationRelativeTo(null);
+
+        window.setIconImage(Constant.FAVICON);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        window.setPreferredSize(new Dimension(800, 600));
         // Add the main game panel to the window so scenes can be displayed
         window.setContentPane(gamePanel);
         window.add(new MenuScene());
+        window.revalidate();
+
+        window.setResizable(false);
+        window.setLocationRelativeTo(null);
+        window.pack();
         System.out.println("Created Default Scene and added to window");
         window.setVisible(true);
     }
