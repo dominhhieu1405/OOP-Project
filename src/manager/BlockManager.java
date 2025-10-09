@@ -128,7 +128,7 @@ public class BlockManager {
                             int HPB = (args.length > 5) ? Integer.parseInt(args[5]) : 1;
                             int damage = (args.length > 6) ? Integer.parseInt(args[6]) : 1;
                             int range = (args.length > 7) ? Integer.parseInt(args[7]) : 100;
-                            System.out.println("Bomb block at (" + x + ", " + y + ") with size (" + w + ", " + h + "), HP: " + HPB + ", damage: " + damage + ", range: " + range);
+                            // System.out.println("Bomb block at (" + x + ", " + y + ") with size (" + w + ", " + h + "), HP: " + HPB + ", damage: " + damage + ", range: " + range);
                             block = new BlockBomb(x, y, w, h, HPB, damage, range);
                             break;
                         case "lucky":
@@ -139,7 +139,7 @@ public class BlockManager {
                             break;
                         default:
                             int HP = (args.length > 5) ? Integer.parseInt(args[5]) : Constant.BLOCK_DEFAULT_HP;
-                            System.out.println("Normal block at (" + x + ", " + y + ") with size (" + w + ", " + h + "), HP: " + HP);
+                            // System.out.println("Normal block at (" + x + ", " + y + ") with size (" + w + ", " + h + "), HP: " + HP);
                             block = new Block(x, y, w, h, HP);
                             break;
                     }
