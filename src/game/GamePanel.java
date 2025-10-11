@@ -11,6 +11,7 @@ import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
 
 import entity.*;
+import game.scenes.GameOverScene;
 import game.scenes.MenuScene;
 import manager.BlockManager;
 import manager.PowerUpManager;

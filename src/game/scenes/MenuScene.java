@@ -1,47 +1,83 @@
 package game.scenes;
+import Constant.Constant;
 
 import java.awt.*;
-import java.awt.event.MouseAdapter;
-import java.awt.event.MouseEvent;
-import java.awt.event.MouseListener;
-import java.awt.event.MouseMotionListener;
-import java.awt.event.KeyListener;
 import javax.swing.*;
 
 import game.GamePanel;
 
+import java.awt.event.*;
+
 public class MenuScene extends game.Scene {
-    private Rectangle startButtonRect;
-    private boolean hover = false;
+    private JButton playButton;
+    private JButton quitButton;
 
-    public void init() {
+    public MenuScene() {
+        super(new ImageIcon("C:\\Users\\Lenovo\\Downloads\\arkanoid.jpg").getImage());
 
-    }
-    @Override
-    public void paintComponent(Graphics g) {
-        super.paintComponent(g);
-        // Draw background
-        g.drawImage(Constant.Constant.BACKGROUND_IMG, 0, 0, Constant.Constant.FRAME_WIDTH, Constant.Constant.FRAME_HEIGHT, null);
-        // System.out.println("Repainting Menu background");
+        setLayout(null);
+        setPreferredSize(new Dimension(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT));
+        //setSize(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT);
 
-        // draw start button (rect for testing)
-            int w = 200;
-            int h = 80;
-            int x = (Constant.Constant.FRAME_WIDTH - w) / 2;
-            int y = 180;
-            startButtonRect = new Rectangle(x, y, w, h);
-            g.setColor(hover ? Color.LIGHT_GRAY : Color.GRAY);
-            g.fillRect(startButtonRect.x, startButtonRect.y, startButtonRect.width,
-                    startButtonRect.height);
-            g.setColor(Color.BLACK);
-            g.setFont(new Font("Arial", Font.BOLD, 24));
-            FontMetrics fm = g.getFontMetrics();
-            String buttonText = "Start Game";
-            int textX = startButtonRect.x + (startButtonRect.width - fm.stringWidth(buttonText)) / 2;
-            int textY = startButtonRect.y + (startButtonRect.height - fm.getHeight()) / 2 + fm.getAscent();
-            g.drawString(buttonText, textX, textY);
-        //
+        playButton = new JButton("PLAY");
+        quitButton = new JButton("QUIT");
 
+        playButton.setForeground(Color.WHITE);
+        quitButton.setForeground(Color.WHITE);
+
+        playButton.setFont(new Font("Verdana", Font.BOLD, 18));
+        quitButton.setFont(new Font("Verdana", Font.BOLD, 18));
+
+        playButton.setBounds(187, 300, 199, 52);
+        quitButton.setBounds(414, 300, 199, 52);
+
+        playButton.setBackground(new Color(132, 127, 129));
+        quitButton.setBackground(new Color(132, 127, 129));
+
+        playButton.setBorderPainted(false);
+        quitButton.setBorderPainted(false);
+
+        playButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Pressed PLAY");
+                GamePanel.getInstance().setScene(new GameScene());
+            }
+        });
+
+        playButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                playButton.setBackground(new Color(50, 150, 210));
+            }
+            @Override
+            public void mouseExited(MouseEvent e) {
+                playButton.setBackground(new Color(132, 127, 129));
+            }
+        });
+
+        quitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                System.out.println("Pressed QUIT");
+                System.exit(0);
+            }
+        });
+
+        quitButton.addMouseListener(new MouseAdapter() {
+            @Override
+            public void mouseEntered(MouseEvent e) {
+                quitButton.setBackground(new Color(50, 150, 210));
+            }
+
+            @Override
+            public void mouseExited(MouseEvent e) {
+                quitButton.setBackground(new Color(132, 127, 129));
+            }
+        });
+
+        add(playButton);
+        add(quitButton);
     }
 
     public boolean useMouse() {
@@ -51,26 +87,8 @@ public class MenuScene extends game.Scene {
         return false;
     }
 
-    public void setupKeyBindings() {
-        // No key bindings needed for menu
-    }
-
-    // TODO: Implement mouse listener for button clicks
-    public MouseListener getMouseListener() {
-        return new MouseAdapter() {
-            @Override 
-            public void mouseClicked(MouseEvent e) {
-                Point p = e.getPoint();
-                if (startButtonRect.contains(p)) {
-                    // Start the game
-                    GamePanel.getInstance().setScene(new GameScene());
-                }
-            }
-        };
-    }
-
-    // TODO: Implement mouse motion listener for hover effects
-    public MouseMotionListener getMouseMotionListener() {
-        return null;
+    public void paintComponent (Graphics g) {
+        super.paintComponent(g);
+        g.drawImage(background, 0, 0 , Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT, null);
     }
 }
