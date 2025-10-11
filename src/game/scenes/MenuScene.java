@@ -13,7 +13,7 @@ public class MenuScene extends game.Scene {
     private JButton quitButton;
 
     public MenuScene() {
-        super(new ImageIcon("C:\\Users\\Lenovo\\Downloads\\arkanoid.jpg").getImage());
+        super(new ImageIcon(Constant.ARKANOID_IMG).getImage());
 
         setLayout(null);
         setPreferredSize(new Dimension(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT));

@@ -20,7 +20,7 @@ public class GameEngine {
         window.setPreferredSize(new Dimension(800, 600));
         // Add the main game panel to the window so scenes can be displayed
         window.setContentPane(gamePanel);
-        gamePanel.setScene(new GameOverScene());
+        //gamePanel.setScene(new GameOverScene());
         window.revalidate();
 
         window.setResizable(false);

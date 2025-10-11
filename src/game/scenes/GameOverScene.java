@@ -14,12 +14,12 @@ public class GameOverScene extends game.Scene {
     private JButton menuButton;
 
     public GameOverScene() {
-        super(new ImageIcon("C:\\Users\\Lenovo\\Downloads\\youdie.png").getImage());
+        super(new ImageIcon(Constant.GAMEOVER_BACKGROUND_IMG).getImage());
 
         setPreferredSize(new Dimension(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT));
         //setSize(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT);
-        respawnButton = new JButton(new ImageIcon("C:\\Users\\Lenovo\\Downloads\\respawn.png"));
-        menuButton = new JButton(new ImageIcon("C:\\Users\\Lenovo\\Downloads\\menu.png"));
+        respawnButton = new JButton(new ImageIcon(Constant.RESPAWN_BUTTON_IMG));
+        menuButton = new JButton(new ImageIcon(Constant.MENU_BUTTON_IMG));
 
         setLayout(null);
         respawnButton.setBounds(187, 300, 199, 52);

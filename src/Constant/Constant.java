@@ -27,6 +27,10 @@ public class Constant {
     public static final Image BLOCK_BOMB_IMG = new ImageIcon("assets/images/tnt.png").getImage();
     public static final Image BLOCK_BEDROCK_IMG = new ImageIcon("assets/images/bedrock.png").getImage();
     public static final Image BLOCK_LUCKY_IMG = new ImageIcon("assets/images/luckyblock.png").getImage();
+    public static final Image ARKANOID_IMG = new ImageIcon("assets/images/arkanoid.jpg").getImage();
+    public static final Image GAMEOVER_BACKGROUND_IMG = new ImageIcon("assets/images/gameoverBackground.png").getImage();
+    public static final Image MENU_BUTTON_IMG = new ImageIcon("assets/images/menuButton.png").getImage();
+    public static final Image RESPAWN_BUTTON_IMG = new ImageIcon("assets/images/respawnButton.png").getImage();
 
     public static final String MAPS_PATH = "data/maps/";
 
