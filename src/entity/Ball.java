@@ -254,7 +254,7 @@ public class Ball extends Entity  {
 
 //            if (collisionWithPaddle()) { velocityY = -velocityY; }
                 if (!this.collisionWithPaddle().equals("NONE")) {
-                    System.out.println("Dapvaovan");
+                    // System.out.println("Dapvaovan");
                     String side = collisionWithPaddle();
                     if (side.equals("TOP") && velocityY > 0) {
                         velocityY = -velocityY;
@@ -289,11 +289,11 @@ public class Ball extends Entity  {
                 velocityX = -velocityX;
                 // Đảm bảo ball không bị "stuck" trong tường
                 if (x + RADIUS >= Constant.FRAME_WIDTH) {
-                    System.out.println(2);
+                    // System.out.println(2);
                     x = Constant.FRAME_WIDTH - RADIUS; // Đẩy ball ra khỏi tường phải
                 }
                 if (x - RADIUS <= 0) {
-                    System.out.println(1);
+                    // System.out.println(1);
                     x = RADIUS; // Đẩy ball ra khỏi tường trái
                 }
                 SoundManager.play("click");
@@ -304,7 +304,7 @@ public class Ball extends Entity  {
                 this.isAlive = false;
                 this.isRunning = false;
                 SoundManager.play("dead");
-                System.out.println("Chet me roi con gi nua");
+                // System.out.println("Chet me roi con gi nua");
                 this.respawn();
             }
 

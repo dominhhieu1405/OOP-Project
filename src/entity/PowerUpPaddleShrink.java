@@ -26,7 +26,7 @@ public class PowerUpPaddleShrink extends PowerUp {
         // Lay paddle hien tai
         Paddle paddle = Paddle.getInstance();
         // Tra ve chieu dai ban dau
-        paddle.setWidth(paddle.getWidth() - 36);
+        paddle.setWidth(paddle.getWidth() + 36);
         // Danh dau PowerUp het hieu luc
         isActive = false;
     }

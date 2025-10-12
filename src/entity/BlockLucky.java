@@ -64,12 +64,12 @@ public class BlockLucky extends Block {
     @Override
     public void die() {
         super.die();
-        System.out.println("Lucky block");
+        // System.out.println("Lucky block");
         int sx = this.x + this.width / 2 - 18;
         int xy = this.y + this.height / 2 - 18;
 
-        System.out.println("SX: " + sx);
-        System.out.println("SY: " + xy);
+        // System.out.println("SX: " + sx);
+        // System.out.println("SY: " + xy);
 
 
         PowerUp powerUp;

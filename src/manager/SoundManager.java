@@ -42,7 +42,7 @@ public class SoundManager {
     public static void play(String key) {
         Clip clip = sounds.get(key);
         if (clip != null) {
-            System.out.println("Play sound: " + key);
+            // System.out.println("Play sound: " + key);
             if (clip.isRunning()) clip.stop();
             clip.setFramePosition(0);
             clip.start();
