@@ -1,0 +1,15 @@
+# IntelliJ / JetBrains IDE
+.idea/
+*.iml
+
+# Build output
+out/
+build/
+target/
+
+# OS-specific junk
+.DS_Store
+Thumbs.db
+
+# Logs or temporary files
+*.log
