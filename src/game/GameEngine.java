@@ -17,7 +17,7 @@ public class GameEngine {
 
         window.setIconImage(Constant.FAVICON);
         window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        window.setPreferredSize(new Dimension(800, 600));
+        gamePanel.setPreferredSize(new Dimension(800, 600));
         // Add the main game panel to the window so scenes can be displayed
         window.setContentPane(gamePanel);
         //gamePanel.setScene(new GameOverScene());

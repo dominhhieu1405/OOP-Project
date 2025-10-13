@@ -3,6 +3,7 @@ package entity;
 public class PowerUpBallExpand extends PowerUp {
     public PowerUpBallExpand(int x, int y) {
         super(x, y, 36, 36, "assets/images/PowerUp/BallExpand.png");
+        
         this.duration = 10000; // hiệu lực 10 giây
     }
 

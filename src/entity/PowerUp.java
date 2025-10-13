@@ -17,9 +17,16 @@ public abstract class PowerUp extends Entity {
     // Constructor co tham so ke thua tu Entity
     public PowerUp(int x, int y, int width, int height, String imgPath) {
         super(x, y, width, height);
+        System.out.println("Created PowerUp at (" + x + ", " + y + ")");
+        System.out.println("PowerUp image path: " + imgPath);
         this.posY = y;
         lastTime = System.currentTimeMillis();
         this.img = new ImageIcon(imgPath).getImage();
+        if (this.img == null) {
+            System.err.println("Failed to load image for PowerUp from path: " + imgPath);
+        } else {
+            System.out.println("Loaded image for PowerUp from path: " + imgPath);
+        }
     }
 
     // PowerUp roi xuong

@@ -69,7 +69,7 @@ public class Paddle extends Entity {
     public static Paddle getInstance() {
         if (instance == null) {
             instance = new Paddle(Constant.FRAME_WIDTH / 2 - Constant.PADDLE_WIDTH / 2, Constant.FRAME_HEIGHT - Constant.PADDLE_Y_OFFSET - Constant.PADDLE_HEIGHT, Constant.PADDLE_WIDTH, Constant.PADDLE_HEIGHT);
-            System.out.println("Init Paddle: " + instance.x + "," + instance.y);
+            // System.out.println("Init Paddle: " + instance.x + "," + instance.y);
         }
         return instance;
     }

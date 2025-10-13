@@ -52,7 +52,7 @@ public class GameScene extends game.Scene {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, false), "pressLeft");
         actionMap.put("pressLeft", new AbstractAction() {
             @Override public void actionPerformed(ActionEvent e) {
-                System.out.println("press left");
+                // System.out.println("press left");
                 Paddle.getInstance().setMovingLeft(true);
             }
         });
@@ -60,7 +60,7 @@ public class GameScene extends game.Scene {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, true), "releaseLeft");
         actionMap.put("releaseLeft", new AbstractAction() {
             @Override public void actionPerformed(ActionEvent e) {
-                System.out.println("release left");
+                // System.out.println("release left");
                 Paddle.getInstance().setMovingLeft(false);
             }
         });
@@ -70,7 +70,7 @@ public class GameScene extends game.Scene {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, false), "pressRight");
         actionMap.put("pressRight", new AbstractAction() {
             @Override public void actionPerformed(ActionEvent e) {
-                System.out.println("press right");
+                // System.out.println("press right");
                 Paddle.getInstance().setMovingRight(true);
             }
         });
@@ -78,7 +78,7 @@ public class GameScene extends game.Scene {
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_D, 0, true), "releaseRight");
         actionMap.put("releaseRight", new AbstractAction() {
             @Override public void actionPerformed(ActionEvent e) {
-                System.out.println("release right");
+                // System.out.println("release right");
                 Paddle.getInstance().setMovingRight(false);
             }
         });
