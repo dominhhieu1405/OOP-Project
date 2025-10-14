@@ -10,8 +10,18 @@ import java.awt.event.MouseListener;
 
 import entity.Ball;
 import entity.Paddle;
+import manager.BlockManager;
+import manager.PowerUpManager;
 
 public class GameScene extends game.Scene {
+
+    public GameScene(){
+        super();
+        PowerUpManager.getInstance().reset();
+        BlockManager.getInstance().reset();
+        Ball.getInstance().reset();
+        Paddle.getInstance().reset();
+    }
 
     @Override
     public void paintComponent(java.awt.Graphics g) {

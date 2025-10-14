@@ -4,6 +4,7 @@ import Constant.Constant;
 import java.awt.*;
 import javax.swing.*;
 
+import entity.Ball;
 import game.GamePanel;
 
 import java.awt.event.ActionEvent;
@@ -14,12 +15,12 @@ public class GameOverScene extends game.Scene {
     private JButton menuButton;
 
     public GameOverScene() {
-        super(new ImageIcon(Constant.GAMEOVER_BACKGROUND_IMG).getImage());
+        super(Constant.GAMEOVER_BACKGROUND_IMG);
 
         setPreferredSize(new Dimension(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT));
         //setSize(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT);
-        respawnButton = new JButton(new ImageIcon(Constant.RESPAWN_BUTTON_IMG));
-        menuButton = new JButton(new ImageIcon(Constant.MENU_BUTTON_IMG));
+        respawnButton = new JButton((Constant.RESPAWN_BUTTON_IMG));
+        menuButton = new JButton((Constant.MENU_BUTTON_IMG));
 
         setLayout(null);
         respawnButton.setBounds(187, 300, 199, 52);
@@ -29,6 +30,7 @@ public class GameOverScene extends game.Scene {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Pressed respawn");
+                Ball.getInstance().reset();
                 GamePanel.getInstance().setScene(new GameScene());
             }
         });
@@ -37,7 +39,7 @@ public class GameOverScene extends game.Scene {
             @Override
             public void actionPerformed(ActionEvent e) {
                 System.out.println("Pressed menu");
-                GamePanel.getInstance().setScene(new GameScene());
+                GamePanel.getInstance().setScene(new MenuScene());
             }
         });
 

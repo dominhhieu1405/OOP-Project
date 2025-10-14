@@ -16,7 +16,7 @@ public class SoundManager {
          loadSound("dead", "assets/sounds/dead.wav");
         loadSound("break", "assets/sounds/break.wav");
         loadSound("explode", "assets/sounds/explode.wav");
-        //loadSound("bgm", "assets/sounds/bgm.wav");
+        loadSound("bgm", "assets/sounds/background.wav");
     }
 
     /**

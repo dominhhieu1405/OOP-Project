@@ -11,6 +11,7 @@ import java.util.ArrayList;
 public class BlockManager {
     private static BlockManager instance; // Singleton instance
     public ArrayList<Block> blocks; // Danh sách block
+    public String currentMap; // Tên map hiện tại
 
     /**
      * Constructor.
@@ -35,6 +36,23 @@ public class BlockManager {
      */
     public void reset() {
         blocks.clear();
+        load(BlockManager.getInstance().getCurrentMap());
+    }
+
+    /**
+     * Lấy tên map hiện tại.
+     * @return Tên map hiện tại.
+     */
+    public String getCurrentMap() {
+        return currentMap;
+    }
+
+    /**
+     * Đặt tên map hiện tại.
+     * @param map Tên map cần đặt.
+     */
+    public void setCurrentMap(String map) {
+        this.currentMap = map;
     }
 
     /**
@@ -79,6 +97,7 @@ public class BlockManager {
         try {
             FileInputStream inputStream = new FileInputStream(filename);
             load(inputStream);
+            BlockManager.getInstance().setCurrentMap(filename);
         } catch (Throwable e) {
             e.printStackTrace();
         }

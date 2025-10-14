@@ -34,6 +34,10 @@ public class PowerUpManager {
      * Reset danh sách powerup.
      */
     public void reset() {
+        for (PowerUp powerUp : list) {
+            powerUp.deactivate();
+        }
+
         list.clear();
         toRemove.clear();
     }
@@ -90,4 +94,5 @@ public class PowerUpManager {
             }
         }
     }
+
 }

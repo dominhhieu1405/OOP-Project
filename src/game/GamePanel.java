@@ -3,7 +3,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.AbstractAction;
 // import java.awt.*;
-import java.awt.Graphics;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
@@ -117,30 +117,37 @@ public class GamePanel extends JPanel {
 
     public void setScene(Scene scene) {
         System.out.println("Switching to new scene: " + scene.getClass().getSimpleName());
-        for (KeyListener kl : this.getKeyListeners()) {
-            this.removeKeyListener(kl);
-        }
-        for (MouseListener ml : this.getMouseListeners()) {
-            this.removeMouseListener(ml);
-        }
-        for (MouseMotionListener mml : this.getMouseMotionListeners()) {
-            this.removeMouseMotionListener(mml);
-        }
-        currentScene = scene;
+
+        // remove old stuff & listeners
         this.removeAll();
-        this.add(currentScene);
+
+        // set new scene
+        currentScene = scene;
+
+        // ensure scene is sized to fill panel
+        this.add(currentScene, BorderLayout.CENTER);
+
+        // ensure scene is focusable if it needs keyboard
+        currentScene.setFocusable(true);
+
+        // revalidate + repaint để layout và vẽ lại ngay
+        this.revalidate();
+        this.repaint();
+
         System.out.println("Current scene set to: " + currentScene.getClass().getSimpleName());
 
+        // setup input
         if (scene.useKeyboard()) {
-            // addKeyListener(scene.getKeyListener());
             scene.setupKeyBindings();
+            currentScene.requestFocusInWindow();
         }
 
         if (scene.useMouse()) {
-            addMouseListener(scene.getMouseListener());
-            addMouseMotionListener(scene.getMouseMotionListener());
+            currentScene.addMouseListener(scene.getMouseListener());
+            currentScene.addMouseMotionListener(scene.getMouseMotionListener());
         }
     }
+
 
     public Scene getCurrentScene() {
         return currentScene;

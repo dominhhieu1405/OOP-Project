@@ -46,7 +46,9 @@ public class PowerUpRandom extends PowerUp {
 
     @Override
     public void deactivate() {
-        powerUp.deactivate();
+        if (powerUp != null) {
+            powerUp.deactivate();
+        }
 
         isActive = false;
     }
