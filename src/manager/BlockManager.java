@@ -10,13 +10,13 @@ import java.util.ArrayList;
 
 public class BlockManager {
     private static BlockManager instance; // Singleton instance
-    public ArrayList<Block> blocks; // Danh sách block
+    private ArrayList<Block> blocks; // Danh sách block
     public String currentMap; // Tên map hiện tại
 
     /**
      * Constructor.
      */
-    public BlockManager() {
+    private BlockManager() {
         blocks = new ArrayList<>();
     }
 
@@ -178,7 +178,7 @@ public class BlockManager {
         // System.out.println("BlockManager test");
         // tạo test
         BlockManager blockManager = BlockManager.getInstance();
-        blockManager.load("data/maps/test.txt");
+        blockManager.load("data/maps/test1.txt");
 //        blockManager.reset();
 //        // Thêm các block test vào BlockManager
 //        for (int i = 0; i < 6; i++) {
@@ -187,6 +187,19 @@ public class BlockManager {
 //                blockManager.addBlock(b);
 //            }
 //        }
+    }
+
+    public boolean checkWin() {
+        boolean allDestroyed = true;
+        for (Block block : blocks) {
+            if (!(block instanceof BlockBedrock)) {
+                if (block.getHP() > 0) {
+                    allDestroyed = false;
+                    break;
+                }
+            }
+        }
+        return allDestroyed;
     }
 
 

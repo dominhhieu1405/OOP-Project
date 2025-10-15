@@ -147,6 +147,7 @@ public class BlockBomb extends Block {
             }
         } else if (isAlive()) {
             super.render(g);
+            // System.out.println("Bomb at " + this.getX() + " " + this.getY() + " is alive.");
         }
     }
 

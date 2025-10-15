@@ -1,7 +1,6 @@
 package entity;
 import Constant.Constant;
 import game.GamePanel;
-import game.scenes.GameOverScene;
 import manager.SoundManager;
 import manager.BlockManager;
 
@@ -255,7 +254,7 @@ public class Ball extends Entity  {
             this.isAlive = false;
             this.isRunning = false;
             System.out.println("Game Over");
-            GamePanel.getInstance().setScene(new GameOverScene());
+            // GamePanel.getInstance().setScene(new GameOverScene());
         }
     }
 

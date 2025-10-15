@@ -15,7 +15,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-public abstract class Scene extends JPanel{
+public abstract class Scene extends JPanel {
     
     protected Image background;
 
