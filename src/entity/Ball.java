@@ -318,25 +318,47 @@ public class Ball extends Entity  {
 //                            }
 //                        }
 
-                        velocityY = -velocityY;
-                        // Cơ chế va chạm mới theo vị trí.
-                        double percent = (double)(x - Paddle.getInstance().getX()) / Paddle.getInstance().getWidth(); // % bên nào
-                        double delta = (percent - 0.5) * 50; // +- tối đa 25 px
-                        if (percent <= 0.49) {
-                            this.setVelocityX(velocityX - (int) delta);
-                        } else if (percent >= 0.51) {
-                            this.setVelocityX(velocityX + (int) delta);
-                        }
+//                        velocityY = -velocityY;
+//                        // Cơ chế va chạm mới theo vị trí.
+//                        double percent = (double)(x - Paddle.getInstance().getX()) / Paddle.getInstance().getWidth(); // % bên nào
+//                        double delta = (percent - 0.5) * 50; // +- tối đa 25 px
+//                        if (percent <= 0.49) {
+//                            this.setVelocityX(velocityX - (int) delta);
+//                        } else if (percent >= 0.51) {
+//                            this.setVelocityX(velocityX + (int) delta);
+//                        }
+//
+//                        // Nếu đi sang trái thì trừ 10% Vx
+//                        if (Paddle.getInstance().isMovingLeft()){
+//                            this.setVelocityX(velocityX - 20);
+//                        }
+//                        // Nếu đi sang phải thì cộng 10% Vx
+//                        if (Paddle.getInstance().isMovingRight()){
+//                            this.setVelocityX(velocityX + 20);
+//                        }
+                            Paddle paddle = Paddle.getInstance();
 
-                        // Nếu đi sang trái thì trừ 10% Vx
-                        if (Paddle.getInstance().isMovingLeft()){
-                            this.setVelocityX(velocityX - 20);
-                        }
-                        // Nếu đi sang phải thì cộng 10% Vx
-                        if (Paddle.getInstance().isMovingRight()){
-                            this.setVelocityX(velocityX + 20);
-                        }
+                            // Tinh khoang cach giua tam cua bong va tam cua paddle
+                            double dx = (x - (paddle.getX() + paddle.getWidth() / 2.0));
 
+                            // chuan hoa trong doan tu -1 den 1
+                            double normalized = dx / (paddle.getWidth() / 2.0);
+                            if (normalized > 1) normalized = 1;
+                            if (normalized < -1) normalized = -1;
+
+                            // Goc lech toi da
+                            double maxAngle = Math.toRadians(60);
+                            double bounceAngle = normalized * maxAngle; // Goc so voi Oy
+
+                            // 4. Bao toan van toc
+                            double speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+
+                            // Tinh van toc moi
+                            velocityX = (int) (speed * Math.sin(bounceAngle));
+                            velocityY = (int) (-speed * Math.cos(bounceAngle));
+
+                            SoundManager.play("click");
+                            lastEvent = System.currentTimeMillis();
 
                     } else if (side.equals("LEFT") || side.equals("RIGHT")) {
                         velocityX = -velocityX;
