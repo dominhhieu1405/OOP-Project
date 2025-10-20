@@ -32,6 +32,16 @@ public class GameScene extends game.Scene {
     @Override
     public void paintComponent(java.awt.Graphics g) {
         super.paintComponent(g);
+
+// ================ RENDER GAME ENTITIES ================
+
+/*
+ *      Keep render but update only when game is playing
+ * 
+ *     Game is playing when Paddle is working
+ *     Game is paused / over / win when Paddle is not working
+ * 
+ */
         // Draw background
         g.drawImage(Constant.BACKGROUND_IMG, 0, 0, Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT, null);
         
@@ -43,30 +53,38 @@ public class GameScene extends game.Scene {
         Ball.getInstance().render(g);
         // render power-ups
         manager.PowerUpManager.getInstance().render(g);
-
+// ================== check game status ===================
         // check win
         if (BlockManager.getInstance().checkWin()) {
             status = STATUS_WIN;
             Paddle.getInstance().setWorking(false);
             Ball.getInstance().setIsRunning(false);
         }
+        // check game over
         if (!Ball.getInstance().getIsAlive()) {
             status = STATUS_GAMEOVER;
             Paddle.getInstance().setWorking(false);
             Ball.getInstance().setIsRunning(false);
         }
 
+// =======================================================================
+        // update entities only when game is playing
         if (Paddle.getInstance().isWorking()) {
 
             Paddle.getInstance().update();
             Ball.getInstance().update();
             manager.PowerUpManager.getInstance().update();
-        } else {
+        }
+
+// ================ render overlay scenes ================
+        else {
+            // Freeze the game screen with a translucent overlay
             g.setColor(new Color(0, 0, 0, 100));
             g.fillRect(0, 0, Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT);
 
             if (status.equals(STATUS_WIN)) {
                 //TODO: Render Win Scene
+                Win.getInstance().render(g);
 
             } else if (status.equals(STATUS_GAMEOVER)) {
                 //TODO: Render GameOver Scene
@@ -146,6 +164,8 @@ public class GameScene extends game.Scene {
         });
     }
 
+    // TODO: Mouse Listener and Mouse Motion Listener
+    // Other choice: JButton.addActionListener() for buttons like in MenuScene
     public MouseMotionListener getMouseMotionListener() {
         return null;
     }
