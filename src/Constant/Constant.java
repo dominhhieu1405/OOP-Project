@@ -10,19 +10,16 @@ public class Constant {
     public static final int PADDLE_Y_OFFSET = 50;
 
     public static final int BALL_RADIUS = 10;
-    public static final int TOTAL_BALL_HEART = 1;
+    public static final int TOTAL_BALL_HEART = 10;
 
     public static final int BLOCK_DEFAULT_WIDTH = 100; // Chiều rộng (Đã bao gồm padding).
     public static final int BLOCK_DEFAULT_HEIGHT = 50; // Chiều cao (Đã bao gồm padding).
     public static final int BLOCK_DEFAULT_HP = 2; // Số máu mặc định của block.
     public static final int BLOCK_PADDING = 2; // Khoảng cách giữa các block với nhau và với viền khung hình.
 
-    public static final String FONT_PATH = "assets/fonts/Arkanoid-Regular.ttf";
-
     public static final Image BALL_IMG = new ImageIcon("assets/images/snowball.png").getImage();
     public static final Image FIREBALL_IMG = new ImageIcon("assets/images/fireball.png").getImage();
     public static final Image BACKGROUND_IMG = new ImageIcon("assets/images/background.jpg").getImage();
-    public static final Image LOGO_IMG = new ImageIcon("assets/images/logo.png").getImage();
     public static final Image FAVICON = new ImageIcon("assets/images/favicon.png").getImage();
     public static final Image HEART_IMG = new ImageIcon("assets/images/heart.png").getImage();
     public static final Image HEART0_IMG = new ImageIcon("assets/images/heart0.png").getImage();
@@ -30,12 +27,10 @@ public class Constant {
     public static final Image BLOCK_BOMB_IMG = new ImageIcon("assets/images/tnt.png").getImage();
     public static final Image BLOCK_BEDROCK_IMG = new ImageIcon("assets/images/bedrock.png").getImage();
     public static final Image BLOCK_LUCKY_IMG = new ImageIcon("assets/images/luckyblock.png").getImage();
-    public static final Image BUTTON_IMG = new ImageIcon("assets/images/btn.png").getImage();
-    public static final Image BUTTON_ACTIVE_IMG = new ImageIcon("assets/images/btn-active.png").getImage();
-
+    public static final Image ARKANOID_IMG = new ImageIcon("assets/images/arkanoid.jpg").getImage();
     public static final Image GAMEOVER_BACKGROUND_IMG = new ImageIcon("assets/images/gameoverBackground.png").getImage();
-    public static final ImageIcon MENU_BUTTON_IMG = new ImageIcon("assets/images/menuButton.png");
-    public static final ImageIcon RESPAWN_BUTTON_IMG = new ImageIcon("assets/images/respawnButton.png");
+    public static final Image MENU_BUTTON_IMG = new ImageIcon("assets/images/menuButton.png").getImage();
+    public static final Image RESPAWN_BUTTON_IMG = new ImageIcon("assets/images/respawnButton.png").getImage();
 
     public static final String MAPS_PATH = "data/maps/";
 
