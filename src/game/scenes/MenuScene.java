@@ -32,18 +32,25 @@ public class MenuScene extends game.Scene {
             f = new Font("Verdana", Font.BOLD, 28);
         }
 
-        playButton = this.createBtn("Chơi");
-        playButton.setBounds(220, 260, 360, 60);
-        quitButton = this.createBtn("Thoát game");
-        quitButton.setBounds(220, 340, 360, 60);
+        mapButton = this.createBtn("Bản đồ (M)");
+        mapButton.setBounds(220, 240, 360, 60);
+        playButton = this.createBtn("Chơi (P)");
+        playButton.setBounds(220, 320, 360, 60);
+        quitButton = this.createBtn("Thoát game (E)");
+        quitButton.setBounds(220, 400, 360, 60);
 
-        playButton.addActionListener(new ActionListener() {
+        mapButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println("Pressed PLAY");
-                SoundManager.stop("bgm"); // Tắt background music
-                GamePanel.getInstance().setScene(new GameScene());
+                System.out.println("Pressed Map");
+                GamePanel.getInstance().setScene(new MapScene());
             }
+        });
+
+        playButton.addActionListener(e -> {
+            System.out.println("Pressed PLAY");
+            SoundManager.stop("bgm"); // Tắt background music
+            GamePanel.getInstance().setScene(new GameScene());
         });
 
         quitButton.addActionListener(new ActionListener() {
@@ -53,6 +60,8 @@ public class MenuScene extends game.Scene {
                 System.exit(0);
             }
         });
+
+        add(mapButton);
 
         add(playButton);
         add(quitButton);
@@ -97,7 +106,28 @@ public class MenuScene extends game.Scene {
         return true;
     }
     public boolean useKeyboard() {
-        return false;
+        return true;
+    }
+
+    public void setupKeyBindings() {
+        // Lấy input map và action map
+        javax.swing.InputMap inputMap = getInputMap(WHEN_IN_FOCUSED_WINDOW);
+        javax.swing.ActionMap actionMap = getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0, false), "pressPlay");
+        actionMap.put("pressPlay", new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent e) {
+                // System.out.println("press enter");
+                playButton.doClick();
+            }
+        });
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_E, 0, false), "pressExit");
+        actionMap.put("pressExit", new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent e) {
+                // System.out.println("press enter");
+                quitButton.doClick();
+            }
+        });
     }
 
     public void paintComponent (Graphics g) {

@@ -1,0 +1,40 @@
+bedrock 200 100 50 50
+bedrock 300 50 50 50
+bedrock 250 50 50 50
+bedrock 200 150 50 50
+bedrock 250 200 50 50
+bedrock 300 250 50 50
+bedrock 350 300 50 50
+bedrock 400 300 50 50
+bedrock 450 250 50 50
+bedrock 500 200 50 50
+bedrock 550 150 50 50
+bedrock 550 100 50 50
+bedrock 500 50 50 50
+bedrock 450 50 50 50
+normal 250 100 100 100 3
+normal 450 100 100 100 3
+lucky 350 200 100 100 4 3
+normal 300 0 50 50 2
+normal 400 0 50 50 2
+normal 350 0 50 50 2
+normal 450 0 50 50 2
+bedrock 50 200 100 100
+bedrock 650 200 100 100
+normal 50 100 50 100 2
+normal 100 100 50 100 2
+normal 650 100 50 100 2
+normal 700 100 50 100 2
+lucky 50 50 50 50 1 5
+lucky 700 50 50 50 1 8
+bedrock 0 300 50 50
+bedrock 750 300 50 50
+bomb 350 100 100 100 2 2 100
+normal 300 200 50 50 2
+normal 450 200 50 50 2
+normal 350 50 50 50 2
+normal 400 50 50 50 2
+lucky 0 250 50 50 1 4
+lucky 750 250 50 50 1 2
+normal 0 50 50 100 2
+normal 750 50 50 100 2

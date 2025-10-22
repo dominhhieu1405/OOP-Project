@@ -24,27 +24,14 @@ Hiện tại chưa có phiên bản nào chơi được.
 - [ ] Chọn skin cho paddle/ball.
 - [X] Hiệu ứng particle khi vỡ block.
 - [ ] Bảng xếp hạng (online).
-- 
 
 ---
 
 ## Thành viên
-- Nguyễn Quốc Huy
-    - [X] Build Base.
-    - [X] Game Scenes.
-    - [ ] ...
-- Nguyễn Mạnh Đức
-    - [X] Power-up.
-    - [X] Bóng, paddle.
-    - [ ] ...
-- Lương Minh Dương
-    - [X] Enity.
-    - [X] Game Scenes.
-    - [ ] ...
 - Đỗ Minh Hiếu
-    - [X] Ảnh + âm thanh.
-    - [X] Block.
-    - [ ] ...
+- Nguyễn Quốc Huy
+- Nguyễn Mạnh Đưc
+- Lương Minh Dương
 
 ---
 
