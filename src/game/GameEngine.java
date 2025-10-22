@@ -12,6 +12,8 @@ public class GameEngine {
     private GamePanel gamePanel;
     public GameEngine() {
         SoundManager.init();
+        System.out.println("Done initializing SoundManager.");
+//        SoundManager.loop("bgm");
         window = new JFrame("Arkanoid");
         gamePanel = GamePanel.getInstance();
 
@@ -20,12 +22,11 @@ public class GameEngine {
         gamePanel.setPreferredSize(new Dimension(800, 600));
         // Add the main game panel to the window so scenes can be displayed
         window.setContentPane(gamePanel);
-        //gamePanel.setScene(new GameOverScene());
         window.revalidate();
 
         window.setResizable(false);
-        window.setLocationRelativeTo(null);
         window.pack();
+        window.setLocationRelativeTo(null);
         System.out.println("Created Default Scene and added to window");
         window.setVisible(true);
     }
@@ -40,12 +41,7 @@ public class GameEngine {
                 e.printStackTrace();
                 break;
             }
-            if (Ball.getInstance().getHealth() == 0) {
-                gamePanel.setScene(new GameOverScene());
-                Ball.getInstance().setHealth(2);
-            }
         }
-
     }
     
 }
