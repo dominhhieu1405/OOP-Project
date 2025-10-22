@@ -36,7 +36,7 @@ public class GameScene extends game.Scene {
 // ================ RENDER GAME ENTITIES ================
 
 /*
- *      Keep render but update only when game is playing
+ *     Keep render but update only when game is playing
  * 
  *     Game is playing when Paddle is working
  *     Game is paused / over / win when Paddle is not working

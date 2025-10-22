@@ -3,6 +3,7 @@ import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.AbstractAction;
 // import java.awt.*;
+import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
@@ -15,10 +16,12 @@ import game.scenes.MenuScene;
 import manager.BlockManager;
 import manager.PowerUpManager;
 
+
 public class GamePanel extends JPanel {
     private Scene currentScene;
     private static GamePanel instance;
     private GamePanel() {
+        setLayout(new BorderLayout());
         setScene(new MenuScene()); // Default scene
         setFocusable(true);
         requestFocusInWindow();

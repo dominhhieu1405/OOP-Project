@@ -56,9 +56,10 @@ public class Win {
     public void renderButtons(java.awt.Graphics g) {
         // Buttons are Swing components; they render themselves
         // This method can be used to position buttons if needed
-        nextLevelButton.setBounds(300, 250, 200, 50);
-        menuButton.setBounds(300, 320, 200, 50);
-        playAgainButton.setBounds(300, 390, 200, 50);
+        nextLevelButton.setBounds(350, 250, 100, 30);
+        menuButton.setBounds(350, 300, 100, 30);
+        playAgainButton.setBounds(350, 350, 100, 30);
+        
         nextLevelButton.paint(g);
         menuButton.paint(g);
         playAgainButton.paint(g);

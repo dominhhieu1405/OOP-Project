@@ -294,7 +294,7 @@ public class Ball extends Entity  {
 
 
             if (System.currentTimeMillis() - lastEvent > 100) {
-
+//
 //            if (collisionWithPaddle()) { velocityY = -velocityY; }
                 if (!this.collisionWithPaddle().equals("NONE")) {
                     // System.out.println("Dapvaovan");
