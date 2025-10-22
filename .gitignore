@@ -1,0 +1,11 @@
+# Bỏ file tạm thời
+*.log
+*.tmp
+
+# Bỏ file hệ thống IDE
+.idea/
+*.iml
+
+# Bỏ file jar, class
+*.class
+*.jar
