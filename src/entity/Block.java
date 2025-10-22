@@ -79,10 +79,10 @@ public class Block extends Entity {
     public void render(Graphics g) {
         if (!isAlive) return;
         // g.fillRect(x + PADDING, y + PADDING, width - 2 * PADDING, height - 2 * PADDING);
-        g.drawImage(img, x +  padding, y +  padding, width - 2 *  padding, height - 2 *  padding, null);
+        g.drawImage(img, x +  padding, y +  padding, width - 2 * padding, height - 2 *  padding, null);
         if (this.HP < this.MAX_HP) {
             int per10 = (int) ((1.0 * (MAX_HP - HP) / MAX_HP) * 10);
-            g.drawImage(Constant.EFFECT_BREAKING_IMG[per10], x +  padding, y +  padding, width - 2 *  padding, height - 2 *  padding, null);
+            g.drawImage(Constant.EFFECT_BREAKING_IMG[per10], x +  padding, y + padding, width - 2 * padding, height - 2 *  padding, null);
         }
     }
 

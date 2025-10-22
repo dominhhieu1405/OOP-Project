@@ -9,3 +9,4 @@
 # Bỏ file jar, class
 *.class
 *.jar
+/.idea/

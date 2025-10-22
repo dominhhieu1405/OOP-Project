@@ -1,4 +1,8 @@
 package game.scenes;
 
-public class MapScene {
+import java.awt.*;
+
+public class MapScene extends game.Scene {
+
+    private Font f;
 }
