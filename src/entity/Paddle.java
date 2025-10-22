@@ -4,11 +4,12 @@ import java.awt.*;
 import javax.swing.ImageIcon;
 public class Paddle extends Entity {
     private static Paddle instance; // Singleton instance
-    public double speed = 200; // pixels per second
+    public double speed = 600; // pixels per second
     private boolean movingLeft = false; // Có đang di chuyển trái hay không
     private boolean movingRight = false; // Có đang di chuyển phải hay không
     private long lastTime; // Thời gian lần cuối cập nhật vị trí
     private double posX; // Vị trí X thực tế (có thể là số thập phân)
+    private boolean working = true;
 
     /**
      * Đặt speed.
@@ -26,6 +27,27 @@ public class Paddle extends Entity {
         return speed;
     }
 
+    public boolean isWorking() {
+        return working;
+    }
+
+    public void setWorking(boolean working) {
+        this.working = working;
+    }
+
+    /**
+     * Get trạng thái di chuyển trái.
+     */
+    public boolean isMovingLeft() {
+        return movingLeft;
+    }
+
+    /**
+     * Get trạng thái di chuyển phải.
+     */
+    public boolean isMovingRight() {
+        return movingRight;
+    }
 
     /**
      * Set trạng thái di chuyển trái.
@@ -72,6 +94,18 @@ public class Paddle extends Entity {
             // System.out.println("Init Paddle: " + instance.x + "," + instance.y);
         }
         return instance;
+    }
+
+    /**
+     * Reset vị trí và trạng thái của paddle về mặc định.
+     */
+    public void reset(){
+        this.x = Constant.FRAME_WIDTH / 2 - Constant.PADDLE_WIDTH / 2;
+        this.y = Constant.FRAME_HEIGHT - Constant.PADDLE_Y_OFFSET - Constant.PADDLE_HEIGHT;
+        this.posX = x;
+        this.movingLeft = false;
+        this.movingRight = false;
+        this.lastTime = System.currentTimeMillis();
     }
 
     /**
