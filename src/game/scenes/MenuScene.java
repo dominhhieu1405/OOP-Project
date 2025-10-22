@@ -62,6 +62,7 @@ public class MenuScene extends game.Scene {
         });
 
         add(mapButton);
+        add(mapButton);
 
         add(playButton);
         add(quitButton);
