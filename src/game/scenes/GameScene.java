@@ -7,17 +7,43 @@ import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
+import java.awt.Color;
+import Constant.Constant;
 
 import entity.Ball;
 import entity.Paddle;
+import manager.BlockManager;
+import manager.PowerUpManager;
 
 public class GameScene extends game.Scene {
+    public static final String STATUS_PLAYING = "PLAYING";
+    public static final String STATUS_PAUSE = "PAUSE";
+    public static final String STATUS_GAMEOVER = "GAMEOVER";
+    public static final String STATUS_WIN = "WIN";
+    public static String status = STATUS_PLAYING;
+    public GameScene(){
+        super();
+        PowerUpManager.getInstance().reset();
+        BlockManager.getInstance().reset();
+        Ball.getInstance().reset();
+        Paddle.getInstance().reset();
+    }
 
     @Override
     public void paintComponent(java.awt.Graphics g) {
         super.paintComponent(g);
+
+// ================ RENDER GAME ENTITIES ================
+
+/*
+ *      Keep render but update only when game is playing
+ * 
+ *     Game is playing when Paddle is working
+ *     Game is paused / over / win when Paddle is not working
+ * 
+ */
         // Draw background
-        g.drawImage(Constant.Constant.BACKGROUND_IMG, 0, 0, Constant.Constant.FRAME_WIDTH, Constant.Constant.FRAME_HEIGHT, null);
+        g.drawImage(Constant.BACKGROUND_IMG, 0, 0, Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT, null);
         
         // render blocks
         manager.BlockManager.getInstance().render(g);
@@ -27,12 +53,50 @@ public class GameScene extends game.Scene {
         Ball.getInstance().render(g);
         // render power-ups
         manager.PowerUpManager.getInstance().render(g);
-        // Update game state
-        manager.PowerUpManager.getInstance().update();
-        Paddle.getInstance().update();
-        Ball.getInstance().update();
-        manager.PowerUpManager.getInstance().update();
+// ================== check game status ===================
+        // check win
+        if (BlockManager.getInstance().checkWin()) {
+            status = STATUS_WIN;
+            Paddle.getInstance().setWorking(false);
+            Ball.getInstance().setIsRunning(false);
+        }
+        // check game over
+        if (!Ball.getInstance().getIsAlive()) {
+            status = STATUS_GAMEOVER;
+            Paddle.getInstance().setWorking(false);
+            Ball.getInstance().setIsRunning(false);
+        }
+
+// =======================================================================
+        // update entities only when game is playing
+        if (Paddle.getInstance().isWorking()) {
+
+            Paddle.getInstance().update();
+            Ball.getInstance().update();
+            manager.PowerUpManager.getInstance().update();
+        }
+
+// ================ render overlay scenes ================
+        else {
+            // Freeze the game screen with a translucent overlay
+            g.setColor(new Color(0, 0, 0, 100));
+            g.fillRect(0, 0, Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT);
+
+            if (status.equals(STATUS_WIN)) {
+                //TODO: Render Win Scene
+                Win.getInstance().render(g);
+
+            } else if (status.equals(STATUS_GAMEOVER)) {
+                //TODO: Render GameOver Scene
+
+            } else if (status.equals(STATUS_PAUSE)) {} {
+                //TODO: Render Pause Scene
+
+            }
+        }
         
+
+
     }
 
     public boolean useMouse() {
@@ -100,6 +164,8 @@ public class GameScene extends game.Scene {
         });
     }
 
+    // TODO: Mouse Listener and Mouse Motion Listener
+    // Other choice: JButton.addActionListener() for buttons like in MenuScene
     public MouseMotionListener getMouseMotionListener() {
         return null;
     }
