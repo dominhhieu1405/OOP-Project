@@ -50,6 +50,10 @@ public class MapManager {
         this.page = page;
     }
 
+    public int getTotalPages() {
+        return (int) Math.ceil((double) maps.size() / pageLimit);
+    }
+
     public static class Map {
         public int id;
         public String name;
@@ -104,7 +108,7 @@ public class MapManager {
 
                     int row = (index % 9) / 3;
                     int col = index % 3;
-                    JButton button = createBtn("Level " + id);
+                    JButton button = Constant.createBtn("Level " + id);
                     button.setBounds(startX + col * (buttonWidth + 20), startY + row * (buttonHeight + 20),
                             buttonWidth, buttonHeight);
                     button.addActionListener(e -> {
@@ -127,41 +131,6 @@ public class MapManager {
     }
 
 
-
-    /**
-     * Tạo JButton với hình nền là ảnh.
-     * @param text chữ
-     * @return jbutton
-     */
-    private JButton createBtn(String text) {
-        JButton button = new JButton(text) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Image img = getModel().isRollover() ? Constant.BUTTON_ACTIVE_IMG : Constant.BUTTON_IMG;
-                g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
-                g.setFont(f);
-                g.setColor(Color.WHITE);
-
-                FontMetrics fm = g.getFontMetrics();
-                int textWidth = fm.stringWidth(getText());
-                int textHeight = fm.getAscent();
-                int x = (getWidth() - textWidth) / 2;
-                int y = (getHeight() + textHeight) / 2 - 4;
-
-                g.drawString(getText(), x, y);
-            }
-        };
-
-        // Xóa border, background Swing mặc định
-        button.setBorderPainted(false);
-        button.setFocusPainted(false);
-        button.setContentAreaFilled(false);
-        button.setOpaque(false);
-        button.setRolloverEnabled(true);
-        button.setForeground(Color.WHITE);
-
-        return button;
-    }
 
     /**
      * Lấy các map theo page.

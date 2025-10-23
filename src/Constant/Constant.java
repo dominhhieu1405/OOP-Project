@@ -1,6 +1,6 @@
 package Constant;
-import javax.swing.ImageIcon;
-import java.awt.Image;
+import javax.swing.*;
+import java.awt.*;
 import java.io.File;
 
 public class Constant {
@@ -67,14 +67,7 @@ public class Constant {
      */
     public static JButton createBtn(String text) {
         JButton button = new JButton(text) {
-            @Override
             protected void paintComponent(Graphics g) {
-                try {
-                    Font f = Font.createFont(Font.TRUETYPE_FONT, new File(Constant.FONT_PATH)).deriveFont(20f);
-                } catch (Exception e) {
-                    Font f = new Font("Verdana", Font.BOLD, 28);
-                }
-
                 Image img = getModel().isRollover() ? Constant.BUTTON_ACTIVE_IMG : Constant.BUTTON_IMG;
                 g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
                 g.setFont(Constant.f20);

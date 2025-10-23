@@ -115,6 +115,13 @@ public class MenuScene extends game.Scene {
         javax.swing.InputMap inputMap = getInputMap(WHEN_IN_FOCUSED_WINDOW);
         javax.swing.ActionMap actionMap = getActionMap();
 
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_M, 0, false), "pressMap");
+        actionMap.put("pressMap", new AbstractAction() {
+            @Override public void actionPerformed(ActionEvent e) {
+                // System.out.println("press enter");
+                mapButton.doClick();
+            }
+        });
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_P, 0, false), "pressPlay");
         actionMap.put("pressPlay", new AbstractAction() {
             @Override public void actionPerformed(ActionEvent e) {
