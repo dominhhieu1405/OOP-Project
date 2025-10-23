@@ -10,7 +10,7 @@ public class Constant {
     public static final int PADDLE_Y_OFFSET = 50;
 
     public static final int BALL_RADIUS = 10;
-    public static final int TOTAL_BALL_HEART = 1;
+    public static final int TOTAL_BALL_HEART = 5;
 
     public static final int BLOCK_DEFAULT_WIDTH = 100; // Chiều rộng (Đã bao gồm padding).
     public static final int BLOCK_DEFAULT_HEIGHT = 50; // Chiều cao (Đã bao gồm padding).

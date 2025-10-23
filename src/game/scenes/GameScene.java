@@ -30,6 +30,27 @@ public class GameScene extends game.Scene {
     }
 
     @Override
+    public void update() {
+        if (Paddle.getInstance().isWorking()) {
+            Paddle.getInstance().update();
+            Ball.getInstance().update();
+            manager.PowerUpManager.getInstance().update();
+        }
+        // check win
+        if (BlockManager.getInstance().checkWin()) {
+            status = STATUS_WIN;
+            Paddle.getInstance().setWorking(false);
+            Ball.getInstance().setIsRunning(false);
+        }
+        // check game over
+        if (!Ball.getInstance().getIsAlive()) {
+            status = STATUS_GAMEOVER;
+            Paddle.getInstance().setWorking(false);
+            Ball.getInstance().setIsRunning(false);
+        }
+    }
+
+    @Override
     public void paintComponent(java.awt.Graphics g) {
         super.paintComponent(g);
 
@@ -54,30 +75,30 @@ public class GameScene extends game.Scene {
         // render power-ups
         manager.PowerUpManager.getInstance().render(g);
 // ================== check game status ===================
-        // check win
-        if (BlockManager.getInstance().checkWin()) {
-            status = STATUS_WIN;
-            Paddle.getInstance().setWorking(false);
-            Ball.getInstance().setIsRunning(false);
-        }
-        // check game over
-        if (!Ball.getInstance().getIsAlive()) {
-            status = STATUS_GAMEOVER;
-            Paddle.getInstance().setWorking(false);
-            Ball.getInstance().setIsRunning(false);
-        }
+        // // check win
+        // if (BlockManager.getInstance().checkWin()) {
+        //     status = STATUS_WIN;
+        //     Paddle.getInstance().setWorking(false);
+        //     Ball.getInstance().setIsRunning(false);
+        // }
+        // // check game over
+        // if (!Ball.getInstance().getIsAlive()) {
+        //     status = STATUS_GAMEOVER;
+        //     Paddle.getInstance().setWorking(false);
+        //     Ball.getInstance().setIsRunning(false);
+        // }
 
 // =======================================================================
         // update entities only when game is playing
-        if (Paddle.getInstance().isWorking()) {
+        // if (Paddle.getInstance().isWorking()) {
 
-            Paddle.getInstance().update();
-            Ball.getInstance().update();
-            manager.PowerUpManager.getInstance().update();
-        }
+        //     Paddle.getInstance().update();
+        //     Ball.getInstance().update();
+        //     manager.PowerUpManager.getInstance().update();
+        // }
 
 // ================ render overlay scenes ================
-        else {
+        if (!Paddle.getInstance().isWorking()) {
             // Freeze the game screen with a translucent overlay
             g.setColor(new Color(0, 0, 0, 100));
             g.fillRect(0, 0, Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT);

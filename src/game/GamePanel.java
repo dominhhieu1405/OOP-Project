@@ -2,7 +2,6 @@ package game;
 import javax.swing.JPanel;
 import javax.swing.KeyStroke;
 import javax.swing.AbstractAction;
-// import java.awt.*;
 import java.awt.BorderLayout;
 import java.awt.Graphics;
 import java.awt.event.ActionEvent;
@@ -15,8 +14,7 @@ import entity.*;
 import game.scenes.MenuScene;
 import manager.BlockManager;
 import manager.PowerUpManager;
-
-
+// GamePanel is container for all scenes and handles scene switching
 public class GamePanel extends JPanel {
     private Scene currentScene;
     private static GamePanel instance;
@@ -41,7 +39,9 @@ public class GamePanel extends JPanel {
     @Override
     protected void paintComponent(Graphics g) {
         if (currentScene != null) {
-            currentScene.paintComponent(g);
+            synchronized(currentScene) {
+                currentScene.paintComponent(g);
+            }
         }   
     }
 

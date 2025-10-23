@@ -34,9 +34,9 @@ public class BlockManager {
     /**
      * Reset danh sách block.
      */
-    public void reset() {
+    public synchronized void reset() {
         blocks.clear();
-        load(BlockManager.getInstance().getCurrentMap());
+        load(this.getCurrentMap());
     }
 
     /**
@@ -59,7 +59,7 @@ public class BlockManager {
      * Thêm một block vào danh sách.
      * @param block Block cần thêm.
      */
-    public void addBlock(Block block) {
+    public synchronized void addBlock(Block block) {
         blocks.add(block);
     }
 
@@ -67,15 +67,15 @@ public class BlockManager {
      * Lấy danh sách block.
      * @return Danh sách block.
      */
-    public ArrayList<Block> getBlocks() {
-        return blocks;
+    public synchronized ArrayList<Block> getBlocks() {
+        return new ArrayList<Block>(blocks);
     }
 
     /**
      * Xoá một block khỏi danh sách.
      * @param block Block cần xoá.
      */
-    public void removeBlock(Block block) {
+    public synchronized void removeBlock(Block block) {
         blocks.remove(block);
     }
 
@@ -83,7 +83,7 @@ public class BlockManager {
      * Vẽ tất cả các block.
      * @param g Graphics
      */
-    public void render(Graphics g) {
+    public synchronized void render(Graphics g) {
         for (Block block : blocks) {
             block.render(g);
         }
@@ -93,11 +93,11 @@ public class BlockManager {
      * Load map từ file.
      * @param filename Tên file
      */
-    public void load(String filename) {
+    public synchronized void load(String filename) {
         try {
             FileInputStream inputStream = new FileInputStream(filename);
             load(inputStream);
-            BlockManager.getInstance().setCurrentMap(filename);
+            this.setCurrentMap(filename);
         } catch (Throwable e) {
             e.printStackTrace();
         }
@@ -177,8 +177,7 @@ public class BlockManager {
     public void test() {
         // System.out.println("BlockManager test");
         // tạo test
-        BlockManager blockManager = BlockManager.getInstance();
-        blockManager.load("data/maps/test.txt");
+        this.load("data/maps/test.txt");
 //        blockManager.reset();
 //        // Thêm các block test vào BlockManager
 //        for (int i = 0; i < 6; i++) {
@@ -189,7 +188,7 @@ public class BlockManager {
 //        }
     }
 
-    public boolean checkWin() {
+    public synchronized boolean checkWin() {
         boolean allDestroyed = true;
         for (Block block : blocks) {
             if (!(block instanceof BlockBedrock)) {
