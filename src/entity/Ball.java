@@ -108,7 +108,7 @@ public class Ball extends Entity  {
      * Vẽ bóng và thanh máu.
      * @param g Graphics để vẽ
      */
-    public void render(Graphics g) {
+    public synchronized void render(Graphics g) {
 //        g.setColor(Color.BLUE);
 //        g.fillOval(x - RADIUS, y - RADIUS, 2 * RADIUS, 2 * RADIUS);
         // Render thanh máu
@@ -265,7 +265,7 @@ public class Ball extends Entity  {
      * Biến lastTime để tính khoảng cách di chuyển theo thời gian thực.
      * Biến lastEvent để tránh va chạm nhiều lần.
      */
-    public void update() {
+    public synchronized void update() {
         if (this.isAlive && this.isRunning) {
 //            x += velocityX;
 //            y += velocityY;

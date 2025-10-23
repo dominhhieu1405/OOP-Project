@@ -7,41 +7,33 @@ import game.scenes.*;
 import java.awt.*;
 import entity.*;
 import manager.SoundManager;
-public class GameEngine {
-    private JFrame window;
-    private GamePanel gamePanel;
-    public GameEngine() {
-        SoundManager.init();
-        System.out.println("Done initializing SoundManager.");
-//        SoundManager.loop("bgm");
-        window = new JFrame("Arkanoid");
-        gamePanel = GamePanel.getInstance();
 
-        window.setIconImage(Constant.FAVICON);
-        window.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        gamePanel.setPreferredSize(new Dimension(800, 600));
-        // Add the main game panel to the window so scenes can be displayed
-        window.setContentPane(gamePanel);
-        window.revalidate();
+// GameEngine update game logic and manage the main window
+public class GameEngine implements Runnable {
+    private volatile boolean running = true;
 
-        window.setResizable(false);
-        window.pack();
-        window.setLocationRelativeTo(null);
-        System.out.println("Created Default Scene and added to window");
-        window.setVisible(true);
-    }
-    public void start() {
-        Ball.getInstance().reset();
-        while (true) {
-        // đảm bảo repaint trên EDT
-            SwingUtilities.invokeLater(() -> gamePanel.repaint());
-            try {
-                Thread.sleep(16); // ~60 FPS
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-                break;
+    @Override 
+    public void run() {
+        while(running) {
+            long start = System.currentTimeMillis();
+
+            Scene current = GamePanel.getInstance().getCurrentScene();
+            if (current != null) {
+                synchronized (current) {
+                    current.update();
+                }
+            }
+
+            long elapsed = System.currentTimeMillis() - start;
+            long sleep = 16 - elapsed;
+            if (sleep > 0) {
+                try { Thread.sleep(sleep); } catch (InterruptedException ignored) {}
             }
         }
+    }
+
+    public void stop() {
+        running = false;
     }
     
 }

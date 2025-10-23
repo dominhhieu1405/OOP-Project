@@ -62,7 +62,7 @@ public class PowerUpManager {
         list.remove(p);
     }
 
-    public void update() {
+    public synchronized void update() {
         for (PowerUp p : list) {
             if (!p.isActive()) {
                 p.update();
@@ -83,7 +83,7 @@ public class PowerUpManager {
      * Vẽ tất cả các powerup.
      * @param g Graphics
      */
-    public void render(Graphics g) {
+    public synchronized void render(Graphics g) {
         for (PowerUp p : list) {
             if (!p.isActive()) {
                 p.render(g);

@@ -111,7 +111,7 @@ public class Paddle extends Entity {
     /**
      * Di chuyển paddle theo thời gian thực.
      */
-    public void update() {
+    public synchronized void update() {
         double dt = (System.currentTimeMillis() - lastTime) / 1000.0;
         lastTime = System.currentTimeMillis();
 
@@ -131,7 +131,7 @@ public class Paddle extends Entity {
      * Vẽ paddle
      * @param g Graphics
      */
-    public void render(Graphics g) {
+    public synchronized void render(Graphics g) {
 //        g.setColor(java.awt.Color.RED);
 //        g.drawImage(img, x, y, width, height, null);
         g.drawImage(img, x, y, width, height, null);

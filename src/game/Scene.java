@@ -38,6 +38,10 @@ public abstract class Scene extends JPanel {
      */
     public void setupKeyBindings() { /* no-op */ }
 
+    public void update() {
+        // Default implementation does nothing
+    }
+
     @Override
     protected void paintComponent(java.awt.Graphics g) {
         super.paintComponent(g);
