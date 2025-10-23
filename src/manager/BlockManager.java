@@ -178,7 +178,7 @@ public class BlockManager {
         // System.out.println("BlockManager test");
         // tạo test
         BlockManager blockManager = BlockManager.getInstance();
-        blockManager.load("data/maps/Map1.txt");
+        blockManager.load("data/maps/test.txt");
 //        blockManager.reset();
 //        // Thêm các block test vào BlockManager
 //        for (int i = 0; i < 6; i++) {

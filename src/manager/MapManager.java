@@ -67,6 +67,7 @@ public class MapManager {
     }
 
     public void load() {
+        this.maps.clear();
         int index = 0;
         try {
             FileInputStream inputStream = new FileInputStream("data/maps.txt");
@@ -88,7 +89,7 @@ public class MapManager {
             String[] lines = content.split("\n");
 
             int startX = Constant.FRAME_WIDTH / 2 - (buttonWidth * 3 + 40) / 2;
-            int startY = 300;
+            int startY = 200;
 
 
             for (String line : lines) {
@@ -104,15 +105,15 @@ public class MapManager {
                     int row = (index % 9) / 3;
                     int col = index % 3;
                     JButton button = createBtn("Level " + id);
-                    button.setBounds(startX + row * (buttonHeight + 20), startY + col * (buttonWidth + 20), buttonWidth, buttonHeight);
+                    button.setBounds(startX + col * (buttonWidth + 20), startY + row * (buttonHeight + 20),
+                            buttonWidth, buttonHeight);
                     button.addActionListener(e -> {
                         System.out.println("Pressed PLAY Level " + id);
                         Ball.getInstance().reset();
-                        BlockManager.getInstance().load("data/maps/" + id + ".txt");
+                        BlockManager.getInstance().load("data/maps/Map" + id + ".txt");
                         SoundManager.stop("bgm"); // Tắt background music
                         GamePanel.getInstance().setScene(new GameScene());
                     });
-
 
                     maps.add(new Map(id, "Level " + id, unlocked == 1, button));
                 }
@@ -162,18 +163,17 @@ public class MapManager {
         return button;
     }
 
-
-
     /**
-     * Vẽ các nút theo page.
-     * @param g Graphics
+     * Lấy các map theo page.
+     * @return danh sách map của page hiện tại
      */
-    public void render(Graphics g) {
-        int from = (page - 1) * 9;
-        int to = Math.min(from + 9, maps.size());
-
-
-        for (int i = from; i < to; i++) {
+    public ArrayList<Map> getMapsByPage() {
+        ArrayList<Map> result = new ArrayList<>();
+        int startIndex = (page - 1) * 9;
+        int endIndex = Math.min(startIndex + 9, maps.size());
+        for (int i = startIndex; i < endIndex; i++) {
+            result.add(maps.get(i));
         }
+        return result;
     }
 }
