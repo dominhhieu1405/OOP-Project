@@ -14,7 +14,7 @@ public class Ball extends Entity  {
     private double speed;
     private final double velocity = 282.0; // Tốc độ gốc (Hợp của vx, vy)
     private int velocityX, velocityY; // Vận tốc theo trục x và y
-    private boolean isAlive; // trạng thái sống/chết của bóng
+    private boolean isAlive; // trạng thái sống/chết của bóng (tính theo mạng)
     private boolean isRunning; // trạng thái chạy/dừng của bóng
     long lastTime; // thời gian lần cuối cập nhật vị trí
     long lastEvent; // thời gian lần cuối xảy ra va chạm
@@ -249,15 +249,19 @@ public class Ball extends Entity  {
      * Hồi sinh bóng nếu còn mạng.
      */
     public void respawn() {
-        if (this.health >= 1) {
+        System.out.println("Respawn called, health: " + this.health);
+        if (this.health > 1) {
+            this.x = Paddle.getInstance().getX() + Paddle.getInstance().getWidth() / 2;
+            this.y = Constant.FRAME_HEIGHT - Constant.PADDLE_HEIGHT - RADIUS - 50;
+            this.velocityX = (int) (this.velocity / Math.sqrt(2));
+            this.velocityY = (int) (this.velocity / Math.sqrt(2));
+            this.isRunning = false;
             this.health--;
-            System.out.println("Hoi sinh, con lai: " + this.health);
-            this.reset();
+            System.out.println("Ball respawned at: " + this.x + ", " + this.y + " with health: " + this.health);
         } else {
             this.isAlive = false;
             this.isRunning = false;
             System.out.println("Game Over");
-            // GamePanel.getInstance().setScene(new GameOverScene());
         }
     }
 
@@ -455,7 +459,7 @@ public class Ball extends Entity  {
 
             // Check đã chết chưa (rơi quá đáy)
             if (y - RADIUS > Constant.FRAME_HEIGHT) {
-                this.isAlive = false;
+                
                 this.isRunning = false;
                 SoundManager.play("dead");
                 this.respawn();

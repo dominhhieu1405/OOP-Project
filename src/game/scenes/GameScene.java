@@ -44,6 +44,7 @@ public class GameScene extends game.Scene {
         }
         // check game over
         if (!Ball.getInstance().getIsAlive()) {
+            System.out.println("Game Over detected in update()");
             status = STATUS_GAMEOVER;
             Paddle.getInstance().setWorking(false);
             Ball.getInstance().setIsRunning(false);
