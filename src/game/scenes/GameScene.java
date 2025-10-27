@@ -21,12 +21,17 @@ public class GameScene extends game.Scene {
     public static final String STATUS_GAMEOVER = "GAMEOVER";
     public static final String STATUS_WIN = "WIN";
     public static String status = STATUS_PLAYING;
+    
     public GameScene(){
         super();
         PowerUpManager.getInstance().reset();
         BlockManager.getInstance().reset();
         Ball.getInstance().reset();
         Paddle.getInstance().reset();
+        Paddle.getInstance().setWorking(true);
+        Ball.getInstance().setIsRunning(false);
+        status = STATUS_PLAYING;
+        setupKeyBindings();
     }
 
     @Override
@@ -37,10 +42,28 @@ public class GameScene extends game.Scene {
             manager.PowerUpManager.getInstance().update();
         }
         // check win
-        if (BlockManager.getInstance().checkWin()) {
+        if (!this.status.equals(STATUS_WIN) && BlockManager.getInstance().checkWin()) {
             status = STATUS_WIN;
+            System.out.println("Win detected in update()");
             Paddle.getInstance().setWorking(false);
             Ball.getInstance().setIsRunning(false);
+        
+            javax.swing.JButton btn1 = Win.getInstance().getNextLevelButton();
+            javax.swing.JButton btn2 = Win.getInstance().getMenuButton();
+            javax.swing.JButton btn3 = Win.getInstance().getPlayAgainButton();
+            javax.swing.SwingUtilities.invokeLater(()->{
+                if (btn1.getParent()!= this) this.add(btn1);
+                if (btn2.getParent()!=this) this.add(btn2);
+                if (btn3.getParent()!=this) this.add(btn3);
+                btn1.setBounds(220, 300, 160, 40);
+                btn2.setBounds(220, 350, 160, 40);
+                btn3.setBounds(220, 400, 160, 40);
+                btn1.setVisible(true);
+                btn2.setVisible(true);
+                btn3.setVisible(true);
+                this.revalidate();
+                this.repaint();
+            });
         }
         // check game over
         if (!Ball.getInstance().getIsAlive()) {
@@ -106,6 +129,7 @@ public class GameScene extends game.Scene {
 
             if (status.equals(STATUS_WIN)) {
                 //TODO: Render Win Scene
+                
                 Win.getInstance().render(g);
 
             } else if (status.equals(STATUS_GAMEOVER)) {
