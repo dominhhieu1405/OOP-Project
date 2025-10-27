@@ -217,9 +217,15 @@ public class Ball extends Entity  {
 //            if (this.velocityY == 0) {
 //                this.velocityY = -150;
 //            }
+
             int sqr = (int) Math.sqrt(velocity * velocity / 2);
             this.velocityY = -sqr;
-            if (this.x <= Constant.FRAME_WIDTH / 2 - RADIUS) {
+            System.out.println("Run");
+            if (this.x + this.RADIUS - Constant.FRAME_WIDTH / 2 <= 10 && this.x - this.RADIUS - Constant.FRAME_WIDTH / 2 >= -10) {
+                this.setVelocityX(0);
+                this.velocityY = - sqr;
+                System.out.println("Run center");
+            } else if (this.x <= Constant.FRAME_WIDTH / 2 - RADIUS) {
                 this.velocityX = -sqr;
                 this.setVelocityX((int) (this.velocity / Math.sqrt(2) * -1));
             } else {
@@ -438,10 +444,14 @@ public class Ball extends Entity  {
                         if (Paddle.getInstance().isMovingRight()){
                             this.setVelocityX(velocityX + 20);
                         }
+                        if (Math.abs(this.velocityY) <= 50) {
+                            this.setVelocityY(this.velocityY < 0 ? -50 : 50);
+                        }
 
                     } else if (paddleSide.equals("LEFT") || paddleSide.equals("RIGHT")) {
                         velocityX = -velocityX;
                     }
+                    
                     SoundManager.play("click");
                     lastEvent = System.currentTimeMillis();
                 }
