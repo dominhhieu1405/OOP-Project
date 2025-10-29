@@ -123,8 +123,9 @@ public class MapManager {
                 }
 
                 index++;
-            }
 
+            }
+            inputStream.close();
         } catch (Throwable e) {
             e.printStackTrace();
         }

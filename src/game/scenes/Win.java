@@ -42,6 +42,7 @@ public class Win {
                 System.out.println("Pressed Play Again");
                 // Logic to restart the current level
                 //TODO: Implement play again logic
+                GamePanel.getInstance().setScene(new GameScene());
             });
             
             instance = this;

@@ -108,7 +108,6 @@ public class BlockManager {
      * @param inputStream InputStream
      */
     public void load(InputStream inputStream) {
-        // TODO: Load map từ input stream
         try {
             int bufSize = inputStream.available();
             byte[] buffer = new byte[bufSize];
