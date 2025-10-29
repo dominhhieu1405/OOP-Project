@@ -9,7 +9,7 @@ import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
 import java.awt.Color;
 import Constant.Constant;
-
+import game.GamePanel;
 import entity.Ball;
 import entity.Paddle;
 import manager.BlockManager;
@@ -36,15 +36,23 @@ public class GameScene extends game.Scene {
 
     @Override
     public void update() {
+        if (!status.equals(STATUS_PLAYING)) {
+            Paddle.getInstance().setWorking(false);
+            Ball.getInstance().setIsRunning(false);
+            return;
+        }
         if (Paddle.getInstance().isWorking()) {
             Paddle.getInstance().update();
+            
+        }
+        if (Ball.getInstance().getIsRunning()){
             Ball.getInstance().update();
             manager.PowerUpManager.getInstance().update();
         }
         // check win
         if (!this.status.equals(STATUS_WIN) && BlockManager.getInstance().checkWin()) {
             status = STATUS_WIN;
-            System.out.println("Win detected in update()");
+            
             Paddle.getInstance().setWorking(false);
             Ball.getInstance().setIsRunning(false);
         
@@ -86,7 +94,42 @@ public class GameScene extends game.Scene {
                 this.revalidate();
                 this.repaint();
             });
-
+        }
+        if (this.status.equals(STATUS_PAUSE)) {
+            Paddle.getInstance().setWorking(false);
+            Ball.getInstance().setIsRunning(false);
+            javax.swing.JButton btn1 = Pause.getInstance().getResumeButton();
+            javax.swing.JButton btn2 = Pause.getInstance().getMenuButton();
+            javax.swing.SwingUtilities.invokeLater(()->{
+                if (btn1.getParent()!= this) this.add(btn1);
+                if (btn2.getParent()!=this) this.add(btn2);
+                btn1.setBounds(220, 320, 360, 60);
+                btn2.setBounds(220, 400, 360, 60);
+                btn1.setVisible(true);
+                btn2.setVisible(true);
+                this.revalidate();
+                this.repaint();
+            });
+            
+        // resumeButton.setBounds(220, 320, 360, 60);
+        // menuButton.setBounds(220, 400, 360, 60);
+            btn1.setVisible(true);
+            btn2.setVisible(true);
+            btn1.addActionListener(e -> {
+                System.out.println("aaaaaaaa");
+                Paddle.getInstance().setWorking(true);
+                Ball.getInstance().setIsRunning(true);
+                this.status = STATUS_PLAYING;
+                javax.swing.SwingUtilities.invokeLater(()->{
+                    this.remove(btn1);
+                    this.remove(btn2);
+                    this.revalidate();
+                    this.repaint();
+                });
+            });
+            btn2.addActionListener(e -> {
+                GamePanel.getInstance().setScene(new MenuScene());
+            });
         }
     }
 
@@ -150,8 +193,7 @@ public class GameScene extends game.Scene {
                 GameOver.getInstance().render(g);
 
             } else if (status.equals(STATUS_PAUSE)) {} {
-                //TODO: Render Pause Scene
-
+                Pause.getInstance().render(g);
             }
         }
         
@@ -171,7 +213,43 @@ public class GameScene extends game.Scene {
         javax.swing.InputMap inputMap = getInputMap(WHEN_IN_FOCUSED_WINDOW);
         javax.swing.ActionMap actionMap = getActionMap();
 
-
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "pauseGame");
+        actionMap.put("pauseGame", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (status.equals(STATUS_PLAYING)) {
+                    status = STATUS_PAUSE;
+                    Paddle.getInstance().setWorking(false);
+                    Ball.getInstance().setIsRunning(false);
+                    
+                    javax.swing.JButton btn1 = Pause.getInstance().getResumeButton();
+                    javax.swing.JButton btn2 = Pause.getInstance().getMenuButton();
+                    javax.swing.SwingUtilities.invokeLater(()->{
+                        if (btn1.getParent()!= GameScene.this) GameScene.this.add(btn1);
+                        if (btn2.getParent()!=GameScene.this) GameScene.this.add(btn2);
+                        btn1.setBounds(220, 300, 360, 60);
+                        btn2.setBounds(220, 380, 360, 60);
+                        btn1.setVisible(true);
+                        btn2.setVisible(true);
+                        GameScene.this.revalidate();
+                        GameScene.this.repaint();
+                    });
+                } else if (status.equals(STATUS_PAUSE)) {
+                    status = STATUS_PLAYING;
+                    Paddle.getInstance().setWorking(true);
+                    Ball.getInstance().setIsRunning(true);
+                    
+                    javax.swing.JButton btn1 = Pause.getInstance().getResumeButton();
+                    javax.swing.JButton btn2 = Pause.getInstance().getMenuButton();
+                    javax.swing.SwingUtilities.invokeLater(()->{
+                        GameScene.this.remove(btn1);
+                        GameScene.this.remove(btn2);
+                        GameScene.this.revalidate();
+                        GameScene.this.repaint();
+                    });
+                }
+            }
+        });
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), "pressLeft");
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_A, 0, false), "pressLeft");
         actionMap.put("pressLeft", new AbstractAction() {

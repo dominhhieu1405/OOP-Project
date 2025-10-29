@@ -5,55 +5,50 @@ import java.awt.*;
 import Constant.Constant;
 import game.GamePanel;
 
-public class GameOver {
+public class Pause {
+    private JButton resumeButton;
     private JButton menuButton;
-    private JButton playAgainButton;
-
 // ==================== Singleton Pattern ====================
-    private static GameOver instance = null;
+    private static Pause instance = null;
 
-    private GameOver() {
+    private Pause() {
         if (instance == null) {
-            // init buttons:
+            this.resumeButton = this.createBtn("Tiếp tục");
             this.menuButton = this.createBtn("Menu");
-            this.playAgainButton = this.createBtn("Chơi lại");
             
             // add action listeners
+            this.resumeButton.addActionListener(e -> {
+                System.out.println("Pressed Resume");
+                GamePanel.getInstance().setScene(new GameScene());
+            });
             this.menuButton.addActionListener(e -> {
                 System.out.println("Pressed Menu");
                 GamePanel.getInstance().setScene(new MenuScene());
             });
-            this.playAgainButton.addActionListener(e -> {
-                System.out.println("Pressed Play Again");
-                // Logic to restart the current level
-                
-                GamePanel.getInstance().setScene(new GameScene());
-            });
             instance = this;
         } 
     }
-    public static GameOver getInstance() {
+    public static Pause getInstance() {
         if (instance == null){
-            instance = new GameOver();
+            instance = new Pause();
             return instance;
         } else {
             return instance;
         }
     }
 
+    public void render(Graphics g) {
+        resumeButton.setBounds(220, 320, 360, 60);
+        menuButton.setBounds(220, 400, 360, 60);
+    }
+
+    public JButton getResumeButton() {
+        return resumeButton;
+    }
     public JButton getMenuButton() {
         return menuButton;
     }
-    public JButton getPlayAgainButton() {
-        return playAgainButton;
-    }
-
-// ====================Render===================
-    public void render(Graphics g) {
-        menuButton.setBounds(220, 320, 360, 60);
-        playAgainButton.setBounds(220, 400, 360, 60);
-    }
-
+    
 // ========================Utils=========================
     private JButton createBtn(String text) {
         JButton button = new JButton(text) {
@@ -83,4 +78,4 @@ public class GameOver {
 
         return button;
     }
-} 
+}
