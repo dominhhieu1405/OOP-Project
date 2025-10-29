@@ -80,6 +80,11 @@ public class Constant {
                 int y = (getHeight() + textHeight) / 2 - 4;
 
                 g.drawString(getText(), x, y);
+
+                if (!isEnabled()){
+                    g.setColor(new Color(0, 0, 0, 72));
+                    g.fillRect(0, 0, getWidth(), getHeight());
+                }
             }
         };
 

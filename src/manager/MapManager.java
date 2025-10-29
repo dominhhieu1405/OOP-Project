@@ -119,6 +119,8 @@ public class MapManager {
                         GamePanel.getInstance().setScene(new GameScene());
                     });
 
+                    button.setEnabled(unlocked == 1);
+
                     maps.add(new Map(id, "Level " + id, unlocked == 1, button));
                 }
 

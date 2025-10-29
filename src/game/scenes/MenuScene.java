@@ -17,7 +17,6 @@ public class MenuScene extends game.Scene {
     private JButton quitButton;
 
 
-    private Font f;
 
     public MenuScene() {
         super(Constant.BACKGROUND_IMG);
@@ -26,17 +25,12 @@ public class MenuScene extends game.Scene {
         setPreferredSize(new Dimension(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT));
         //setSize(Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT);
 
-        try {
-            f = Font.createFont(Font.TRUETYPE_FONT, new File(Constant.FONT_PATH)).deriveFont(20f);
-        } catch (Exception e) {
-            f = new Font("Verdana", Font.BOLD, 28);
-        }
 
-        mapButton = this.createBtn("Bản đồ (M)");
+        mapButton = Constant.createBtn("Bản đồ (M)");
         mapButton.setBounds(220, 240, 360, 60);
-        playButton = this.createBtn("Chơi (P)");
+        playButton = Constant.createBtn("Chơi (P)");
         playButton.setBounds(220, 320, 360, 60);
-        quitButton = this.createBtn("Thoát game (E)");
+        quitButton = Constant.createBtn("Thoát game (E)");
         quitButton.setBounds(220, 400, 360, 60);
 
         mapButton.addActionListener(new ActionListener() {
@@ -66,41 +60,6 @@ public class MenuScene extends game.Scene {
 
         add(playButton);
         add(quitButton);
-    }
-
-    /**
-     * Tạo JButton với hình nền là ảnh.
-     * @param text chữ
-     * @return jbutton
-     */
-    private JButton createBtn(String text) {
-        JButton button = new JButton(text) {
-            @Override
-            protected void paintComponent(Graphics g) {
-                Image img = getModel().isRollover() ? Constant.BUTTON_ACTIVE_IMG : Constant.BUTTON_IMG;
-                g.drawImage(img, 0, 0, getWidth(), getHeight(), null);
-                g.setFont(f);
-                g.setColor(Color.WHITE);
-
-                FontMetrics fm = g.getFontMetrics();
-                int textWidth = fm.stringWidth(getText());
-                int textHeight = fm.getAscent();
-                int x = (getWidth() - textWidth) / 2;
-                int y = (getHeight() + textHeight) / 2 - 4;
-
-                g.drawString(getText(), x, y);
-            }
-        };
-
-        // Xóa border, background Swing mặc định
-        button.setBorderPainted(false);
-        button.setFocusPainted(false);
-        button.setContentAreaFilled(false);
-        button.setOpaque(false);
-        button.setRolloverEnabled(true);
-        button.setForeground(Color.WHITE);
-
-        return button;
     }
 
     public boolean useMouse() {
@@ -140,7 +99,6 @@ public class MenuScene extends game.Scene {
 
     public void paintComponent (Graphics g) {
         super.paintComponent(g);
-        g.setFont(f);
         g.drawImage(background, 0, 0 , Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT, null);
 
 

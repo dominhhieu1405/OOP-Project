@@ -11,7 +11,7 @@ import java.util.ArrayList;
 public class BlockManager {
     private static BlockManager instance; // Singleton instance
     private ArrayList<Block> blocks; // Danh sách block
-    public String currentMap; // Tên map hiện tại
+    public String currentMap = ""; // Tên map hiện tại
 
     /**
      * Constructor.
