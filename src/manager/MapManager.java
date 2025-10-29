@@ -9,8 +9,11 @@ import game.scenes.GameScene;
 import javax.swing.*;
 import java.awt.*;
 import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
 import java.io.FileInputStream;
 import java.util.ArrayList;
+
 
 public class MapManager {
     private static MapManager instance; // Singleton instance
@@ -19,15 +22,11 @@ public class MapManager {
     private final int buttonWidth = 170;
     private final int buttonHeight = 60;
     public ArrayList<Map> maps;
-    private Font f;
+    private int currentMap;
+
 
     public MapManager() {
         maps = new ArrayList<Map>();
-        try {
-            f = Font.createFont(Font.TRUETYPE_FONT, new File(Constant.FONT_PATH)).deriveFont(20f);
-        } catch (Exception e) {
-            f = new Font("Verdana", Font.BOLD, 28);
-        }
     }
 
     /**
@@ -61,12 +60,17 @@ public class MapManager {
         public boolean unlocked = false;
         public JButton button;
 
-        public Map(int id, String name, boolean unlocked, JButton button) {
+        public Map(int id, String name, String path, boolean unlocked, JButton button) {
             this.id = id;
             this.name = name;
-//            this.path = path;
+            this.path = path;
             this.unlocked = unlocked;
             this.button = button;
+        }
+
+        public void unlock() {
+            this.unlocked = true;
+            this.button.setEnabled(true);
         }
     }
 
@@ -115,13 +119,16 @@ public class MapManager {
                         System.out.println("Pressed PLAY Level " + id);
                         Ball.getInstance().reset();
                         BlockManager.getInstance().load("data/maps/Map" + id + ".txt");
+                        MapManager.getInstance().currentMap = id - 1;
                         SoundManager.stop("bgm"); // Tắt background music
                         GamePanel.getInstance().setScene(new GameScene());
                     });
 
                     button.setEnabled(unlocked == 1);
-
-                    maps.add(new Map(id, "Level " + id, unlocked == 1, button));
+                    if (unlocked == 1) {
+                        currentMap = index;
+                    }
+                    maps.add(new Map(id, "Level " + id, "data/maps/Map" + id + ".txt", unlocked == 1, button));
                 }
 
                 index++;
@@ -133,7 +140,23 @@ public class MapManager {
         }
     }
 
-
+    public void save() {
+        try {
+            StringBuilder sb = new StringBuilder();
+            for (Map map : maps) {
+                sb.append(map.id).append(" ").append(map.unlocked ? 1 : 0).append("\n");
+            }
+            try {
+                FileWriter writer = new FileWriter("data/maps.txt");
+                writer.write(sb.toString());
+                writer.close();
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
+        } catch (Throwable e) {
+            e.printStackTrace();
+        }
+    }
 
     /**
      * Lấy các map theo page.
@@ -147,5 +170,34 @@ public class MapManager {
             result.add(maps.get(i));
         }
         return result;
+    }
+
+    /**
+     * Lấy map hiện tại.
+     */
+    public Map getCurrentMap() {
+        return maps.get(currentMap);
+    }
+
+    public Map getLastUnlockedMap() {
+        for (int i = maps.size() - 1; i >= 0; i--) {
+            if (maps.get(i).unlocked) {
+                return maps.get(i);
+            }
+        }
+        return maps.getFirst();
+    }
+
+    public void unlockNextMap() {
+        if (currentMap + 1 < maps.size()) {
+            System.out.println("Unlocking map " + (currentMap + 1));
+            maps.get(currentMap + 1).unlock();
+            currentMap++;
+        }
+        this.save();
+    }
+
+    public boolean hasNextMap() {
+        return currentMap + 1 < maps.size();
     }
 }

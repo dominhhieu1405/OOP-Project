@@ -6,6 +6,8 @@ import javax.swing.*;
 
 import entity.Block;
 import game.GamePanel;
+import manager.BlockManager;
+import manager.MapManager;
 import manager.SoundManager;
 
 import java.awt.event.*;
@@ -28,7 +30,7 @@ public class MenuScene extends game.Scene {
 
         mapButton = Constant.createBtn("Bản đồ (M)");
         mapButton.setBounds(220, 240, 360, 60);
-        playButton = Constant.createBtn("Chơi (P)");
+        playButton = Constant.createBtn("Chơi tiếp (P)");
         playButton.setBounds(220, 320, 360, 60);
         quitButton = Constant.createBtn("Thoát game (E)");
         quitButton.setBounds(220, 400, 360, 60);
@@ -44,6 +46,7 @@ public class MenuScene extends game.Scene {
         playButton.addActionListener(e -> {
             System.out.println("Pressed PLAY");
             SoundManager.stop("bgm"); // Tắt background music
+            BlockManager.getInstance().setCurrentMap(MapManager.getInstance().getLastUnlockedMap().path);
             GamePanel.getInstance().setScene(new GameScene());
         });
 

@@ -13,6 +13,7 @@ import Constant.Constant;
 import entity.Ball;
 import entity.Paddle;
 import manager.BlockManager;
+import manager.MapManager;
 import manager.PowerUpManager;
 
 public class GameScene extends game.Scene {
@@ -65,6 +66,11 @@ public class GameScene extends game.Scene {
                 this.repaint();
             });
             //TODO: Update map unlock
+
+
+            System.out.println("Unlock next map if any");
+            Win.getInstance().getNextLevelButton().setEnabled(MapManager.getInstance().hasNextMap());
+            MapManager.getInstance().unlockNextMap();
         }
         // check game over
         if (!Ball.getInstance().getIsAlive()) {
