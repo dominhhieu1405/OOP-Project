@@ -64,14 +64,29 @@ public class GameScene extends game.Scene {
                 this.revalidate();
                 this.repaint();
             });
-            //TODO: Update map unlock status
+            //TODO: Update map unlock
         }
         // check game over
         if (!Ball.getInstance().getIsAlive()) {
-            System.out.println("Game Over detected in update()");
             status = STATUS_GAMEOVER;
             Paddle.getInstance().setWorking(false);
             Ball.getInstance().setIsRunning(false);
+            javax.swing.JButton btn1 = GameOver.getInstance().getMenuButton();
+            javax.swing.JButton btn2 = GameOver.getInstance().getPlayAgainButton();
+            javax.swing.SwingUtilities.invokeLater(()->{
+                if (btn1.getParent()!= this) this.add(btn1);
+                if (btn2.getParent()!=this) this.add(btn2);
+                btn1.setBounds(220, 320, 360, 60);
+                btn2.setBounds(220, 400, 360, 60);
+                
+        // menuButton.setBounds(220, 320, 360, 60);
+        // playAgainButton.setBounds(220, 400, 360, 60);
+                btn1.setVisible(true);
+                btn2.setVisible(true);
+                this.revalidate();
+                this.repaint();
+            });
+
         }
     }
 
@@ -129,12 +144,10 @@ public class GameScene extends game.Scene {
             g.fillRect(0, 0, Constant.FRAME_WIDTH, Constant.FRAME_HEIGHT);
 
             if (status.equals(STATUS_WIN)) {
-                //TODO: Render Win Scene
-                
                 Win.getInstance().render(g);
 
             } else if (status.equals(STATUS_GAMEOVER)) {
-                //TODO: Render GameOver Scene
+                GameOver.getInstance().render(g);
 
             } else if (status.equals(STATUS_PAUSE)) {} {
                 //TODO: Render Pause Scene
