@@ -20,7 +20,7 @@ public class GameScene extends game.Scene {
     public static final String STATUS_PAUSE = "PAUSE";
     public static final String STATUS_GAMEOVER = "GAMEOVER";
     public static final String STATUS_WIN = "WIN";
-    public static String status = STATUS_PLAYING;
+    public String status = STATUS_PLAYING;
     
     public GameScene(){
         super();
@@ -64,6 +64,7 @@ public class GameScene extends game.Scene {
                 this.revalidate();
                 this.repaint();
             });
+            //TODO: Update map unlock status
         }
         // check game over
         if (!Ball.getInstance().getIsAlive()) {
