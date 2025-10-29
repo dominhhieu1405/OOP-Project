@@ -23,7 +23,7 @@ public class GamePanel extends JPanel {
         setScene(new MenuScene()); // Default scene
         setFocusable(true);
         requestFocusInWindow();
-        // BlockManager.getInstance().test();
+        BlockManager.getInstance().test();
     }
 
     public static GamePanel getInstance() {
