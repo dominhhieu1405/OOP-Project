@@ -10,7 +10,6 @@ import javax.swing.SwingUtilities;
 import java.awt.*;
 public class main {
     public static void main(String[] args) {
-        
         JFrame window;
         GamePanel gamePanel;
         

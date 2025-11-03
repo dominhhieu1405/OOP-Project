@@ -8,9 +8,7 @@ import java.awt.Graphics;
 import javax.swing.ImageIcon;
 
 public class Ball extends Entity  {
-
     //x and y represent the center of the ball
-
     private double speed;
     private final double velocity = 282.0; // Tốc độ gốc (Hợp của vx, vy)
     private int velocityX, velocityY; // Vận tốc theo trục x và y
@@ -44,9 +42,6 @@ public class Ball extends Entity  {
         this.lastEvent = System.currentTimeMillis();
     }
 
-
-
-
     /**
      * Lấy instance của Ball.
      * @return instance của Ball
@@ -58,7 +53,6 @@ public class Ball extends Entity  {
             int ballCenterY = Constant.FRAME_HEIGHT - Constant.PADDLE_Y_OFFSET - Constant.PADDLE_HEIGHT - Constant.BALL_RADIUS - 50;
             
             instance = new Ball(ballCenterX, ballCenterY, Constant.BALL_RADIUS * 2, Constant.BALL_RADIUS * 2);
-            // System.out.println("Ball init center: " + instance.x + ", " + instance.y);
             instance.velocityX = 150;
             instance.velocityY = -150;
             instance.isAlive = true;
@@ -67,26 +61,14 @@ public class Ball extends Entity  {
         return instance;
     }
 
-    /**
-     * Lấy tốc độ của bóng.
-     * @return tốc độ của bóng
-     */
     public double getSpeed() {
         return speed;
     }
 
-    /**
-     * Đặt tốc độ của bóng.
-     * @param speed tốc độ mới
-     */
     public void setSpeed(double speed) {
         this.speed = speed;
     }
 
-    /**
-     * Kiểm tra trạng thái bóng lửa.
-     * @return true nếu là bóng lửa, false nếu không phải
-     */
     public boolean isFire() {
         return isFire;
     }
@@ -104,58 +86,20 @@ public class Ball extends Entity  {
         }
     }
 
-    /**
-     * Vẽ bóng và thanh máu.
-     * @param g Graphics để vẽ
-     */
-    public synchronized void render(Graphics g) {
-//        g.setColor(Color.BLUE);
-//        g.fillOval(x - RADIUS, y - RADIUS, 2 * RADIUS, 2 * RADIUS);
-        // Render thanh máu
-        
-        int maxHealth = Math.max(0, Constant.TOTAL_BALL_HEART);
-        int visibleHealth = Math.max(0, Math.min(this.health, maxHealth));
-        for (int i = 0; i < maxHealth; i++) {
-            if (i < visibleHealth) {
-                g.drawImage(Constant.HEART_IMG, 10 + i * 20, 10, 18, 18, null);
-            } else {
-                g.drawImage(Constant.HEART0_IMG, 10 + i * 20, 10, 18, 18, null);
-            }
-        }
-
-        g.drawImage(img, x - RADIUS, y - RADIUS, 2 * RADIUS, 2 * RADIUS, null);
-    }
-
-    /**
-     * Lấy bán kính của bóng.
-     * @return bán kính của bóng
-     */
     public int getRADIUS() {
         return RADIUS;
     }
 
-    /**
-     * Đặt bán kính của bóng.
-     * @param RADIUS bán kính mới
-     */
     public void setRADIUS(int RADIUS) {
         this.RADIUS = RADIUS;
         this.width = 2 * RADIUS;
         this.height = 2 * RADIUS;
     }
 
-    /**
-     * Kiểm tra trạng thái của bóng.
-     * @return true nếu bóng còn sống, false nếu chết
-     */
     public boolean getIsAlive() {
         return isAlive;
     }
 
-    /**
-     * Kiểm tra bóng đã chạy chưa.
-     * @return true nếu bóng đang chạy, false nếu chưa chạy
-     */
     public boolean getIsRunning() {
         return isRunning;
     }
@@ -207,17 +151,29 @@ public class Ball extends Entity  {
     }
 
     /**
+     * Vẽ bóng và thanh máu.
+     * @param g Graphics để vẽ
+     */
+    public synchronized void render(Graphics g) {
+        int maxHealth = Math.max(0, Constant.TOTAL_BALL_HEART);
+        int visibleHealth = Math.max(0, Math.min(this.health, maxHealth));
+        for (int i = 0; i < maxHealth; i++) {
+            if (i < visibleHealth) {
+                g.drawImage(Constant.HEART_IMG, 10 + i * 20, 10, 18, 18, null);
+            } else {
+                g.drawImage(Constant.HEART0_IMG, 10 + i * 20, 10, 18, 18, null);
+            }
+        }
+        g.drawImage(img, x - RADIUS, y - RADIUS, 2 * RADIUS, 2 * RADIUS, null);
+    }
+
+    /**
      * Bắt đầu cho bóng chạy.
      * Đặt vận tốc đầu theo Vx, Vy.
      * Khởi tạo thời gian vào các biển lastTime, lastEvent.
      */
     public void runBall() {
         if (!this.isRunning) {
-            // Nếu bóng ở phần bên nào thì tốc độ x hướng về bên đó.
-//            if (this.velocityY == 0) {
-//                this.velocityY = -150;
-//            }
-
             int sqr = (int) Math.sqrt(velocity * velocity / 2);
             this.velocityY = -sqr;
             System.out.println("Run");
@@ -272,122 +228,8 @@ public class Ball extends Entity  {
     }
 
     /**
-     * Di chuyển bóng.
-     * Xử lý va chạm với paddle, tường và block.
-     * Nếu bóng chạm đáy thì gọi spawn().
-     * Biến lastTime để tính khoảng cách di chuyển theo thời gian thực.
-     * Biến lastEvent để tránh va chạm nhiều lần.
+     * Update vị trí bóng.
      */
-//     public synchronized void update() {
-//         if (this.isAlive && this.isRunning) {
-// //            x += velocityX;
-// //            y += velocityY;
-//             double dt = (System.currentTimeMillis() - lastTime) / 1000.0;
-//             lastTime = System.currentTimeMillis();
-// //            x += (int) (velocityX * dt * speed);
-// //            y += (int) (velocityY * dt * speed);
-//             double nextX = x + velocityX * dt * speed;
-//             double nextY = y + velocityY * dt * speed;
-
-//             if (nextX + RADIUS > Constant.FRAME_WIDTH) {
-//                 nextX = Constant.FRAME_WIDTH - RADIUS;
-//                 velocityX = -Math.abs(velocityX);
-//             }
-//             if (nextX - RADIUS < 0) {
-//                 nextX = RADIUS;
-//                 velocityX = Math.abs(velocityX);
-//             }
-//             if (nextY - RADIUS < 0) {
-//                 nextY = RADIUS;
-//                 velocityY = Math.abs(velocityY);
-//             }
-
-//             x = (int) nextX;
-//             y = (int) nextY;
-
-
-//             if (System.currentTimeMillis() - lastEvent > 100) {
-
-// //            if (collisionWithPaddle()) { velocityY = -velocityY; }
-//                 if (!this.collisionWithPaddle().equals("NONE")) {
-//                     // System.out.println("Dapvaovan");
-//                     String side = collisionWithPaddle();
-//                     if (side.equals("TOP") && velocityY > 0) {
-// //                        velocityY = -velocityY;
-// ////                        y = Paddle.getInstance().getY() - RADIUS; // đặt lại trên paddle
-// //                        // Thêm tí random cho velocityX
-// //                        int randomFactor = (int)(Math.random() * 100) - 50;
-// //                        velocityX += randomFactor;
-// //                        // Giới hạn velocityX trong khoảng [-180, 180]
-// //                        if (velocityX > 180) velocityX = 180;
-// //                        if (velocityX < -180) velocityX = -180;
-// //                        // Đổi vy để bóng không bị quá chậm
-// //                        if (Math.abs(velocityX) < 100) {
-// //                            if (velocityX < 0) {
-// //                                velocityX = -100;
-// //                            } else {
-// //                                velocityX = 100;
-// //                            }
-// //                        }
-
-//                         velocityY = -velocityY;
-//                         // Cơ chế va chạm mới theo vị trí.
-//                         double percent = (double)(x - Paddle.getInstance().getX()) / Paddle.getInstance().getWidth(); // % bên nào
-//                         double delta = (percent - 0.5) * 50; // +- tối đa 25 px
-//                         if (percent <= 0.49) {
-//                             this.setVelocityX(velocityX - (int) delta);
-//                         } else if (percent >= 0.51) {
-//                             this.setVelocityX(velocityX + (int) delta);
-//                         }
-
-//                         // Nếu đi sang trái thì trừ 10% Vx
-//                         if (Paddle.getInstance().isMovingLeft()){
-//                             this.setVelocityX(velocityX - 20);
-//                         }
-//                         // Nếu đi sang phải thì cộng 10% Vx
-//                         if (Paddle.getInstance().isMovingRight()){
-//                             this.setVelocityX(velocityX + 20);
-//                         }
-
-
-//                     } else if (side.equals("LEFT") || side.equals("RIGHT")) {
-//                         velocityX = -velocityX;
-//                     }
-//                     SoundManager.play("click");
-//                     lastEvent = System.currentTimeMillis();
-//                 }
-//                 if (collisionWithUpperWall()) {
-//                     velocityY = -velocityY;
-//                     SoundManager.play("click");
-//                 }
-//                 if (collisionWithSideWall()) {
-//                     velocityX = -velocityX;
-//                     // Đảm bảo ball không bị "stuck" trong tường
-//                     if (x + RADIUS >= Constant.FRAME_WIDTH) {
-//                         // System.out.println(2);
-//                         x = Constant.FRAME_WIDTH - RADIUS; // Đẩy ball ra khỏi tường phải
-//                     }
-//                     if (x - RADIUS <= 0) {
-//                         // System.out.println(1);
-//                         x = RADIUS; // Đẩy ball ra khỏi tường trái
-//                     }
-//                     SoundManager.play("click");
-//                 }
-//             }
-
-//             // Check đã chết chưa
-//             if (y - RADIUS > Constant.FRAME_HEIGHT) {
-//                 this.isAlive = false;
-//                 this.isRunning = false;
-//                 SoundManager.play("dead");
-//                 // System.out.println("Chet me roi con gi nua");
-//                 this.respawn();
-//             }
-
-//             // Check va chạm với block sẽ được xử lý trong GamePanel
-//             checkBlockCollision();
-//         }
-//     }
     public synchronized void update() {
         if (this.isAlive && this.isRunning) {
             double dt = (System.currentTimeMillis() - lastTime) / 1000.0;
@@ -402,18 +244,18 @@ public class Ball extends Entity  {
 
             // Xử lý va chạm với tường bên (dự đoán vị trí tiếp theo)
             if (nextX + RADIUS > Constant.FRAME_WIDTH) {
-                nextX = Constant.FRAME_WIDTH - RADIUS;
+                nextX = Constant.FRAME_WIDTH - RADIUS - 1;
                 velocityX = -Math.abs(velocityX);
                 collidedSide = true;
             } else if (nextX - RADIUS < 0) {
-                nextX = RADIUS;
+                nextX = RADIUS + 1;
                 velocityX = Math.abs(velocityX);
                 collidedSide = true;
             }
 
             // Xử lý va chạm với tường trên
             if (nextY - RADIUS < 0) {
-                nextY = RADIUS;
+                nextY = RADIUS + 1;
                 velocityY = Math.abs(velocityY);
                 collidedTop = true;
             }
@@ -424,30 +266,33 @@ public class Ball extends Entity  {
 
             // Kiểm tra va chạm paddle / wall sound / tránh va chạm liên tiếp quá nhanh
             if (System.currentTimeMillis() - lastEvent > 100) {
-
                 String paddleSide = collisionWithPaddle();
                 if (!paddleSide.equals("NONE")) {
                     if (paddleSide.equals("TOP") && velocityY > 0) {
-                        velocityY = -velocityY;
-                        // Tính thay đổi theo vị trí trên paddle
-                        double percent = (double)(x - Paddle.getInstance().getX()) / Paddle.getInstance().getWidth();
-                        double delta = (percent - 0.5) * 50;
-                        if (percent <= 0.49) {
-                            this.setVelocityX(velocityX - (int) delta);
-                        } else if (percent >= 0.51) {
-                            this.setVelocityX(velocityX + (int) delta);
-                        }
+                        velocityY = -Math.abs(velocityY);
 
-                        if (Paddle.getInstance().isMovingLeft()){
-                            this.setVelocityX(velocityX - 20);
+                        double percent = (double) (x - Paddle.getInstance().getX()) / Paddle.getInstance().getWidth();
+
+                        double maxAngle = 60;
+                        double angle = (percent - 0.5) * 2 * maxAngle; // từ -max → +max
+
+                        // Giữ tốc độ tổng không đổi
+                        double speed = Math.sqrt(velocityX * velocityX + velocityY * velocityY);
+                        double rad = Math.toRadians(angle);
+                        this.setVelocityX((int)(speed * Math.sin(rad)));
+                        this.setVelocityY((int)(-speed * Math.cos(rad)));
+
+                        if (Paddle.getInstance().isMovingLeft()) {
+                            velocityX -= 10;
+                        } else if (Paddle.getInstance().isMovingRight()) {
+                            velocityX += 10;
                         }
-                        if (Paddle.getInstance().isMovingRight()){
-                            this.setVelocityX(velocityX + 20);
+                        if (Math.abs(this.velocityX) <= 50) {
+                            this.setVelocityX(this.velocityX < 0 ? -50 : 50);
                         }
                         if (Math.abs(this.velocityY) <= 50) {
                             this.setVelocityY(this.velocityY < 0 ? -50 : 50);
                         }
-
                     } else if (paddleSide.equals("LEFT") || paddleSide.equals("RIGHT")) {
                         velocityX = -velocityX;
                     }
@@ -469,7 +314,6 @@ public class Ball extends Entity  {
 
             // Check đã chết chưa (rơi quá đáy)
             if (y - RADIUS > Constant.FRAME_HEIGHT) {
-                
                 this.isRunning = false;
                 SoundManager.play("dead");
                 this.respawn();
@@ -495,15 +339,28 @@ public class Ball extends Entity  {
                         b.die();
                     } else {
                         // Xử lý va chạm
+                        double rand = Math.random() * 3;
                         if (side.equals("TOP") && velocityY > 0) {
                             velocityY = -velocityY;
+                            velocityX -= Math.signum(velocityX) * rand;
                         } else if (side.equals("BOTTOM") && velocityY < 0) {
                             velocityY = -velocityY;
+                            velocityX -= Math.signum(velocityX) * rand;
                         } else if (side.equals("LEFT") && velocityX > 0) {
                             velocityX = -velocityX;
+                            velocityY -= Math.signum(velocityY) * rand;
                         } else if (side.equals("RIGHT") && velocityX < 0) {
                             velocityX = -velocityX;
+                            velocityY -= Math.signum(velocityY) * rand;
                         }
+                        // Xử lí kẹt bóng
+                        if (Math.abs(this.velocityX) <= 50) {
+                            this.setVelocityX(this.velocityX < 0 ? -50 : 50);
+                        }
+                        if (Math.abs(this.velocityY) <= 50) {
+                            this.setVelocityY(this.velocityY < 0 ? -50 : 50);
+                        }
+
                         SoundManager.play("click");
                         b.decreaseHP(this.damage);
                         break; // Chỉ xử lý va chạm với một block tại một thời điểm
