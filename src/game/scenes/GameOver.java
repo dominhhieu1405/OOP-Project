@@ -42,6 +42,15 @@ public class GameOver {
         }
     }
 
+    public void addButtonsToPanel(JPanel panel) {
+        if (menuButton.getParent() != panel) {
+            panel.add(menuButton);
+        }
+        if (playAgainButton.getParent() != panel) {
+            panel.add(playAgainButton);
+        }
+    }
+
     public JButton getMenuButton() {
         return menuButton;
     }

@@ -6,7 +6,8 @@ import Constant.Constant;
 import entity.Ball;
 import entity.Paddle;
 import game.GamePanel;
-
+import game.scenes.GameScene;
+import javax.swing.JPanel;
 public class Pause {
     private JButton resumeButton;
     private JButton menuButton;
@@ -44,6 +45,17 @@ public class Pause {
             return instance;
         } else {
             return instance;
+        }
+    }
+    public void addButtonsToPanel(JPanel panel) {
+        if (resumeButton.getParent() != panel) {
+            panel.add(resumeButton);
+        }
+        if (menuButton.getParent() != panel) {
+            panel.add(menuButton);
+        }
+        if (playAgainButton.getParent() != panel) {
+            panel.add(playAgainButton);
         }
     }
 
