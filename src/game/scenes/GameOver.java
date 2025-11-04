@@ -60,8 +60,8 @@ public class GameOver {
 
 // ====================Render===================
     public void render(Graphics g) {
-        menuButton.setBounds(220, 240, 360, 60);
-        playAgainButton.setBounds(220, 320, 360, 60);
+        playAgainButton.setBounds(220, 240, 360, 60);
+        menuButton.setBounds(220, 320, 360, 60);
     }
 
 //

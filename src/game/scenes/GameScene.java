@@ -47,8 +47,7 @@ public class GameScene extends game.Scene {
     public GameScene resetScene() {
         System.out.println("Rmoving pause buttons");
 
-        RemoveAllButton();
-
+        removeAllButtons();
         PowerUpManager.getInstance().reset();
         BlockManager.getInstance().reset();
         Ball.getInstance().reset();
@@ -64,11 +63,11 @@ public class GameScene extends game.Scene {
         Paddle.getInstance().setWorking(true);
         Ball.getInstance().setIsRunning(true);
         status = STATUS_PLAYING;
-        RemoveAllButton();
+        removeAllButtons();
         return this;
     }
 
-    private void RemoveAllButton() {
+    private void removeAllButtons() {
         remove(Pause.getInstance().getResumeButton());
         remove(Pause.getInstance().getMenuButton());
         remove(Pause.getInstance().getPlayAgainButton());
@@ -87,13 +86,14 @@ public class GameScene extends game.Scene {
             Paddle.getInstance().update();
             Ball.getInstance().update();
             manager.PowerUpManager.getInstance().update();
+            removeAllButtons();
         }
         // check win
         if (!this.status.equals(STATUS_WIN) && BlockManager.getInstance().checkWin()) {
             status = STATUS_WIN;
             Paddle.getInstance().setWorking(false);
             Ball.getInstance().setIsRunning(false);
-            
+
             Win.getInstance().addButtonsToPanel(this);
 
             Win.getInstance().getNextLevelButton().setEnabled(MapManager.getInstance().hasNextMap());
