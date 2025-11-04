@@ -34,6 +34,12 @@ public class PowerUpManager {
      * Reset danh sách powerup.
      */
     public void reset() {
+        // Deactivate all power-ups before clearing
+        for (PowerUp p : list) {
+            if (p.isActive()) {
+                p.deactivate();
+            }
+        }
         list.clear();
         toRemove.clear();
     }
