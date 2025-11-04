@@ -15,7 +15,7 @@ public class Block extends Entity {
     //example: (0, 0) => img is drawn from (1, 1) to (99, 49)
     //so there are 2 pixels between blocks and 1 pixel between block and frame border
     private int HP; // Số máu hiện tại.
-    private final int MAX_HP; // Số máu tối đa.
+    private int MAX_HP; // Số máu tối đa.
     private boolean isAlive; // Trạng thái block còn hay vỡ rồi.
     public int padding;
 
@@ -32,9 +32,8 @@ public class Block extends Entity {
     public Block(int x, int y, int width, int height, int HP) {
         super(x, y, width, height);
         this.HP = HP;
-        this.MAX_HP = HP;
+        this.setMAX_HP(HP);
         this.isAlive = true;
-        this.img = Constant.BLOCK_IMG;
         this.padding = Constant.BLOCK_PADDING;
     }
 
@@ -47,9 +46,8 @@ public class Block extends Entity {
     public Block(int x, int y, int HP) {
         super(x, y, Constant.BLOCK_DEFAULT_WIDTH, Constant.BLOCK_DEFAULT_HEIGHT);
         this.HP = HP;
-        this.MAX_HP = HP;
+        this.setMAX_HP(HP);
         this.isAlive = true;
-        this.img = Constant.BLOCK_IMG;
     }
 
     /**
@@ -59,10 +57,24 @@ public class Block extends Entity {
      */
     public Block(int x, int y) {
         super(x, y, Constant.BLOCK_DEFAULT_WIDTH, Constant.BLOCK_DEFAULT_HEIGHT);
-        this.HP = 2;
-        this.MAX_HP = 2;
+        this.HP = 1;
+        this.setMAX_HP(1);
         this.isAlive = true;
-        this.img = Constant.BLOCK_IMG;
+    }
+
+    private void setMAX_HP(int HP) {
+        if (HP == 1) {
+            this.img = Constant.BLOCK_1_IMG;
+        } else if (HP == 2) {
+            this.img = Constant.BLOCK_2_IMG;
+        } else if (HP == 3) {
+            this.img = Constant.BLOCK_3_IMG;
+        } else if (HP == 4) {
+            this.img = Constant.BLOCK_4_IMG;
+        } else if (HP >= 5) {
+            this.img = Constant.BLOCK_5_IMG;
+        }
+        this.MAX_HP = HP;
     }
 
     /**

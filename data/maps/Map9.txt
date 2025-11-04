@@ -1,40 +1,80 @@
-bedrock 200 100 50 50
-bedrock 300 50 50 50
-bedrock 250 50 50 50
+bedrock 100 150 50 50
+bedrock 150 150 50 50
 bedrock 200 150 50 50
-bedrock 250 200 50 50
-bedrock 300 250 50 50
-bedrock 350 300 50 50
-bedrock 400 300 50 50
-bedrock 450 250 50 50
-bedrock 500 200 50 50
+bedrock 250 150 50 50
+bedrock 300 150 50 50
+bedrock 350 150 50 50
+bedrock 400 150 50 50
+bedrock 450 150 50 50
 bedrock 550 150 50 50
-bedrock 550 100 50 50
-bedrock 500 50 50 50
-bedrock 450 50 50 50
-normal 250 100 100 100 3
-normal 450 100 100 100 3
-lucky 350 200 100 100 4 3
-normal 300 0 50 50 2
-normal 400 0 50 50 2
-normal 350 0 50 50 2
-normal 450 0 50 50 2
-bedrock 50 200 100 100
-bedrock 650 200 100 100
-normal 50 100 50 100 2
-normal 100 100 50 100 2
-normal 650 100 50 100 2
-normal 700 100 50 100 2
-lucky 50 50 50 50 1 5
-lucky 700 50 50 50 1 8
-bedrock 0 300 50 50
-bedrock 750 300 50 50
-bomb 350 100 100 100 2 2 100
-normal 300 200 50 50 2
-normal 450 200 50 50 2
+bedrock 500 150 50 50
+bedrock 600 150 50 50
+bedrock 650 150 50 50
+bedrock 100 0 50 50
+bedrock 150 0 50 50
+bedrock 200 0 50 50
+bedrock 250 0 50 50
+bedrock 350 0 50 50
+bedrock 300 0 50 50
+bedrock 400 0 50 50
+bedrock 450 0 50 50
+bedrock 500 0 50 50
+bedrock 550 0 50 50
+bedrock 600 0 50 50
+bedrock 650 0 50 50
+normal 100 50 50 50 2
+normal 100 100 50 50 2
+normal 150 100 50 50 2
+normal 200 50 50 50 2
+normal 200 100 50 50 2
+normal 250 50 50 50 2
+normal 300 50 50 50 2
+normal 300 100 50 50 2
 normal 350 50 50 50 2
 normal 400 50 50 50 2
-lucky 0 250 50 50 1 4
-lucky 750 250 50 50 1 2
-normal 0 50 50 100 2
-normal 750 50 50 100 2
+normal 450 100 50 50 2
+normal 450 50 50 50 2
+normal 500 50 50 50 2
+normal 550 50 50 50 2
+normal 550 100 50 50 2
+normal 600 100 50 50 2
+normal 650 50 50 50 2
+normal 650 100 50 50 2
+bomb 150 50 50 50 1 1 100
+bomb 600 50 50 50 1 1 100
+normal 50 50 50 50 2
+normal 0 50 50 50 2
+normal 50 100 50 50 2
+normal 700 50 50 50 2
+normal 750 50 50 50 2
+normal 700 100 50 50 2
+bomb 50 150 50 50 1 1 100
+bomb 700 150 50 50 1 1 100
+normal 0 200 50 50 2
+normal 750 200 50 50 2
+normal 0 150 50 50 2
+normal 750 150 50 50 2
+normal 700 200 50 50 2
+normal 50 200 50 50 2
+normal 0 0 50 50 2
+normal 50 0 50 50 2
+normal 700 0 50 50 2
+normal 750 0 50 50 2
+normal 100 200 50 50 2
+normal 150 200 50 50 2
+normal 200 200 50 50 2
+normal 250 200 50 50 2
+normal 300 200 50 50 2
+normal 350 200 50 50 2
+normal 400 200 50 50 2
+normal 500 200 50 50 2
+normal 450 200 50 50 2
+normal 550 200 50 50 2
+normal 650 200 50 50 2
+normal 600 200 50 50 2
+bomb 350 100 50 50 1 1 100
+bomb 400 100 50 50 1 1 100
+lucky 250 100 50 50 1 -1
+lucky 500 100 50 50 1 -1
+lucky 0 100 50 50 1 -1
+lucky 750 100 50 50 1 -1

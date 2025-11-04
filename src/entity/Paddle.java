@@ -102,6 +102,8 @@ public class Paddle extends Entity {
     public void reset(){
         this.x = Constant.FRAME_WIDTH / 2 - Constant.PADDLE_WIDTH / 2;
         this.y = Constant.FRAME_HEIGHT - Constant.PADDLE_Y_OFFSET - Constant.PADDLE_HEIGHT;
+        this.width = Constant.PADDLE_WIDTH;
+        this.height = Constant.PADDLE_HEIGHT;
         this.posX = x;
         this.movingLeft = false;
         this.movingRight = false;

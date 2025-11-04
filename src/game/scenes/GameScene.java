@@ -47,16 +47,7 @@ public class GameScene extends game.Scene {
     public GameScene resetScene() {
         System.out.println("Rmoving pause buttons");
 
-        remove(Pause.getInstance().getResumeButton());
-        remove(Pause.getInstance().getMenuButton());
-        remove(Pause.getInstance().getPlayAgainButton());
-        remove(GameOver.getInstance().getMenuButton());
-        remove(GameOver.getInstance().getPlayAgainButton());
-        remove(Win.getInstance().getNextLevelButton());
-        remove(Win.getInstance().getMenuButton());
-        remove(Win.getInstance().getPlayAgainButton());
-        revalidate();
-        repaint();
+        RemoveAllButton();
 
         PowerUpManager.getInstance().reset();
         BlockManager.getInstance().reset();
@@ -73,12 +64,21 @@ public class GameScene extends game.Scene {
         Paddle.getInstance().setWorking(true);
         Ball.getInstance().setIsRunning(true);
         status = STATUS_PLAYING;
+        RemoveAllButton();
+        return this;
+    }
+
+    private void RemoveAllButton() {
         remove(Pause.getInstance().getResumeButton());
         remove(Pause.getInstance().getMenuButton());
         remove(Pause.getInstance().getPlayAgainButton());
+        remove(GameOver.getInstance().getMenuButton());
+        remove(GameOver.getInstance().getPlayAgainButton());
+        remove(Win.getInstance().getNextLevelButton());
+        remove(Win.getInstance().getMenuButton());
+        remove(Win.getInstance().getPlayAgainButton());
         revalidate();
         repaint();
-        return this;
     }
 
     @Override

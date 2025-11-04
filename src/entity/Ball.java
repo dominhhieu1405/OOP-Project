@@ -203,6 +203,10 @@ public class Ball extends Entity  {
         this.y = Constant.FRAME_HEIGHT - Constant.PADDLE_HEIGHT - RADIUS - 50;
         this.velocityX = (int) (this.velocity / Math.sqrt(2));
         this.velocityY = (int) (this.velocity / Math.sqrt(2));
+        this.setSpeed(1);
+        this.damage = 1;
+        this.isFire = false;
+        this.img = Constant.BALL_IMG;
         this.health = Constant.TOTAL_BALL_HEART;
         this.isRunning = false;
         this.isAlive = true;

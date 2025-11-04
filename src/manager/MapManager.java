@@ -181,7 +181,7 @@ public class MapManager {
                 return maps.get(i);
             }
         }
-        return maps.getFirst();
+        return maps.get(0);
     }
 
     public void unlockNextMap() {
