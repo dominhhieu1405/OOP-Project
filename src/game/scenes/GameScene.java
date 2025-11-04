@@ -91,30 +91,11 @@ public class GameScene extends game.Scene {
         // check win
         if (!this.status.equals(STATUS_WIN) && BlockManager.getInstance().checkWin()) {
             status = STATUS_WIN;
-            System.out.println("Win detected in update()");
             Paddle.getInstance().setWorking(false);
             Ball.getInstance().setIsRunning(false);
-        
-            javax.swing.JButton btn1 = Win.getInstance().getNextLevelButton();
-            javax.swing.JButton btn2 = Win.getInstance().getMenuButton();
-            javax.swing.JButton btn3 = Win.getInstance().getPlayAgainButton();
-            javax.swing.SwingUtilities.invokeLater(()->{
-                if (btn1.getParent()!= this) this.add(btn1);
-                if (btn2.getParent()!=this) this.add(btn2);
-                if (btn3.getParent()!=this) this.add(btn3);
-                btn1.setBounds(220, 300, 160, 40);
-                btn2.setBounds(220, 350, 160, 40);
-                btn3.setBounds(220, 400, 160, 40);
-                btn1.setVisible(true);
-                btn2.setVisible(true);
-                btn3.setVisible(true);
-                this.revalidate();
-                this.repaint();
-            });
-            //TODO: Update map unlock
+            
+            Win.getInstance().addButtonsToPanel(this);
 
-
-            System.out.println("Unlock next map if any");
             Win.getInstance().getNextLevelButton().setEnabled(MapManager.getInstance().hasNextMap());
             MapManager.getInstance().unlockNextMap();
         }
@@ -123,42 +104,12 @@ public class GameScene extends game.Scene {
             status = STATUS_GAMEOVER;
             Paddle.getInstance().setWorking(false);
             Ball.getInstance().setIsRunning(false);
-            javax.swing.JButton btn1 = GameOver.getInstance().getMenuButton();
-            javax.swing.JButton btn2 = GameOver.getInstance().getPlayAgainButton();
-            javax.swing.SwingUtilities.invokeLater(()->{
-                if (btn1.getParent()!= this) this.add(btn1);
-                if (btn2.getParent()!=this) this.add(btn2);
-                btn1.setBounds(220, 320, 360, 60);
-                btn2.setBounds(220, 400, 360, 60);
-                
-        // menuButton.setBounds(220, 320, 360, 60);
-        // playAgainButton.setBounds(220, 400, 360, 60);
-                btn1.setVisible(true);
-                btn2.setVisible(true);
-                this.revalidate();
-                this.repaint();
-            });
+            GameOver.getInstance().addButtonsToPanel(this);
 
         }
 
         if (status.equals(STATUS_PAUSE)) {
-            System.out.println("Game paused, showing pause buttons");
-            javax.swing.JButton btn1 = Pause.getInstance().getResumeButton();
-            javax.swing.JButton btn2 = Pause.getInstance().getMenuButton();
-            javax.swing.JButton btn3 = Pause.getInstance().getPlayAgainButton();
-            javax.swing.SwingUtilities.invokeLater(()->{
-                if (btn1.getParent() != GameScene.this) this.add(btn1);
-                if (btn2.getParent() != GameScene.this) this.add(btn2);
-                if (btn3.getParent() != GameScene.this) this.add(btn3);
-                btn1.setBounds(220, 240, 360, 60);
-                btn2.setBounds(220, 320, 360, 60);
-                btn3.setBounds(220, 400, 360, 60);
-                btn1.setVisible(true);
-                btn2.setVisible(true);
-                btn3.setVisible(true);
-                this.revalidate();
-                this.repaint();
-            });
+            Pause.getInstance().addButtonsToPanel(this);
         }
     }
 

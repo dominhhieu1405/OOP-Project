@@ -6,6 +6,8 @@ import Constant.Constant;
 import game.GamePanel;
 import manager.BlockManager;
 import manager.MapManager;
+import game.scenes.GameScene;
+import javax.swing.JPanel;
 
 public class Win {
     private JButton nextLevelButton;
@@ -53,6 +55,18 @@ public class Win {
         }
 
         return instance;
+    }
+
+    public void addButtonsToPanel(JPanel panel) {
+        if (nextLevelButton.getParent() != panel) {
+            panel.add(nextLevelButton);
+        }
+        if (menuButton.getParent() != panel) {
+            panel.add(menuButton);
+        }
+        if (playAgainButton.getParent() != panel) {
+            panel.add(playAgainButton);
+        }
     }
 
 // ==========================================================
