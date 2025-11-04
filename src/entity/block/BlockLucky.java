@@ -1,5 +1,6 @@
-package entity;
+package entity.block;
 
+import entity.powerUp.*;
 import manager.PowerUpManager;
 
 public class BlockLucky extends Block {

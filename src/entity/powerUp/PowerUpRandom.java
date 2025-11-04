@@ -1,4 +1,4 @@
-package entity;
+package entity.powerUp;
 
 public class PowerUpRandom extends PowerUp {
     public PowerUp powerUp;

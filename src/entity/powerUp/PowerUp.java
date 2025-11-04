@@ -1,7 +1,7 @@
-package entity;
+package entity.powerUp;
 
-import Constant.Constant;
-import manager.PowerUpManager;
+import entity.Entity;
+import entity.Paddle;
 
 import java.awt.Graphics;
 import javax.swing.ImageIcon;

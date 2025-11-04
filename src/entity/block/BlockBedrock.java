@@ -1,4 +1,4 @@
-package entity;
+package entity.block;
 
 public class BlockBedrock extends Block {
     /**

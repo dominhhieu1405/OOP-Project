@@ -2,15 +2,11 @@ package manager;
 
 import Constant.Constant;
 import entity.Ball;
-import entity.Block;
 import game.GamePanel;
 import game.scenes.GameScene;
 
 import javax.swing.*;
-import java.awt.*;
-import java.io.File;
 import java.io.FileWriter;
-import java.io.IOException;
 import java.io.FileInputStream;
 import java.util.ArrayList;
 
@@ -121,7 +117,7 @@ public class MapManager {
                         BlockManager.getInstance().load("data/maps/Map" + id + ".txt");
                         MapManager.getInstance().currentMap = id - 1;
                         SoundManager.stop("bgm"); // Tắt background music
-                        GamePanel.getInstance().setScene(new GameScene());
+                        GamePanel.getInstance().setScene(GameScene.getInstance().resetScene());
                     });
 
                     button.setEnabled(unlocked == 1);

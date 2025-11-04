@@ -1,15 +1,19 @@
-package entity;
+package entity.powerUp;
 
-public class PowerUpBallFast extends PowerUp {
-    public PowerUpBallFast(int x, int y) {
-        super(x, y, 36, 36, "assets/images/PowerUp/BallFast.png");
+import entity.Ball;
+
+public class PowerUpBallShrink extends PowerUp {
+    public PowerUpBallShrink(int x, int y) {
+        super(x, y, 36, 36, "assets/images/PowerUp/BallShrink.png");
         this.duration = 10000; // hiệu lực 10 giây
     }
 
     @Override
     public void activate() {
         Ball ball = Ball.getInstance();
-        ball.setSpeed(ball.getSpeed() * 1.5); // Tăng tốc độ bóng lên 1.5 lần
+
+        ball.setRADIUS(Math.max(ball.getRADIUS() - 2, 1));
+
         isActive = true;
         startTime = System.currentTimeMillis();
     }
@@ -17,7 +21,9 @@ public class PowerUpBallFast extends PowerUp {
     @Override
     public void deactivate() {
         Ball ball = Ball.getInstance();
-        ball.setSpeed(ball.getSpeed() / 1.5); // Trả về tốc độ ban đầu
+
+        ball.setRADIUS(ball.getRADIUS() + 2);
+
         isActive = false;
     }
 }

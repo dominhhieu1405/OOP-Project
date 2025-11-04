@@ -1,6 +1,7 @@
-package entity;
+package entity.powerUp;
 
 import Constant.Constant;
+import entity.Ball;
 
 public class PowerUpBallExtraLife extends PowerUp {
     public PowerUpBallExtraLife(int x, int y) {

@@ -23,7 +23,9 @@ public class GameScene extends game.Scene {
     public static final String STATUS_WIN = "WIN";
     public String status = STATUS_PLAYING;
     
-    public GameScene(){
+    public static GameScene instance;
+    
+    private GameScene(){
         super();
         PowerUpManager.getInstance().reset();
         BlockManager.getInstance().reset();
@@ -33,6 +35,41 @@ public class GameScene extends game.Scene {
         Ball.getInstance().setIsRunning(false);
         status = STATUS_PLAYING;
         setupKeyBindings();
+    }
+    
+    public static GameScene getInstance() {
+        if (instance == null) {
+            instance = new GameScene();
+        }
+        return instance;
+    }
+    
+    public GameScene resetScene() {
+        System.out.println("Rmoving pause buttons");
+        remove(Pause.getInstance().getResumeButton());
+        remove(Pause.getInstance().getMenuButton());
+        remove(Pause.getInstance().getPlayAgainButton());
+        PowerUpManager.getInstance().reset();
+        BlockManager.getInstance().reset();
+        Ball.getInstance().reset();
+        Paddle.getInstance().reset();
+        Paddle.getInstance().setWorking(true);
+        Ball.getInstance().setIsRunning(false);
+        status = STATUS_PLAYING;
+        setupKeyBindings();
+        return this;
+    }
+
+    public GameScene continueGame() {
+        Paddle.getInstance().setWorking(true);
+        Ball.getInstance().setIsRunning(true);
+        status = STATUS_PLAYING;
+        remove(Pause.getInstance().getResumeButton());
+        remove(Pause.getInstance().getMenuButton());
+        remove(Pause.getInstance().getPlayAgainButton());
+        revalidate();
+        repaint();
+        return this;
     }
 
     @Override
@@ -93,6 +130,26 @@ public class GameScene extends game.Scene {
                 this.repaint();
             });
 
+        }
+
+        if (status.equals(STATUS_PAUSE)) {
+            System.out.println("Game paused, showing pause buttons");
+            javax.swing.JButton btn1 = Pause.getInstance().getResumeButton();
+            javax.swing.JButton btn2 = Pause.getInstance().getMenuButton();
+            javax.swing.JButton btn3 = Pause.getInstance().getPlayAgainButton();
+            javax.swing.SwingUtilities.invokeLater(()->{
+                if (btn1.getParent() != GameScene.this) this.add(btn1);
+                if (btn2.getParent() != GameScene.this) this.add(btn2);
+                if (btn3.getParent() != GameScene.this) this.add(btn3);
+                btn1.setBounds(220, 240, 360, 60);
+                btn2.setBounds(220, 320, 360, 60);
+                btn3.setBounds(220, 400, 360, 60);
+                btn1.setVisible(true);
+                btn2.setVisible(true);
+                btn3.setVisible(true);
+                this.revalidate();
+                this.repaint();
+            });
         }
     }
 
@@ -156,8 +213,7 @@ public class GameScene extends game.Scene {
                 GameOver.getInstance().render(g);
 
             } else if (status.equals(STATUS_PAUSE)) {} {
-                //TODO: Render Pause Scene
-
+                Pause.getInstance().render(g);
             }
         }
         
@@ -176,6 +232,16 @@ public class GameScene extends game.Scene {
         // Lấy input map và action map
         javax.swing.InputMap inputMap = getInputMap(WHEN_IN_FOCUSED_WINDOW);
         javax.swing.ActionMap actionMap = getActionMap();
+
+        inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_ESCAPE, 0), "pauseGame");
+        actionMap.put("pauseGame", new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                status = STATUS_PAUSE;
+                Paddle.getInstance().setWorking(false);
+                Ball.getInstance().setIsRunning(false);
+            }
+        });
 
 
         inputMap.put(KeyStroke.getKeyStroke(KeyEvent.VK_LEFT, 0, false), "pressLeft");

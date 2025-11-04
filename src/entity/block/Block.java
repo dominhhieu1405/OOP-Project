@@ -1,5 +1,6 @@
-package entity;
+package entity.block;
 import Constant.Constant;
+import entity.Entity;
 import manager.SoundManager;
 
 import java.awt.*;

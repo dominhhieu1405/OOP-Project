@@ -1,7 +1,10 @@
 package manager;
 
 import Constant.Constant;
-import entity.*;
+import entity.block.Block;
+import entity.block.BlockBedrock;
+import entity.block.BlockBomb;
+import entity.block.BlockLucky;
 
 import java.awt.*;
 import java.io.FileInputStream;

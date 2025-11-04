@@ -1,11 +1,10 @@
 package entity;
 import Constant.Constant;
-import game.GamePanel;
+import entity.block.Block;
 import manager.SoundManager;
 import manager.BlockManager;
 
 import java.awt.Graphics;
-import javax.swing.ImageIcon;
 
 public class Ball extends Entity  {
 
@@ -204,6 +203,8 @@ public class Ball extends Entity  {
      */
     public void setIsRunning(boolean isRunning) {
         this.isRunning = isRunning;
+        this.lastEvent = System.currentTimeMillis();
+        this.lastTime = System.currentTimeMillis();
     }
 
     /**

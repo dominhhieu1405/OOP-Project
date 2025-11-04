@@ -1,4 +1,4 @@
-package entity;
+package entity.block;
 
 import Constant.Constant;
 import manager.BlockManager;

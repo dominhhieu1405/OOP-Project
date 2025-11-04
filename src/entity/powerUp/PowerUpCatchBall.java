@@ -1,4 +1,6 @@
-package entity;
+package entity.powerUp;
+
+import entity.Ball;
 
 public class PowerUpCatchBall extends PowerUp {
 

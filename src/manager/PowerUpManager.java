@@ -1,7 +1,7 @@
 package manager;
 
 import Constant.Constant;
-import entity.*;
+import entity.powerUp.PowerUp;
 
 import java.awt.*;
 import java.util.ArrayList;

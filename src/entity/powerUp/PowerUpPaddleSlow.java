@@ -1,4 +1,6 @@
-package entity;
+package entity.powerUp;
+
+import entity.Paddle;
 
 public class PowerUpPaddleSlow extends PowerUp {
 

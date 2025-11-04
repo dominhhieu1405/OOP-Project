@@ -1,4 +1,6 @@
-package entity;
+package entity.powerUp;
+
+import entity.Ball;
 
 public class PowerUpBallFire extends PowerUp {
     public PowerUpBallFire(int x, int y) {

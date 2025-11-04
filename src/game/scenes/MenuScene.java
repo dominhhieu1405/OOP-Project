@@ -4,14 +4,12 @@ import Constant.Constant;
 import java.awt.*;
 import javax.swing.*;
 
-import entity.Block;
 import game.GamePanel;
 import manager.BlockManager;
 import manager.MapManager;
 import manager.SoundManager;
 
 import java.awt.event.*;
-import java.io.File;
 
 public class MenuScene extends game.Scene {
     private JButton mapButton;
@@ -47,7 +45,7 @@ public class MenuScene extends game.Scene {
             System.out.println("Pressed PLAY");
             SoundManager.stop("bgm"); // Tắt background music
             BlockManager.getInstance().setCurrentMap(MapManager.getInstance().getLastUnlockedMap().path);
-            GamePanel.getInstance().setScene(new GameScene());
+            GamePanel.getInstance().setScene(GameScene.getInstance().resetScene());
         });
 
         quitButton.addActionListener(new ActionListener() {
