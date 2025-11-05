@@ -29,11 +29,12 @@ public class main {
         window.setResizable(false);
         window.pack();
         window.setLocationRelativeTo(null);
-        System.out.println("Created Default Scene and added to window");
         window.setVisible(true);
 
 
         SwingUtilities.invokeLater(() -> {
+// Not use 2 threads to avoid concurrency issues
+
             // Update Logic Thread
             GameEngine game = new GameEngine();
             Thread logicThread = new Thread(game);

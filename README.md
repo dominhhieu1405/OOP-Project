@@ -15,7 +15,7 @@ Dự án được phát triển theo **Lập trình Hướng đối tượng (OO
 
 ## 🎯 2. Video demo
 
-🎥 **Link video:** [https://youtu.be/your-demo-link](https://youtu.be/your-demo-link)
+<iframe width="560" height="315" src="https://www.youtube.com/embed/u20ZeKhUW1Y?si=sXo4D8AS8GGRDEex" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
 
 Trong video nhóm trình bày:
 - Cách tổ chức mã nguồn, chia **package** rõ ràng theo chức năng.
@@ -26,87 +26,63 @@ Trong video nhóm trình bày:
 
 ---
 
-## 🧱 3. Tổ chức mã nguồn
+## 🧱 3. Tổ chức mã nguồn (tóm tắt + sơ đồ lớp)
 
-### 🌲 Cấu trúc thư mục
+Phần này tóm tắt cấu trúc dự án và cung cấp một sơ đồ lớp tổng quát (chỉ các lớp đặc trưng) để dễ hình dung mối quan hệ chính giữa các thành phần.
 
-```
-Arkanoid/
-│
-├── assets/                        # Tài nguyên game (ảnh, âm thanh, font)
-│   ├── fonts/
-│   ├── images/
-│   ├── sounds/
-│   └── index.html
-│
-├── data/                          # Dữ liệu game (map, điểm)
-│   ├── maps/
-│   │   ├── Map1.txt … Map11.txt   # Bố cục gạch từng màn
-│   │   ├── maps.txt               # Danh sách map mở khóa
-│   │   ├── test.txt
-│   │   └── README.md
-│   ├── highscores.txt             # Lưu điểm cao
-│
-├── src/                           # Mã nguồn chính
-│   ├── Constant/                  # Hằng số toàn cục
-│   │   └── Constant.java
-│   │
-│   ├── entity/                    # Các đối tượng trong game
-│   │   ├── Entity.java            # Lớp cha trừu tượng (tọa độ, kích thước)
-│   │   ├── Ball.java              # Quả bóng
-│   │   ├── Paddle.java            # Thanh đỡ người chơi
-│   │   │
-│   │   ├── block/                 # Các loại gạch
-│   │   │   ├── Block.java
-│   │   │   ├── BlockBedrock.java
-│   │   │   ├── BlockBomb.java
-│   │   │   └── BlockLucky.java
-│   │   │
-│   │   └── powerUp/               # Các loại vật phẩm
-│   │       ├── PowerUp.java
-│   │       ├── PowerUpBallExpand.java
-│   │       ├── PowerUpBallExtraLife.java
-│   │       ├── PowerUpBallFast.java
-│   │       ├── PowerUpBallFire.java
-│   │       ├── PowerUpBallShrink.java
-│   │       ├── PowerUpBallSlow.java
-│   │       ├── PowerUpCatchBall.java
-│   │       ├── PowerUpPaddleExpand.java
-│   │       ├── PowerUpPaddleFast.java
-│   │       ├── PowerUpPaddleShrink.java
-│   │       ├── PowerUpPaddleSlow.java
-│   │       └── PowerUpRandom.java
-│   │
-│   ├── game/                      # Logic và giao diện trò chơi
-│   │   ├── GameEngine.java
-│   │   ├── GamePanel.java
-│   │   ├── Scene.java
-│   │   └── scenes/
-│   │       ├── MenuScene.java
-│   │       ├── GameScene.java
-│   │       ├── MapScene.java
-│   │       ├── Pause.java
-│   │       ├── GameOver.java
-│   │       └── Win.java
-│   │
-│   ├── manager/                   # Quản lý tài nguyên & trạng thái
-│   │   ├── BlockManager.java
-│   │   ├── MapManager.java
-│   │   ├── PowerUpManager.java
-│   │   └── SoundManager.java
-│   │
-│   └── main/                      # Điểm khởi động chương trình
-│       └── Main.java
-│
-└── README.md 
+### Cấu trúc chính (tóm tắt)
+- `src/Constant` — hằng số và tài nguyên (kích thước, ảnh, âm thanh paths).
+- `src/entity` — các đối tượng trong game (tất cả kế thừa `Entity`).
+- `src/game` — engine/scene/GUI: `GameEngine`, `GamePanel`, `Scene` và các `scenes/*` (Menu/GameScene/Pause/GameOver/Win).
+- `src/manager` — singleton quản lý: `BlockManager`, `PowerUpManager`, `MapManager`, `SoundManager`.
+
+### Sơ đồ lớp (chỉ các lớp tổng quát, mermaid)
+
+```mermaid
+classDiagram
+	class Scene
+	class GamePanel
+	class GameScene
+	class GameEngine
+	class Entity
+	class Ball
+	class Paddle
+	class Block
+	class BlockManager
+	class PowerUp
+	class PowerUpManager
+	class MapManager
+	class SoundManager
+
+	Scene <|-- GameScene
+	GamePanel --> Scene : contains
+	GameEngine --> GamePanel : updates / drives loop
+	GameScene --> Entity : uses
+	Entity <|-- Ball
+	Entity <|-- Paddle
+	GameScene --> BlockManager : renders / checks win
+	BlockManager --> Block : manages
+	GameScene --> PowerUpManager : spawns / updates
+	PowerUpManager --> PowerUp : manages
+	GameScene --> MapManager : loads maps
+	GameScene --> SoundManager : play sounds
+
+	%% notes
+	class Scene{
+        +paintComponent()
+	    +setupKeyBindings()
+	}
+	class Entity{
+        +x
+	    +y
+	    +width
+	    +height
+	    +update()
+	    +render()
+	}
 ```
 
-### 💡 Giải thích nhanh
-- **entity/**: Các đối tượng hiển thị trong game (Ball, Paddle, Block, PowerUp).  
-- **game/**: Điều khiển logic, cập nhật khung hình, xử lý input, hiển thị GUI.  
-- **manager/**: Singleton quản lý các tài nguyên (âm thanh, bản đồ, vật phẩm).  
-- **data/**: Lưu trữ dữ liệu ngoài, dễ mở rộng mà không cần thay code.  
-- **Constant.java**: Khai báo kích thước khung hình, tốc độ, màu, file đường dẫn.  
+Ghi chú: sơ đồ trên nhằm minh họa luồng dữ liệu và phụ thuộc chính — không liệt kê mọi lớp nhỏ (ví dụ các loại `Block`/`PowerUp` cụ thể được coi là các triển khai con của `Block`/`PowerUp`).
 
 ---
 
@@ -122,37 +98,32 @@ Arkanoid/
 
 ---
 
-## ⚙️ 5. Hệ thống overlay scene và quản lý nút tương tác
+## ⚙️ 5. Kiến trúc OverlayScene (tập trung)
 
-Phần mình tâm đắc nhất là thiết kế hệ thống các overlay (Pause / GameOver / Win) và cách quản lý các nút tương tác đi kèm. Thiết kế này tách biệt rõ ràng giữa logic game core và UI overlay, giúp code dễ bảo trì và mở rộng.
+Phần này mô tả ngắn gọn kiến trúc OverlayScene — cơ chế dùng để hiển thị các lớp phủ UI như Pause, GameOver, Win mà không làm xáo trộn logic game core.
 
-Những điểm chính:
-- Kiến trúc: `GamePanel` là container chính, chứa `Scene` hiện tại. `GameScene` chịu trách nhiệm vẽ màn chơi và, khi game bị dừng, hiển thị các overlay bằng cách vẽ lớp phủ và gọi `render()` của overlay tương ứng.
-- Overlay singleton: Các overlay (`Pause`, `GameOver`, `Win`) dùng kiểu Singleton để giữ một bộ `JButton` duy nhất trong suốt vòng đời ứng dụng. Điều này tránh tạo/xóa nút nhiều lần và giữ trạng thái nhất quán.
-- Thêm nút an toàn: Mỗi overlay cung cấp `addButtonsToPanel(JPanel panel)` — trước khi `add`, có kiểm tra `button.getParent() != panel` để tránh add trùng.
-- Vị trí nút cố định: Overlay đặt vị trí nút bằng `button.setBounds(x,y,w,h)`; do đó `GameScene` sử dụng layout null (`setLayout(null)`) và `setPreferredSize(...)` để `setBounds` có hiệu lực.
-- Xoá nút khi chuyển trạng thái: `GameScene` có hàm `RemoveAllButton()` dùng để loại bỏ các nút overlay cũ trước khi reset hoặc chuyển scene — đảm bảo không còn nút sót lại trên panel.
+Ý tưởng chính:
+- `GamePanel` làm container chính và chứa `Scene` hiện tại (thường là `GameScene`).
+- `GameScene` vẽ game world (entities, blocks, power-ups). Khi game không ở trạng thái chơi (paused/gameover/win), `GameScene` vẽ một lớp phủ (translucent overlay) và gọi `render()` của overlay tương ứng.
+- Mỗi overlay (Pause, GameOver, Win) là một module chịu trách nhiệm cho UI của trạng thái đó: tạo `JButton`, xử lý `ActionListener`, và cung cấp hai phương thức chính:
+	- `addButtonsToPanel(JPanel panel)` — thêm các nút vào panel khi overlay cần hiển thị (có kiểm tra `button.getParent() != panel` để tránh thêm trùng).
+	- `render(Graphics g)` — vẽ bất kỳ nội dung overlay không phải là JButton (ví dụ tiêu đề, hướng dẫn) và gọi `button.setBounds(...)` để định vị nút.
 
-Hợp đồng ngắn (inputs / outputs / effect):
-- Inputs: trạng thái game (playing / pause / gameover / win), sự kiện từ `JButton`.
-- Outputs: thêm/loại bỏ `JButton` trên `GameScene`, gọi `GamePanel.setScene(...)`, hoặc gọi `GameScene.resetScene()` / `continueGame()`.
+Thiết kế này có các ưu điểm:
+- Tách biệt: logic game (vật lý, cập nhật) không bị lẫn với UI overlay.
+- Đơn giản để mở rộng: thêm overlay mới chỉ cần tuân theo contract trên.
 
-Các trường hợp biên cần lưu ý:
-- Focus & key bindings: khi đổi scene cần cập nhật key bindings (GamePanel xóa listeners cũ và gọi `scene.setupKeyBindings()` nếu cần).
-- Double-add: overlay kiểm tra parent trước khi add để tránh add nhiều lần.
-- Reset state: khi khởi động lại level, cần loại bỏ nút overlay cũ (hiện thực bằng `RemoveAllButton()`).
+Lifecycle / flow ngắn:
+1. GameScene phát hiện trạng thái thay đổi (ví dụ ball chết → GAMEOVER).
+2. GameScene gọi `GameOver.getInstance().addButtonsToPanel(this)`.
+3. Trong `paintComponent`, GameScene vẽ lớp phủ mờ rồi gọi `GameOver.render(g)` để đặt bounds cho các nút.
+4. Khi chuyển scene hoặc reset, GameScene loại bỏ các nút overlay khỏi panel (ví dụ thông qua một hàm `RemoveAllButton()`).
 
-Lưu ý về workaround hiện tại
-- Hiện tại `GameScene` sử dụng `RemoveAllButton()` như một biện pháp tạm thời để đảm bảo không còn nút overlay cũ sót lại khi chuyển trạng thái (ví dụ khi restart hoặc quay về Menu). Đây là phương án phòng ngừa cho một bug nhỏ trong luồng thêm nút.
-- Kế hoạch sửa chính thức: chuyển sang cơ chế báo hiệu (flag) khi trạng thái scene thay đổi — chỉ thêm các nút overlay khi phát hiện sự thay đổi trạng thái. Cách này sẽ loại trừ nhu cầu xoá toàn bộ nút mỗi lần và quản lý lifecycle của các nút chính xác hơn.
+Ghi chú kỹ thuật ngắn:
+- Để `button.setBounds(...)` có hiệu lực, `GameScene` dùng layout null (`setLayout(null)`) và `setPreferredSize(...)` cho kích thước cố định.
+- Overlay thường được triển khai theo pattern singleton trong repo để giữ một bộ nút duy nhất và tránh tạo/xóa nhiều lần.
 
-Kiểm thử nhanh:
-- Thua → xuất hiện `GameOver` với các nút (Chơi lại, Menu). Nhấn Chơi lại → `GameScene.resetScene()` được gọi, không còn nút thừa, các entity được reset.
-- Pause → resume bằng nút Tiếp tục hoặc phím tắt; xác nhận key bindings và trạng thái paddle/ball.
-
-Gợi ý mở rộng:
-- Thay Singleton bằng factory/DI nếu cần nhiều cấu hình overlay khác nhau.
-- Thêm animation (fade-in/out) khi overlay xuất hiện để cải thiện UX.
+Phần này chỉ tập trung vào kiến trúc OverlayScene; các chi tiết như cách reset entity hoặc xử lý key bindings được mô tả ở các phần khác của README hoặc trong mã nguồn.
 
 ---
 
@@ -178,10 +149,26 @@ Gợi ý mở rộng:
 
 ---
 
-## 🏁 8. Kết luận
+## ⚡ 8. Power-Ups (tổng hợp)
 
-Dự án **Arkanoid OOP** giúp nhóm:
+Dưới đây là bảng liệt kê tất cả Power-Up xuất hiện trong game, kèm hình minh họa (đường dẫn tương đối trong repo) và mô tả ngắn về hiệu ứng của từng Power-Up.
 
-* Củng cố kiến thức thiết kế hướng đối tượng qua một sản phẩm thực tế.
-* Rèn kỹ năng teamwork, chia module và tổ chức code rõ ràng.
-* Vận dụng OOP kết hợp với giao diện, âm thanh, và đa luồng để tạo trải nghiệm mượt mà.
+| Tên Power-Up | Hình ảnh | Mô tả |
+|---|---:|---|
+| BallExpand | <img src="assets/images/PowerUp/BallExpand.png" width="48"/> | Tăng kích thước quả bóng, giúp dễ chạm vào gạch hơn. |
+| BallExtraLife | <img src="assets/images/PowerUp/BallExtraLife.png" width="48"/> | Cấp thêm 1 mạng/đời cho người chơi. |
+| BallFast | <img src="assets/images/PowerUp/BallFast.png" width="48"/> | Tăng vận tốc quả bóng trong một thời gian ngắn. |
+| BallFire | <img src="assets/images/PowerUp/BallFire.png" width="48"/> | Bóng có thể xuyên qua một số loại gạch (fireball). |
+| BallShrink | <img src="assets/images/PowerUp/BallShrink.png" width="48"/> | Giảm kích thước quả bóng (khó điều khiển hơn). |
+| BallSlow | <img src="assets/images/PowerUp/BallSlow.png" width="48"/> | Giảm tốc độ quả bóng tạm thời, dễ điều khiển hơn. |
+| CatchBall | <img src="assets/images/PowerUp/CatchBall.png" width="48"/> | Bật chế độ bắt bóng: khi bóng chạm paddle, nó dừng lại và chờ người chơi bắn tiếp. |
+| PaddleExpand | <img src="assets/images/PowerUp/PaddleExpand.png" width="48"/> | Mở rộng kích thước paddle, giúp phòng thủ tốt hơn. |
+| PaddleFast | <img src="assets/images/PowerUp/PaddleFast.png" width="48"/> | Tăng tốc độ di chuyển paddle tạm thời. |
+| PaddleShrink | <img src="assets/images/PowerUp/PaddleShrink.png" width="48"/> | Thu nhỏ paddle, làm trò chơi khó hơn. |
+| PaddleSlow | <img src="assets/images/PowerUp/PaddleSlow.png" width="48"/> | Giảm tốc độ paddle tạm thời. |
+| Random | <img src="assets/images/PowerUp/Random.png" width="48"/> | Gây ra một hiệu ứng ngẫu nhiên trong số các power-up khả dụng. |
+
+Ghi chú:
+- Hình ảnh trong bảng tham chiếu file trong repo: `assets/images/PowerUp/` — bạn có thể thay đổi kích thước hiển thị bằng thuộc tính `width` trong thẻ `<img>` nếu cần.
+- Mô tả ở trên là tóm tắt; các chi tiết (thời lượng hiệu ứng, stack behavior, xác suất rơi) có thể được tìm thấy trong lớp tương ứng trong `src/entity/powerUp/`.
+
