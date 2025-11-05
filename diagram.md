@@ -1,3 +1,4 @@
+```mermaid
 classDiagram
 direction BT
 class Ball {
@@ -369,3 +370,4 @@ PowerUpPaddleFast  -->  PowerUp
 PowerUpPaddleShrink  -->  PowerUp 
 PowerUpPaddleSlow  -->  PowerUp 
 PowerUpRandom  -->  PowerUp 
+```
