@@ -14,7 +14,14 @@ public abstract class PowerUp extends Entity {
     private long lastTime; // Thời gian lần cuối cập nhật vị trí
     private double posY; // Vị trí Y thực tế (có thể là số thập phân)
 
-    // Constructor co tham so ke thua tu Entity
+    /**
+     * Constructor có tham số kế thừa từ entity.
+     * @param x tọa độ x
+     * @param y tọa độ y
+     * @param width chiều rộng
+     * @param height chiều cao
+     * @param imgPath đường dẫn của ảnh
+     */
     public PowerUp(int x, int y, int width, int height, String imgPath) {
         super(x, y, width, height);
         System.out.println("Created PowerUp at (" + x + ", " + y + ")");
@@ -29,17 +36,17 @@ public abstract class PowerUp extends Entity {
         }
     }
 
-    // PowerUp roi xuong
+    /**
+     * Power up rơi xuống
+     */
     public void update() {
         double dt = (System.currentTimeMillis() - lastTime) / 1000.0;
         lastTime = System.currentTimeMillis();
         posY += fallSpeed * dt;
         y = (int) Math.round(posY);
 
-
         if (this.isCollision(Paddle.getInstance())) {
             this.activate();
-//            PowerUpManager.getInstance().removePowerUp(this);
         }
 
     }
@@ -49,7 +56,7 @@ public abstract class PowerUp extends Entity {
         g.drawImage(img, x, y, width, height, null);
     }
 
-    // Paddle hung duoc PowerUp
+    // Paddle hứng đươc powerup.
     public abstract void activate();
 
     // Khi hết thời gian hiệu lực

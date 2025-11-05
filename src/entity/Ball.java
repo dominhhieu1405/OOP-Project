@@ -9,7 +9,7 @@ import java.awt.Graphics;
 public class Ball extends Entity  {
     //x and y represent the center of the ball
     private double speed;
-    private final double velocity = 282.0; // Tốc độ gốc (Hợp của vx, vy)
+    private final double velocity = 350.0; // Tốc độ gốc (Hợp của vx, vy)
     private int velocityX, velocityY; // Vận tốc theo trục x và y
     private boolean isAlive; // trạng thái sống/chết của bóng (tính theo mạng)
     private boolean isRunning; // trạng thái chạy/dừng của bóng

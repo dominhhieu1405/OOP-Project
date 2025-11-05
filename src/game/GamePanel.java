@@ -18,6 +18,10 @@ import manager.PowerUpManager;
 public class GamePanel extends JPanel {
     private Scene currentScene;
     private static GamePanel instance;
+
+    /**
+     * Constructor mặc định.
+     */
     private GamePanel() {
         setLayout(new BorderLayout());
         setScene(new MenuScene()); // Default scene
@@ -48,7 +52,10 @@ public class GamePanel extends JPanel {
         }   
     }
 
-
+    /**
+     * Chuyển sang scene mới.
+     * @param scene scene mới cần chuyển đến.
+     */
     public void setScene(Scene scene) {
         System.out.println("Switching to new scene: " + scene.getClass().getSimpleName());
         for (KeyListener kl : this.getKeyListeners()) {

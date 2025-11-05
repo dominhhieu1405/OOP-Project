@@ -12,6 +12,9 @@ import manager.SoundManager;
 public class GameEngine implements Runnable {
     private volatile boolean running = true;
 
+    /**
+     * Vòng lặp chính của game, cập nhật logic trò chơi theo từng khung hình.
+     */
     @Override 
     public void run() {
         while(running) {

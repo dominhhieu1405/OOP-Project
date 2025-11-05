@@ -17,6 +17,9 @@ public class MapScene extends game.Scene {
     private JButton nextButton;
     private JButton menuButton;
 
+    /**
+     * Constructor mặc định.
+     */
     public MapScene (){
         super(Constant.BACKGROUND_IMG);
         setLayout(null);
@@ -51,6 +54,9 @@ public class MapScene extends game.Scene {
         changePage(1);
     }
 
+    /**
+     * Vẽ giao diện lên panel.
+     */
     @Override
     public void paintComponent(java.awt.Graphics g) {
         super.paintComponent(g);
@@ -62,6 +68,10 @@ public class MapScene extends game.Scene {
         g.drawImage(Constant.LOGO_IMG, (Constant.FRAME_WIDTH - logoWidth) / 2, logoHeight/3 - 36, logoWidth, logoHeight, null);
     }
 
+    /**
+     *  Chuyển sang trang bản đồ mới trong menu chọn màn chơi.
+     * @param newPage Trang mới
+     */
     public void changePage(int newPage) {
         if (newPage != page && newPage > 0 && newPage <=  MapManager.getInstance().maps.size() / 9 + 1) {
             page = newPage;

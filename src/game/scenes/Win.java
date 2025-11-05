@@ -18,6 +18,9 @@ public class Win {
 // ==================== Singleton Pattern ====================
     private static Win instance = null;
 
+    /**
+     * Constructor mặc định.
+     */
     private Win() {
         if (instance == null) {
             // init buttons:
@@ -57,6 +60,10 @@ public class Win {
         return instance;
     }
 
+    /**
+     * Thêm nút vào panel.
+     * @param panel nơi nút được thêm vào.
+     */
     public void addButtonsToPanel(JPanel panel) {
         if (nextLevelButton.getParent() != panel) {
             panel.add(nextLevelButton);

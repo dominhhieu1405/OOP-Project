@@ -15,6 +15,9 @@ public class Pause {
     // ==================== Singleton Pattern ====================
     private static Pause instance = null;
 
+    /**
+     * Constructor mặc định.
+     */
     private Pause() {
         if (instance == null) {
             this.resumeButton = Constant.createBtn("Tiếp tục");
@@ -39,6 +42,11 @@ public class Pause {
             instance = this;
         }
     }
+
+    /**
+     * Lấy instance của pause.
+     * @return instance
+     */
     public static Pause getInstance() {
         if (instance == null){
             instance = new Pause();
@@ -47,6 +55,11 @@ public class Pause {
             return instance;
         }
     }
+
+    /**
+     * Thêm các nút Resume, Menu, Play Again vào panel .
+     * @param panel nơi nút được thêm vào.
+     */
     public void addButtonsToPanel(JPanel panel) {
         if (resumeButton.getParent() != panel) {
             panel.add(resumeButton);
@@ -59,6 +72,9 @@ public class Pause {
         }
     }
 
+    /**
+     * Vẽ nút.
+     */
     public void render(Graphics g) {
         resumeButton.setBounds(220, 240, 360, 60);
         menuButton.setBounds(220, 400, 360, 60);

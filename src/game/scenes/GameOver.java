@@ -14,6 +14,10 @@ public class GameOver {
 // ==================== Singleton Pattern ====================
     private static GameOver instance = null;
 
+    /**
+     * Khởi tạo màn hình Game Over.
+     * Tạo hai nút "Menu" và "Chơi lại" cùng sự kiện cho từng nút.
+     */
     private GameOver() {
         if (instance == null) {
             this.menuButton = Constant.createBtn("Menu");
@@ -33,6 +37,11 @@ public class GameOver {
             instance = this;
         } 
     }
+
+    /**
+     * Lấy instance của GameOver.
+     * @return instance
+     */
     public static GameOver getInstance() {
         if (instance == null){
             instance = new GameOver();
@@ -42,6 +51,10 @@ public class GameOver {
         }
     }
 
+    /**
+     * Thêm nút menu và playAgain
+     * @param panel
+     */
     public void addButtonsToPanel(JPanel panel) {
         if (menuButton.getParent() != panel) {
             panel.add(menuButton);
