@@ -168,7 +168,7 @@ Phần này chỉ tập trung vào kiến trúc OverlayScene; các chi tiết nh
 | GoldBlock    |       <img src="assets/images/Block/Gold.png" width="48"/> | Gạch cứng, bị phá hủy sau 3 lần va chạm.               |
 | DiamondBlock |    <img src="assets/images/Block/Diamond.png" width="48"/> | Gạch cứng, bị phá hủy sau 4 lần va chạm.               |
 | EmeraldBlock |    <img src="assets/images/Block/Emerald.png" width="48"/> | Gạch cứng, bị phá hủy sau  >= 5 lần va chạm.           |
-| BedrockBlock |    <img src="assets/images/Block/Bedrock.png" width="48"/> | Gạch bất tử, không thể phá hủy.                        |
+| BedrockBlock |    <img src="assets/images/Block/bedrock.png" width="48"/> | Gạch bất tử, không thể phá hủy.                        |
 | BombBlock    |        <img src="assets/images/Block/tnt.png" width="48"/> | Gạch bom, khi phá hủy sẽ gây nổ phá hủy các gạch lân cận. |
 | LuckyBlock   | <img src="assets/images/Block/luckyblock.png" width="48"/> | Gạch may mắn, khi phá hủy sẽ rơi ra một Power-Up.      |
 
