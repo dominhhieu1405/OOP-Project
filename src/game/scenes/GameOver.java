@@ -56,11 +56,14 @@ public class GameOver {
      * @param panel
      */
     public void addButtonsToPanel(JPanel panel) {
-        if (menuButton.getParent() != panel) {
-            panel.add(menuButton);
-        }
-        if (playAgainButton.getParent() != panel) {
-            panel.add(playAgainButton);
+        if (!GameScene.getInstance().isAddingButtons) {
+            if (menuButton.getParent() != panel) {
+                panel.add(menuButton);
+            }
+            if (playAgainButton.getParent() != panel) {
+                panel.add(playAgainButton);
+            }
+            GameScene.getInstance().isAddingButtons = true;
         }
     }
 
@@ -71,7 +74,7 @@ public class GameOver {
         return playAgainButton;
     }
 
-// ====================Render===================
+    // ====================Render===================
     public void render(Graphics g) {
         playAgainButton.setBounds(220, 240, 360, 60);
         menuButton.setBounds(220, 320, 360, 60);

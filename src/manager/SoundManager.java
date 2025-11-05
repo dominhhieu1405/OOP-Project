@@ -6,7 +6,7 @@ import java.io.IOException;
 import java.util.HashMap;
 
 public class SoundManager {
-    private static HashMap<String, Clip> sounds = new HashMap<>();
+    private static HashMap<String, Clip> sounds = new HashMap<>(); // Lưu trữ các clip âm thanh
 
     /**
      * Khởi tạo và load tất cả file âm thanh.

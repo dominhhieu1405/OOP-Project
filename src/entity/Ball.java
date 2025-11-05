@@ -1,6 +1,7 @@
 package entity;
 import Constant.Constant;
 import entity.block.Block;
+import game.scenes.GameScene;
 import manager.SoundManager;
 import manager.BlockManager;
 
@@ -192,6 +193,7 @@ public class Ball extends Entity  {
             this.isRunning = true;
             lastTime = System.currentTimeMillis();
             lastEvent = System.currentTimeMillis();
+            GameScene.getInstance().startGame();
         }
     }
 
@@ -225,6 +227,7 @@ public class Ball extends Entity  {
             this.isRunning = false;
             this.health--;
             System.out.println("Ball respawned at: " + this.x + ", " + this.y + " with health: " + this.health);
+            GameScene.getInstance().stopGame();
         } else {
             this.isAlive = false;
             this.isRunning = false;

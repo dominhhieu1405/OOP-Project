@@ -13,10 +13,10 @@ import java.util.ArrayList;
 
 public class MapManager {
     private static MapManager instance; // Singleton instance
-    private int page = 1;
-    private final int pageLimit = 9;
-    private final int buttonWidth = 170;
-    private final int buttonHeight = 60;
+    private int page = 1; // Trang hiên tại
+    private final int pageLimit = 9; // Số map tối đa trên mỗi trang
+    private final int buttonWidth = 170; // Chiều rộng nút
+    private final int buttonHeight = 60; // Chiều cao nút
     public ArrayList<Map> maps;
     private int currentMap;
 
@@ -37,25 +37,48 @@ public class MapManager {
         return instance;
     }
 
+    /**
+     * Lấy trang hiện tại.
+     * @return Trang hiện tại.
+     */
     public int getPage() {
         return page;
     }
 
+    /**
+     * Đặt trang hiện tại.
+     * @param page Trang cần đặt.
+     */
     public void setPage(int page) {
         this.page = page;
     }
 
+    /**
+     * Lấy tổng số trang.
+     * @return Tổng số trang.
+     */
     public int getTotalPages() {
         return (int) Math.ceil((double) maps.size() / pageLimit);
     }
 
+    /**
+     * Map.
+     */
     public static class Map {
-        public int id;
-        public String name;
-        public String path;
-        public boolean unlocked = false;
-        public JButton button;
+        public int id; // Số thứ tự
+        public String name; // Tên
+        public String path; // File map
+        public boolean unlocked = false; // Đã mở khóa chưa
+        public JButton button; // Nút tương ứng
 
+        /**
+         * Constructor.
+         * @param id id
+         * @param name name
+         * @param path path
+         * @param unlocked unlocked
+         * @param button button
+         */
         public Map(int id, String name, String path, boolean unlocked, JButton button) {
             this.id = id;
             this.name = name;
@@ -64,12 +87,18 @@ public class MapManager {
             this.button = button;
         }
 
+        /**
+         * Mở khóa map.
+         */
         public void unlock() {
             this.unlocked = true;
             this.button.setEnabled(true);
         }
     }
 
+    /**
+     * Load map từ file.
+     */
     public void load() {
         this.maps.clear();
         int index = 0;
@@ -136,6 +165,9 @@ public class MapManager {
         }
     }
 
+    /**
+     * Lưu trạng thái map vào file.
+     */
     public void save() {
         try {
             StringBuilder sb = new StringBuilder();
@@ -175,6 +207,10 @@ public class MapManager {
         return maps.get(currentMap);
     }
 
+    /**
+     * Lấy map cuối cùng đã mở khóa.
+     * @return map
+     */
     public Map getLastUnlockedMap() {
         for (int i = maps.size() - 1; i >= 0; i--) {
             if (maps.get(i).unlocked) {
@@ -184,6 +220,9 @@ public class MapManager {
         return maps.get(0);
     }
 
+    /**
+     * Mở khóa map tiếp theo.
+     */
     public void unlockNextMap() {
         if (currentMap + 1 < maps.size()) {
             System.out.println("Unlocking map " + (currentMap + 1));
@@ -193,6 +232,10 @@ public class MapManager {
         this.save();
     }
 
+    /**
+     * Kiểm tra có map tiếp theo không.
+     * @return true nếu có, false nếu không
+     */
     public boolean hasNextMap() {
         return currentMap + 1 < maps.size();
     }

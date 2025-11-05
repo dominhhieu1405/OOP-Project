@@ -61,14 +61,17 @@ public class Pause {
      * @param panel nơi nút được thêm vào.
      */
     public void addButtonsToPanel(JPanel panel) {
-        if (resumeButton.getParent() != panel) {
-            panel.add(resumeButton);
-        }
-        if (menuButton.getParent() != panel) {
-            panel.add(menuButton);
-        }
-        if (playAgainButton.getParent() != panel) {
-            panel.add(playAgainButton);
+        if (!GameScene.getInstance().isAddingButtons){
+            if (resumeButton.getParent() != panel) {
+                panel.add(resumeButton);
+            }
+            if (menuButton.getParent() != panel) {
+                panel.add(menuButton);
+            }
+            if (playAgainButton.getParent() != panel) {
+                panel.add(playAgainButton);
+            }
+            GameScene.getInstance().isAddingButtons = true;
         }
     }
 

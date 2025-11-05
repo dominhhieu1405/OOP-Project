@@ -47,7 +47,7 @@ public class Constant {
 
     public static final Image[] EFFECT_BREAKING_IMG = new Image[10];
 
-    static Font f20;
+    public static Font f20;
 
     static {
         for (int i = 0; i < 10; i++) {

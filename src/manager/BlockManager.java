@@ -180,15 +180,12 @@ public class BlockManager {
         // System.out.println("BlockManager test");
         // tạo test
         this.load("data/maps/test.txt");
-//        blockManager.reset();
-//        // Thêm các block test vào BlockManager
-//        for (int i = 0; i < 6; i++) {
-//            for (int j = 0; j < 8; j++) {
-//                Block b = new Block(100 * j + 1,  + 50 * i + 36);
-//                blockManager.addBlock(b);
-//            }
-//        }
     }
+
+    /**
+     * Kiểm tra win (tất cả block trừ bedrock bị phá huỷ).
+     * @return true nếu win, false nếu chưa win.
+     */
 
     public synchronized boolean checkWin() {
         boolean allDestroyed = true;

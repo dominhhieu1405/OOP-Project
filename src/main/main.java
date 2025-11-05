@@ -15,7 +15,7 @@ public class main {
         
         SoundManager.init();
         System.out.println("Done initializing SoundManager.");
-//        SoundManager.loop("bgm");
+        SoundManager.loop("bgm");
         window = new JFrame("Arkanoid");
         gamePanel = GamePanel.getInstance();
         

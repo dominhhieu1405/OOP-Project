@@ -65,14 +65,18 @@ public class Win {
      * @param panel nơi nút được thêm vào.
      */
     public void addButtonsToPanel(JPanel panel) {
-        if (nextLevelButton.getParent() != panel) {
-            panel.add(nextLevelButton);
-        }
-        if (menuButton.getParent() != panel) {
-            panel.add(menuButton);
-        }
-        if (playAgainButton.getParent() != panel) {
-            panel.add(playAgainButton);
+        if (!GameScene.getInstance().isAddingButtons) {
+            System.out.println("cônsle .log");
+            if (nextLevelButton.getParent() != panel) {
+                panel.add(nextLevelButton);
+            }
+            if (menuButton.getParent() != panel) {
+                panel.add(menuButton);
+            }
+            if (playAgainButton.getParent() != panel) {
+                panel.add(playAgainButton);
+            }
+            GameScene.getInstance().isAddingButtons = true;
         }
     }
 

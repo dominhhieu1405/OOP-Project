@@ -1,13 +1,12 @@
 package game.scenes;
 
-import javax.swing.AbstractAction;
-import javax.swing.KeyStroke;
-import java.awt.Rectangle;
+import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.KeyEvent;
 import java.awt.event.MouseMotionListener;
 import java.awt.event.MouseListener;
-import java.awt.Color;
+
 import Constant.Constant;
 
 import entity.Ball;
@@ -22,6 +21,10 @@ public class GameScene extends game.Scene {
     public static final String STATUS_GAMEOVER = "GAMEOVER";
     public static final String STATUS_WIN = "WIN";
     public String status = STATUS_PLAYING;
+    String levelName;
+    public boolean isAddingButtons = false;
+    public boolean isStarted = false;
+    public JButton pauseButton;
     
     public static GameScene instance;
     
@@ -34,6 +37,18 @@ public class GameScene extends game.Scene {
         Paddle.getInstance().setWorking(true);
         Ball.getInstance().setIsRunning(false);
         status = STATUS_PLAYING;
+        pauseButton = Constant.createBtn("ESC");
+        levelName = MapManager.getInstance().getCurrentMap().name;
+        pauseButton.addActionListener(new AbstractAction() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                status = STATUS_PAUSE;
+                Paddle.getInstance().setWorking(false);
+                Ball.getInstance().setIsRunning(false);
+                remove(pauseButton);
+            }
+        });
+        add(pauseButton);
         setupKeyBindings();
     }
 
@@ -56,6 +71,7 @@ public class GameScene extends game.Scene {
         System.out.println("Rmoving pause buttons");
 
         removeAllButtons();
+        levelName = MapManager.getInstance().getCurrentMap().name;
         PowerUpManager.getInstance().reset();
         BlockManager.getInstance().reset();
         Ball.getInstance().reset();
@@ -64,7 +80,31 @@ public class GameScene extends game.Scene {
         Ball.getInstance().setIsRunning(false);
         status = STATUS_PLAYING;
         setupKeyBindings();
+        add(pauseButton);
+//        isAddingButtons = false;
+        isStarted = false;
         return this;
+    }
+
+    /**
+     * Bắt đầu trò chơi.
+     */
+    public void startGame() {
+        isStarted = true;
+    }
+    /**
+     * Kiểm tra trò chơi đã bắt đầu chưa.
+     * @return boolean
+     */
+    public boolean isGameStarted() {
+        return isStarted;
+    }
+
+    /**
+     * Dừng trò chơi.
+     */
+    public void stopGame() {
+        isStarted = false;
     }
 
     /**
@@ -73,9 +113,12 @@ public class GameScene extends game.Scene {
      */
     public GameScene continueGame() {
         Paddle.getInstance().setWorking(true);
-        Ball.getInstance().setIsRunning(true);
+        if (isGameStarted()) {
+            Ball.getInstance().setIsRunning(true);
+        }
         status = STATUS_PLAYING;
         removeAllButtons();
+        add(pauseButton);
         return this;
     }
 
@@ -83,6 +126,7 @@ public class GameScene extends game.Scene {
      * Xóa tất cả các nút.
      */
     private void removeAllButtons() {
+        System.out.println("Removing all buttons");
         remove(Pause.getInstance().getResumeButton());
         remove(Pause.getInstance().getMenuButton());
         remove(Pause.getInstance().getPlayAgainButton());
@@ -104,11 +148,13 @@ public class GameScene extends game.Scene {
             Paddle.getInstance().update();
             Ball.getInstance().update();
             manager.PowerUpManager.getInstance().update();
-            removeAllButtons();
+//            removeAllButtons();
         }
         // check win
         if (!this.status.equals(STATUS_WIN) && BlockManager.getInstance().checkWin()) {
+            remove(pauseButton);
             status = STATUS_WIN;
+            isAddingButtons = false;
             Paddle.getInstance().setWorking(false);
             Ball.getInstance().setIsRunning(false);
 
@@ -119,7 +165,9 @@ public class GameScene extends game.Scene {
         }
         // check game over
         if (!Ball.getInstance().getIsAlive()) {
+            remove(pauseButton);
             status = STATUS_GAMEOVER;
+            isAddingButtons = false;
             Paddle.getInstance().setWorking(false);
             Ball.getInstance().setIsRunning(false);
             GameOver.getInstance().addButtonsToPanel(this);
@@ -127,6 +175,7 @@ public class GameScene extends game.Scene {
         }
 
         if (status.equals(STATUS_PAUSE)) {
+            isAddingButtons = false;
             Pause.getInstance().addButtonsToPanel(this);
         }
     }
@@ -155,6 +204,18 @@ public class GameScene extends game.Scene {
         Ball.getInstance().render(g);
         // render power-ups
         manager.PowerUpManager.getInstance().render(g);
+
+        pauseButton.setBounds(Constant.FRAME_WIDTH - 80, 5, 72, 36);
+
+        g.setFont(Constant.f20);
+        g.setColor(Color.WHITE);
+        FontMetrics fm = g.getFontMetrics();
+        int textWidth = fm.stringWidth(levelName);
+        int textHeight = fm.getAscent();
+        int x = 10;
+        int y = Constant.FRAME_HEIGHT - textHeight / 2;
+
+        g.drawString(levelName, x, y);
 // ================== check game status ===================
         // // check win
         // if (BlockManager.getInstance().checkWin()) {
@@ -216,6 +277,7 @@ public class GameScene extends game.Scene {
             @Override
             public void actionPerformed(ActionEvent e) {
                 status = STATUS_PAUSE;
+                remove(pauseButton);
                 Paddle.getInstance().setWorking(false);
                 Ball.getInstance().setIsRunning(false);
             }
