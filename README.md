@@ -17,13 +17,6 @@ Dự án được phát triển theo **Lập trình Hướng đối tượng (OO
 
 [![Video demo Arkanoid](https://img.youtube.com/vi/u20ZeKhUW1Y/0.jpg)](https://www.youtube.com/watch?v=u20ZeKhUW1Y)
 
-Trong video nhóm trình bày:
-- Cách tổ chức mã nguồn, chia **package** rõ ràng theo chức năng.
-- Các **interface và lớp trừu tượng** dùng để tách biệt hành vi.
-- Phần xử lý **logic game – va chạm, phản xạ vật lý** nhóm tâm đắc.
-- Demo gameplay: khởi tạo, di chuyển paddle, va chạm bóng, phá gạch, nhận power-up.
-- Giải thích sơ đồ **biểu đồ lớp UML** và mối quan hệ giữa các lớp.
-
 ---
 
 ## 🧱 3. Tổ chức mã nguồn (tóm tắt + sơ đồ lớp)
