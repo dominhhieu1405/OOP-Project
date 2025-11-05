@@ -2,7 +2,7 @@
 
 ## 🧩 1. Giới thiệu
 
-**Arkanoid** là trò chơi “đập gạch” cổ điển được phát triển bằng **Java** với phong cách hiện đại.  
+**Arkanoid** là trò chơi “đập gạch” cổ điển được phát triển bằng **Java Swing** với phong cách hiện đại.  
 Người chơi điều khiển thanh đỡ (Paddle) để bật bóng phá hủy các khối gạch trên màn hình, thu thập các **Power-up** (vật phẩm tăng sức mạnh) và vượt qua các **màn chơi (Map)** có độ khó tăng dần.
 
 Dự án được phát triển theo **Lập trình Hướng đối tượng (OOP)**, áp dụng đầy đủ bốn nguyên lý:  
@@ -122,92 +122,63 @@ Arkanoid/
 
 ---
 
-## ⚙️ 5. Phần xử lý code nhóm tâm đắc
+## ⚙️ 5. Hệ thống overlay scene và quản lý nút tương tác
 
-Nhóm đặc biệt tâm đắc với phần **xử lý va chạm bóng – thanh đỡ – gạch**.  
-Cụ thể, va chạm được xác định theo góc tiếp xúc, tạo phản xạ tự nhiên và chính xác:
+Phần mình tâm đắc nhất là thiết kế hệ thống các overlay (Pause / GameOver / Win) và cách quản lý các nút tương tác đi kèm. Thiết kế này tách biệt rõ ràng giữa logic game core và UI overlay, giúp code dễ bảo trì và mở rộng.
 
-```java
-if (ball.intersects(paddle)) {
-    double hitPos = (ball.getCenterX() - paddle.getX()) / paddle.getWidth();
-    ball.setVelocity(Vector2D.reflect(ball.getVelocity(), hitPos));
-    SoundManager.play("bounce");
-}
-````
+Những điểm chính:
+- Kiến trúc: `GamePanel` là container chính, chứa `Scene` hiện tại. `GameScene` chịu trách nhiệm vẽ màn chơi và, khi game bị dừng, hiển thị các overlay bằng cách vẽ lớp phủ và gọi `render()` của overlay tương ứng.
+- Overlay singleton: Các overlay (`Pause`, `GameOver`, `Win`) dùng kiểu Singleton để giữ một bộ `JButton` duy nhất trong suốt vòng đời ứng dụng. Điều này tránh tạo/xóa nút nhiều lần và giữ trạng thái nhất quán.
+- Thêm nút an toàn: Mỗi overlay cung cấp `addButtonsToPanel(JPanel panel)` — trước khi `add`, có kiểm tra `button.getParent() != panel` để tránh add trùng.
+- Vị trí nút cố định: Overlay đặt vị trí nút bằng `button.setBounds(x,y,w,h)`; do đó `GameScene` sử dụng layout null (`setLayout(null)`) và `setPreferredSize(...)` để `setBounds` có hiệu lực.
+- Xoá nút khi chuyển trạng thái: `GameScene` có hàm `RemoveAllButton()` dùng để loại bỏ các nút overlay cũ trước khi reset hoặc chuyển scene — đảm bảo không còn nút sót lại trên panel.
 
-* Bóng thay đổi hướng dựa vào vị trí va chạm.
-* Giúp người chơi có thể “điều khiển” quỹ đạo bóng bằng kỹ năng.
-* Tích hợp âm thanh và hiệu ứng rung nhẹ khi va chạm.
+Hợp đồng ngắn (inputs / outputs / effect):
+- Inputs: trạng thái game (playing / pause / gameover / win), sự kiện từ `JButton`.
+- Outputs: thêm/loại bỏ `JButton` trên `GameScene`, gọi `GamePanel.setScene(...)`, hoặc gọi `GameScene.resetScene()` / `continueGame()`.
 
-Ngoài ra, nhóm còn xây dựng hệ thống:
+Các trường hợp biên cần lưu ý:
+- Focus & key bindings: khi đổi scene cần cập nhật key bindings (GamePanel xóa listeners cũ và gọi `scene.setupKeyBindings()` nếu cần).
+- Double-add: overlay kiểm tra parent trước khi add để tránh add nhiều lần.
+- Reset state: khi khởi động lại level, cần loại bỏ nút overlay cũ (hiện thực bằng `RemoveAllButton()`).
 
-* **Map động**: Load dữ liệu `.txt` để tạo cấp độ tự động.
-* **Power-up ngẫu nhiên**: Xuất hiện với xác suất nhất định khi phá gạch.
-* **GameLoop đa luồng**: Đảm bảo FPS ổn định ~60.
+Lưu ý về workaround hiện tại
+- Hiện tại `GameScene` sử dụng `RemoveAllButton()` như một biện pháp tạm thời để đảm bảo không còn nút overlay cũ sót lại khi chuyển trạng thái (ví dụ khi restart hoặc quay về Menu). Đây là phương án phòng ngừa cho một bug nhỏ trong luồng thêm nút.
+- Kế hoạch sửa chính thức: chuyển sang cơ chế báo hiệu (flag) khi trạng thái scene thay đổi — chỉ thêm các nút overlay khi phát hiện sự thay đổi trạng thái. Cách này sẽ loại trừ nhu cầu xoá toàn bộ nút mỗi lần và quản lý lifecycle của các nút chính xác hơn.
 
----
+Kiểm thử nhanh:
+- Thua → xuất hiện `GameOver` với các nút (Chơi lại, Menu). Nhấn Chơi lại → `GameScene.resetScene()` được gọi, không còn nút thừa, các entity được reset.
+- Pause → resume bằng nút Tiếp tục hoặc phím tắt; xác nhận key bindings và trạng thái paddle/ball.
 
-## 🧭 6. Bản thiết kế – Biểu đồ lớp UML
-
-```
-Entity
- ├── Paddle
- ├── Ball
- ├── Block
- │    ├── BlockBedrock
- │    ├── BlockBomb
- │    └── BlockLucky
- └── PowerUp
-      ├── PowerUpBallExpand
-      ├── PowerUpBallFire
-      ├── PowerUpPaddleExpand
-      └── PowerUpRandom
-
-Scene
- ├── MenuScene
- ├── GameScene
- ├── MapScene
- ├── Pause
- ├── GameOver
- └── Win
-
-Manager
- ├── MapManager
- ├── BlockManager
- ├── PowerUpManager
- └── SoundManager
-```
-
-Quan hệ kế thừa, trừu tượng, và sử dụng Singleton được thể hiện rõ theo UML.
-(Lược đồ UML đầy đủ được trình bày trong file `UML.puml` hoặc bản PDF đính kèm.)
+Gợi ý mở rộng:
+- Thay Singleton bằng factory/DI nếu cần nhiều cấu hình overlay khác nhau.
+- Thêm animation (fade-in/out) khi overlay xuất hiện để cải thiện UX.
 
 ---
 
-## 👥 7. Danh sách nhóm
+## 👥 6. Danh sách nhóm
 
-| STT | Họ và tên        | Vai trò        | Công việc phụ trách                                      |
-| --- | ---------------- | -------------- | -------------------------------------------------------- |
-| 1   | **Nguyễn Văn A** | Nhóm trưởng    | Thiết kế UML, tổ chức package, GameEngine, xử lý va chạm |
-| 2   | **Trần Thị B**   | Lập trình viên | Thiết kế giao diện GUI, MenuScene, MapScene              |
-| 3   | **Lê Văn C**     | Lập trình viên | BlockManager, MapManager, hệ thống bản đồ                |
-| 4   | **Phạm Minh D**  | Lập trình viên | PowerUpManager, các lớp PowerUp                          |
-| 5   | **Vũ Thị E**     | Báo cáo – Demo | Chuẩn bị README, video demo, báo cáo trình bày           |
+| Họ và Tên         | Nhiệm vụ                                                                 |
+|-------------------|---------------------------------------------------------------------------|
+| **Đỗ Minh Hiếu**  | - BlockManager, MapManager, PowerUpManager, SoundManager<br>- Menu, Map, Pause<br>- JUnit tester |
+| **Nguyễn Quốc Huy** | - Multi-threading<br>- Code base<br>- GameScene, GameOver, Win |
+| **Nguyễn Mạnh Đức** | - Paddle<br>- PowerUp<br>- Block |
+| **Lương Minh Dương** | - Ball<br>- Physics |
 
 ---
 
-## 🧠 8. Công nghệ sử dụng
+## 🧠 7. Công nghệ sử dụng
 
 * **Ngôn ngữ:** Java 17
 * **Giao diện:** Java Swing
-* **Đa luồng:** Thread + Runnable Game Loop
-* **Thiết kế UML:** PlantUML / StarUML
-* **IDE:** IntelliJ IDEA / NetBeans
+* **Đa luồng:** Thread + Timer
+* **IDE:** IntelliJ IDEA / VsCode
 * **Quản lý mã nguồn:** GitHub
 * **Âm thanh:** WAV / MP3 (SoundManager)
 
 ---
 
-## 🏁 9. Kết luận
+## 🏁 8. Kết luận
 
 Dự án **Arkanoid OOP** giúp nhóm:
 
