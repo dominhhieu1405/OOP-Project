@@ -36,14 +36,22 @@ public class GameScene extends game.Scene {
         status = STATUS_PLAYING;
         setupKeyBindings();
     }
-    
+
+    /**
+     * Lấu instance của Gamescene.
+     * @return instance
+     */
     public static GameScene getInstance() {
         if (instance == null) {
             instance = new GameScene();
         }
         return instance;
     }
-    
+
+    /**
+     * Hàm reset trạng thái về ban đầu.
+     * @return scene
+     */
     public GameScene resetScene() {
         System.out.println("Rmoving pause buttons");
 
@@ -59,6 +67,10 @@ public class GameScene extends game.Scene {
         return this;
     }
 
+    /**
+     * Tiếp tục sau khi tạm dừng.
+     * @return scene
+     */
     public GameScene continueGame() {
         Paddle.getInstance().setWorking(true);
         Ball.getInstance().setIsRunning(true);
@@ -67,6 +79,9 @@ public class GameScene extends game.Scene {
         return this;
     }
 
+    /**
+     * Xóa tất cả các nút.
+     */
     private void removeAllButtons() {
         remove(Pause.getInstance().getResumeButton());
         remove(Pause.getInstance().getMenuButton());
@@ -80,6 +95,9 @@ public class GameScene extends game.Scene {
         repaint();
     }
 
+    /**
+     * Cập nhật trạng thái của trò chơi trong mỗi frame.
+     */
     @Override
     public void update() {
         if (Paddle.getInstance().isWorking()) {

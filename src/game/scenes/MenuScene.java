@@ -16,8 +16,9 @@ public class MenuScene extends game.Scene {
     private JButton playButton;
     private JButton quitButton;
 
-
-
+    /**
+     * Constructor mặc định.
+     */
     public MenuScene() {
         super(Constant.BACKGROUND_IMG);
 
