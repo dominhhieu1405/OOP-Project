@@ -30,7 +30,7 @@ Phần này tóm tắt cấu trúc dự án và cung cấp một sơ đồ lớp
 - `src/manager` — singleton quản lý: `BlockManager`, `PowerUpManager`, `MapManager`, `SoundManager`.
 
 ### Sơ đồ lớp (chỉ các lớp tổng quát, mermaid)
-Xem full HD tại: ![ĐÂY](./diagram.png)
+Xem full HD tại: [Xem tại đây](./diagram.png)
 ```mermaid
 classDiagram
 	class Scene
