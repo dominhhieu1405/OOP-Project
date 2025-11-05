@@ -1,4 +1,4 @@
-# 🎮 BÁO CÁO BÀI TẬP LỚN OOP – GAME ARKANOID
+# GAME ARKANOID
 
 ## 🧩 1. Giới thiệu
 
@@ -15,7 +15,7 @@ Dự án được phát triển theo **Lập trình Hướng đối tượng (OO
 
 ## 🎯 2. Video demo
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/u20ZeKhUW1Y?si=sXo4D8AS8GGRDEex" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+[![Video demo Arkanoid](https://img.youtube.com/vi/u20ZeKhUW1Y/0.jpg)](https://www.youtube.com/watch?v=u20ZeKhUW1Y)
 
 Trong video nhóm trình bày:
 - Cách tổ chức mã nguồn, chia **package** rõ ràng theo chức năng.
