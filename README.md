@@ -144,8 +144,6 @@ Phần này chỉ tập trung vào kiến trúc OverlayScene; các chi tiết nh
 
 ## ⚡ 8. Power-Ups (tổng hợp)
 
-Dưới đây là bảng liệt kê tất cả Power-Up xuất hiện trong game, kèm hình minh họa (đường dẫn tương đối trong repo) và mô tả ngắn về hiệu ứng của từng Power-Up.
-
 | Tên Power-Up | Hình ảnh | Mô tả |
 |---|---:|---|
 | BallExpand | <img src="assets/images/PowerUp/BallExpand.png" width="48"/> | Tăng kích thước quả bóng, giúp dễ chạm vào gạch hơn. |
@@ -161,7 +159,19 @@ Dưới đây là bảng liệt kê tất cả Power-Up xuất hiện trong game
 | PaddleSlow | <img src="assets/images/PowerUp/PaddleSlow.png" width="48"/> | Giảm tốc độ paddle tạm thời. |
 | Random | <img src="assets/images/PowerUp/Random.png" width="48"/> | Gây ra một hiệu ứng ngẫu nhiên trong số các power-up khả dụng. |
 
-Ghi chú:
-- Hình ảnh trong bảng tham chiếu file trong repo: `assets/images/PowerUp/` — bạn có thể thay đổi kích thước hiển thị bằng thuộc tính `width` trong thẻ `<img>` nếu cần.
-- Mô tả ở trên là tóm tắt; các chi tiết (thời lượng hiệu ứng, stack behavior, xác suất rơi) có thể được tìm thấy trong lớp tương ứng trong `src/entity/powerUp/`.
+## 9. Các loại block (tổng hợp)
 
+| Tên Block    |                                                   Hình ảnh | Mô tả                                                  |
+|--------------|-----------------------------------------------------------:|--------------------------------------------------------|
+| StoneBlock   |      <img src="assets/images/Block/Stone.png" width="48"/> | Gạch thường, bị phá hủy sau 1 lần va chạm.             |
+| IronBlock    |       <img src="assets/images/Block/Iron.png" width="48"/> | Gạch cứng, bị phá hủy sau 2 lần va chạm.               |
+| GoldBlock    |       <img src="assets/images/Block/Gold.png" width="48"/> | Gạch cứng, bị phá hủy sau 3 lần va chạm.               |
+| DiamondBlock |    <img src="assets/images/Block/Diamond.png" width="48"/> | Gạch cứng, bị phá hủy sau 4 lần va chạm.               |
+| EmeraldBlock |    <img src="assets/images/Block/Emerald.png" width="48"/> | Gạch cứng, bị phá hủy sau  >= 5 lần va chạm.           |
+| BedrockBlock |    <img src="assets/images/Block/Bedrock.png" width="48"/> | Gạch bất tử, không thể phá hủy.                        |
+| BombBlock    |        <img src="assets/images/Block/tnt.png" width="48"/> | Gạch bom, khi phá hủy sẽ gây nổ phá hủy các gạch lân cận. |
+| LuckyBlock   | <img src="assets/images/Block/luckyblock.png" width="48"/> | Gạch may mắn, khi phá hủy sẽ rơi ra một Power-Up.      |
+
+---
+## 📄 Tài nguyên sử dụng
+* Hình ảnh, âm thanh lấy từ: https://www.minecraft.net/en-us
