@@ -36,7 +36,7 @@ public class Win {
                 System.out.println("Pressed Next Level");
                 // Logic to go to the next level
                 BlockManager.getInstance().setCurrentMap(MapManager.getInstance().getCurrentMap().path);
-                GamePanel.getInstance().setScene(GameScene.getInstance().continueGame());
+                GamePanel.getInstance().setScene(GameScene.getInstance().resetScene());
             });
             this.menuButton.addActionListener(e -> {
                 System.out.println("Pressed Menu");
